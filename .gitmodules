@@ -1,0 +1,3 @@
+[submodule "vendor/iworks/rate"]
+	path = vendor/iworks/rate
+	url = git@bitbucket.org:iworks-pl/iworks-rate.git
