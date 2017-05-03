@@ -3,13 +3,13 @@ class iworks_opengraph {
 	private $meta = 'iworks_yt_thumbnails';
 	private $version = 'PLUGIN_VERSION';
 
-    public function __construct() {
-        add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
-        add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
-        add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-        add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
-        add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
-    }
+	public function __construct() {
+		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
+		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
+		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
+	}
 
 	/**
 	 * Ask for rating.
@@ -67,6 +67,7 @@ class iworks_opengraph {
 		$og = array(
 			'og' => array(
 				'image' => apply_filters( 'og_image_init', array() ),
+				'video' => apply_filters( 'og_video_init', array() ),
 				'description' => '',
 				'type' => 'blog',
 				'locale' => $this->get_locale(),
@@ -75,7 +76,9 @@ class iworks_opengraph {
 			'article' => array(
 				'tag' => array(),
 			),
-			'twitter' => array(),
+			'twitter' => array(
+				'player' => apply_filters( 'og_video_init', array() ),
+			),
 		);
 		// plugin: Facebook Page Publish
 		remove_action( 'wp_head', 'fpp_head_action' );
@@ -250,7 +253,9 @@ class iworks_opengraph {
 				printf( '<!-- %s -->%s', $tag, PHP_EOL );
 			}
 			$tags = $parent;
-			$tags[] = $tag;
+			if ( ! is_integer( $tag ) ) {
+				$tags[] = $tag;
+			}
 			if ( is_array( $data ) ) {
 				$this->echo_array( $data, $tags );
 			} else {
@@ -430,18 +435,17 @@ class iworks_opengraph {
 	 */
 	public function load_textdomain() {
 		load_plugin_textdomain( 'og' );
-    }
+	}
 
-    /**
-     * Change image for rate message.
-     *
+	/**
+	 * Change image for rate message.
+	 *
 	 * @since 2.4.2
-     */
+	 */
 	public function iworks_rate_css() {
 		$logo = plugin_dir_url( dirname( dirname( __FILE__ ) ) ).'assets/images/logo.png';
 		echo '<style type="text/css">';
 		printf( '.iworks-notice-og .iworks-notice-logo{background-image:url(%s);}', esc_url( $logo ) );
 		echo '</style>';
 	}
-
 }
