@@ -36,10 +36,22 @@ The Facebook Open Graph Tags inserted by this plugin are:
 = for single content =
 
 * og:image: From a specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn't exist from the first image in the post content, or if it doesn't exist from the first image on the post media gallery, or if it doesn't exist from the default image defined in the options menu. The same image chosen here will be used and enclosure/media:content on the RSS feed.
+* og:video - add links to YouTube movies.
 * article:author - author of post link
 * article:published_time - date of first article publication
 * article:modified_time - date of last article modification
 * article:tag - tags used in post
+* twitter:card - "summary.
+* twitter:title - the same line og:title
+* twitter:description - the same like og:description
+* twitter:image - the same like og:image
+* twitter:player - the same like og:video
+
+= for single WooCommerce product =
+
+* og:price:amount - price amount
+* og:price:currency - price currency
+* og:availability - stock status
 
 == Installation ==
 
