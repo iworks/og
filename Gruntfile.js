@@ -130,7 +130,7 @@ module.exports = function( grunt ) {
 				'release/.*',      // Temp release files.
 				'tests/.*',        // Unit testing.
 			],
-			pot_dir: 'lang/', // With trailing slash.
+			pot_dir: 'languages/', // With trailing slash.
 			textdomain: 'og',
 		},
 
