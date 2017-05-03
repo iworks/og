@@ -17,7 +17,6 @@ include_once dirname( __FILE__ ) .'/vendor/iworks/rate/rate.php';
 do_action(
 	'iworks-register-plugin',
 	plugin_basename( __FILE__ ),
-	__('OG', 'og' ),
+	__( 'OG', 'og' ),
 	__( 'https://wordpress.org/plugins/og/', 'og' )
 );
-

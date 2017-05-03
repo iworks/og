@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: open graph, facebook, social, thumbnail, featured image, og, FB, meta, share
 Requires at least: 3.3
-Tested up to: 4.7
+Tested up to: 4.7.4
 Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -157,11 +157,11 @@ Use filter "og_image_init":
 
 == Changelog ==
 
-= 2.4.2 (2017-xx-xx) =
+= 2.4.2 (2017-05-03) =
 
-* When entry content is empty, add entry title as description.
-* Added og:video.
-* Added ....woo
+* Added tags "og:video" and "twitter:player" for YouTube embed movies.
+* Added WooCommerce integration for tags: "og:price:amount", "og:price:currency" and "og:availability".
+* Improved description tag, when entry content is empty, add entry title as description.
 
 = 2.4.1 (2016-10-26) =
 
