@@ -2,7 +2,7 @@
 Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: open graph, facebook, social, thumbnail, featured image, og, FB, meta, share
-Requires at least: 3.3
+Requires at least: 3.5
 Tested up to: 4.7.4
 Stable tag: 2.4.2
 License: GPLv2 or later
@@ -168,6 +168,10 @@ Use filter "og_image_init":
 
 
 == Changelog ==
+
+= 2.4.3 (2017-05-09) =
+
+* Update "Rate" module to 1.0.1 - fixed wrong rate URL for non English.
 
 = 2.4.2 (2017-05-03) =
 
