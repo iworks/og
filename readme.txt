@@ -4,7 +4,7 @@ Donate link: http://iworks.pl/donate/og.php
 Tags: open graph, facebook, social, thumbnail, featured image, og, FB, meta, share
 Requires at least: 3.5
 Tested up to: 4.7.4
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
