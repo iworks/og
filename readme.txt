@@ -28,6 +28,39 @@ If post contains YouTube links, this plugin saves as post meta video thumbnail l
 [Google+]: http://www.google.com/+
 [+1 Button]: https://developers.google.com/+/plugins/+1button/
 
+== Installation ==
+
+There are 3 ways to install this plugin:
+
+= The super easy way =
+
+1. **Log in** to your WordPress Admin panel.
+1. **Go to Plugins > Add New.**
+1. **Type** ‘OG’ into the Search Plugins field and hit Enter. Once found, you can view details such as the point release, rating, and description.
+1. **Click** Install Now. After clicking the link, you’ll be asked if you’re sure you want to install the plugin.
+1. **Click** Yes, and WordPress completes the installation.
+1. **Activate** the plugin.
+1. That's all. The plugin does not have any configuration.
+
+***
+
+= The easy way =
+
+1. Download the plugin (.zip file) on the right column of this page
+1. In your Admin, go to menu Plugins > Add
+1. Select button `Upload Plugin`
+1. Upload the .zip file you just downloaded
+1. Activate the plugin
+1. That's all. The plugin does not have any configuration.
+
+***
+
+= The old and reliable way (FTP) =
+
+1. Upload `OG` folder to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. That's all. The plugin does not have any configuration.
+
 == Frequently Asked Questions ==
 
 = How do I configure the Open Graph plugin? =
@@ -63,41 +96,6 @@ You don't; there's nothing to configure and there is no admin page. By default, 
 * og:price:amount - price amount
 * og:price:currency - price currency
 * og:availability - stock status
-
-== Installation ==
-
-There are 3 ways to install this plugin:
-
-= The super easy way =
-
-1. **Log in** to your WordPress Admin panel.
-1. **Go to Plugins > Add New.**
-1. **Type** ‘OG’ into the Search Plugins field and hit Enter. Once found, you can view details such as the point release, rating, and description.
-1. **Click** Install Now. After clicking the link, you’ll be asked if you’re sure you want to install the plugin.
-1. **Click** Yes, and WordPress completes the installation.
-1. **Activate** the plugin.
-1. That's all. The plugin does not have any configuration.
-
-***
-
-= The easy way =
-
-1. Download the plugin (.zip file) on the right column of this page
-1. In your Admin, go to menu Plugins > Add
-1. Select button `Upload Plugin`
-1. Upload the .zip file you just downloaded
-1. Activate the plugin
-1. That's all. The plugin does not have any configuration.
-
-***
-
-= The old and reliable way (FTP) =
-
-1. Upload `OG` folder to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. That's all. The plugin does not have any configuration.
-
-== Frequently Asked Questions ==
 
 = I installed OG and ... nothing happen! =
 
