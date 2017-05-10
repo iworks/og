@@ -1,7 +1,7 @@
 === OG ===
 Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
-Tags: open graph, facebook, social, thumbnail, featured image, og, FB, meta, share
+Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.5
 Tested up to: 4.7.4
 Stable tag: 2.4.3
