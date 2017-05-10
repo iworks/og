@@ -8,22 +8,33 @@ Stable tag: 2.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simple and tiny Open Graph WordPress plugin to handle Facebook data.
+Simple and tiny adds Open Graph metadata to your posts and pages so that they look great when shared on sites like Facebook and Google+.
 
 == Description ==
 
-This is a simple, tiny plugin to produce og:tags. Just that and only
-that. No configuration, pure power.
+The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][] as well as within [Google+][] posts.
 
-Plugin grabs data from content and if contains YouTube URL, then plugin
-try to get movie thumbnail and use it in og:image.
+The Open Graph plugin inserts the Open Graph metadata into page head section, and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
 
-If post contains YouTube links, this plugin saves as post meta video
-thumbnail link and add it to og:image as post thumbnail.
+No configuration, pure power.
 
-The Facebook Open Graph Tags inserted by this plugin are:
+Plugin grabs data from content and if contains YouTube URL, then plugin try to get movie thumbnail and use it in og:image.
 
-= for all type of content =
+If post contains YouTube links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
+
+[Open Graph Protocol]: http://ogp.me/
+[Like Button]: https://developers.facebook.com/docs/reference/plugins/like
+[Graph API]: https://developers.facebook.com/docs/reference/api/
+[Google+]: http://www.google.com/+
+[+1 Button]: https://developers.google.com/+/plugins/+1button/
+
+== Frequently Asked Questions ==
+
+= How do I configure the Open Graph plugin? =
+
+You don't; there's nothing to configure and there is no admin page. By default, it will use whatever standard WordPress data it can to populate the Open Graph data. There are very simple yet powerful filters you can use to modify or extend the metadata returned by the plugin, described below.
+
+= What plugin add for all type of content? =
 
 * og:locale - site locale
 * og:site_name - blog title
@@ -33,7 +44,7 @@ The Facebook Open Graph Tags inserted by this plugin are:
 * og:description - site description
 * og:site_name - site name
 
-= for single content =
+= What plugin add for single content? =
 
 * og:image: From a specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn't exist from the first image in the post content, or if it doesn't exist from the first image on the post media gallery, or if it doesn't exist from the default image defined in the options menu. The same image chosen here will be used and enclosure/media:content on the RSS feed.
 * og:video - add links to YouTube movies.
@@ -47,7 +58,7 @@ The Facebook Open Graph Tags inserted by this plugin are:
 * twitter:image - the same like og:image
 * twitter:player - the same like og:video
 
-= for single WooCommerce product =
+= What plugin add for single WooCommerce product? =
 
 * og:price:amount - price amount
 * og:price:currency - price currency
