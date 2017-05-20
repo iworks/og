@@ -189,14 +189,22 @@ class iworks_opengraph {
 			/**
 			 * woocommerce product
 			 */
-			global $woocommerce;
-			if ( is_object( $woocommerce ) && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
-				$_product = wc_get_product( $post->ID );
-				$og['og']['price'] = array(
-					'amount' => $_product->get_regular_price(),
-					'currency' => get_woocommerce_currency(),
-				);
-				$og['og']['availability'] = $_product->get_stock_status();
+			if ( 'product' == $post->post_type ) {
+				global $woocommerce;
+				if ( is_object( $woocommerce ) && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
+					$_product = wc_get_product( $post->ID );
+					if (
+						is_object( $_product )
+						&& method_exists( $_product, 'get_regular_price' )
+						&& function_exists( 'get_woocommerce_currency' )
+					) {
+						$og['og']['price'] = array(
+							'amount' => $_product->get_regular_price(),
+							'currency' => get_woocommerce_currency(),
+						);
+						$og['og']['availability'] = $_product->get_stock_status();
+					}
+				}
 			}
 		} else {
 			if ( is_home() || is_front_page() ) {

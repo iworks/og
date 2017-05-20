@@ -178,6 +178,10 @@ Use filter "og_image_init":
 
 == Changelog ==
 
+= 2.4.4 (2017-05-20) =
+
+* Fixed site crash when WooCommerce is active. Props for [JLY](https://wordpress.org/support/users/jose-luis-yanez/)
+
 = 2.4.3 (2017-05-09) =
 
 * Update "Rate" module to 1.0.1 - fixed wrong rate URL for non English.
