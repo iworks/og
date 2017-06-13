@@ -237,6 +237,14 @@ class iworks_opengraph {
 				$og['twitter']['description'] = $og['og']['description'];
 			}
 		}
+		/**
+		 * Filter whole OG tags array
+		 *
+		 * @since 2.4.5
+		 *
+		 * @param array $og Array of all OG tags.
+		 */
+		$og = apply_filters( 'og_array', $og );
 
 		/**
 		 * print

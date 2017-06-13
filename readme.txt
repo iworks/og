@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.6
-Tested up to: 4.7.5
+Tested up to: 4.8
 Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -178,7 +178,9 @@ Use filter "og_image_init":
 
 == Changelog ==
 
-= 2.4.5 (2017-xx-xx) =
+= 2.4.5 (2017-06-13) =
+
+* Added filter "og_array" which allow to change whole OG array before print it.
 
 
 = 2.4.4 (2017-05-20) =
