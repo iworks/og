@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OG PLUGIN_VERSION\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/og\n"
-"POT-Creation-Date: 2017-05-03 10:50:59+00:00\n"
+"POT-Creation-Date: 2017-09-13 07:49:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,10 +28,6 @@ msgstr ""
 msgid "OG"
 msgstr ""
 
-#: og.php:21
-msgid "https://wordpress.org/plugins/og/"
-msgstr ""
-
 #: vendor/iworks/opengraph.php:19
 msgid ""
 "If you like <strong>OG</strong> please leave us a "
@@ -42,31 +38,31 @@ msgstr ""
 msgid "<!-- OG: %s -->"
 msgstr ""
 
-#: vendor/iworks/rate/rate.php:387
+#: vendor/iworks/rate/rate.php:365
 msgid ""
 "Hey %s, you've been using %s for a while now, and we hope you're happy with "
 "it."
 msgstr ""
 
-#: vendor/iworks/rate/rate.php:387
+#: vendor/iworks/rate/rate.php:365
 msgid ""
 "We've spent countless hours developing this free plugin for you, and we "
 "would really appreciate it if you dropped us a quick rating!"
 msgstr ""
 
-#: vendor/iworks/rate/rate.php:402
+#: vendor/iworks/rate/rate.php:380
 msgid "Thanks :)"
 msgstr ""
 
-#: vendor/iworks/rate/rate.php:405
+#: vendor/iworks/rate/rate.php:383
 msgid "Rate %s"
 msgstr ""
 
-#: vendor/iworks/rate/rate.php:409
+#: vendor/iworks/rate/rate.php:387
 msgid "Saving"
 msgstr ""
 
-#: vendor/iworks/rate/rate.php:410
+#: vendor/iworks/rate/rate.php:388
 msgid "No thanks"
 msgstr ""
 
