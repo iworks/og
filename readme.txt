@@ -178,6 +178,10 @@ Use filter "og_image_init":
 
 == Changelog ==
 
+= 2.4.6 (2017-09-13) =
+
+* Removed limit for og:description.
+
 = 2.4.5 (2017-06-13) =
 
 * Added filter "og_array" which allow to change whole OG array before print it.

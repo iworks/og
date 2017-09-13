@@ -226,15 +226,14 @@ class iworks_opengraph {
 		) {
 			$og['og']['image'] = get_site_icon_url();
 		}
-		if ( mb_strlen( $og['og']['description'] ) > 300 ) {
-			$og['og']['description'] = mb_substr( $og['og']['description'], 0, 400 );
-			$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
-			$og['og']['description'] .= '...';
-			/**
-			 * short twitter description too.
-			 */
-			if ( isset( $og['twitter'] ) && isset( $og['twitter']['description'] ) ) {
-				$og['twitter']['description'] = $og['og']['description'];
+		/**
+		 * short twitter description.
+		 */
+		if ( isset( $og['twitter'] ) && isset( $og['twitter']['description'] ) ) {
+			if ( mb_strlen( $og['og']['description'] ) > 300 ) {
+				$og['twitter']['description'] = mb_substr( $og['twitter']['description'], 0, 400 );
+				$og['twitter']['description'] = $this->strip_white_chars( $og['twitter']['description'] );
+				$og['twitter']['description'] .= '...';
 			}
 		}
 		/**
