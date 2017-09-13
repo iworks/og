@@ -3,8 +3,8 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.6
-Tested up to: 4.8
-Stable tag: 2.4.4
+Tested up to: 4.8.1
+Stable tag: 2.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
