@@ -280,9 +280,19 @@ class iworks_opengraph {
 	}
 
 	private function echo_one( $property, $value ) {
+		$filter_name = sprintf( 'og_%s_value', implode( '_', $property ) );
+		/**
+		 * Filter value of single meta
+		 *
+		 * @since 2.4.7
+		 */
+		$value = apply_filters( $filter_name, $value );
 		if ( empty( $value ) ) {
 			return;
 		}
+		/**
+		 * Filter to change whole meta
+		 */
 		$filter_name = sprintf( 'og_%s_meta', implode( '_', $property ) );
 		echo apply_filters(
 			$filter_name,

@@ -178,6 +178,10 @@ Use filter "og_image_init":
 
 == Changelog ==
 
+= 2.4.7 (2017-xx-xx) =
+
+* Added filter "og_[og_name]_value" to change single og value.
+
 = 2.4.6 (2017-09-13) =
 
 * Removed limit for og:description.
