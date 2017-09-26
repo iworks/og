@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.6
-Tested up to: 4.8.1
+Tested up to: 4.8.2
 Stable tag: 2.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -178,9 +178,11 @@ Use filter "og_image_init":
 
 == Changelog ==
 
-= 2.4.7 (2017-xx-xx) =
+= 2.4.7 (2017-09-26) =
 
 * Added filter "og_[og_name]_value" to change single og value.
+* Added og:type for post formats "audio" and "video".
+* Fixed og:type for WooCommerce product. Props for [shaharsol](https://wordpress.org/support/users/shaharsol/)
 
 = 2.4.6 (2017-09-13) =
 

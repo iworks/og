@@ -198,6 +198,7 @@ class iworks_opengraph {
 						&& method_exists( $_product, 'get_regular_price' )
 						&& function_exists( 'get_woocommerce_currency' )
 					) {
+						$og['og']['type'] = 'product';
 						$og['og']['price'] = array(
 							'amount' => $_product->get_regular_price(),
 							'currency' => get_woocommerce_currency(),
@@ -205,6 +206,19 @@ class iworks_opengraph {
 						$og['og']['availability'] = $_product->get_stock_status();
 					}
 				}
+			}
+
+			/**
+			 * post format
+			 */
+			$post_format = get_post_format( $post->ID );
+			switch ( $post_format ) {
+				case 'audio':
+					$og['og']['type'] = 'music';
+				break;
+				case 'audio':
+					$og['og']['type'] = 'video';
+				break;
 			}
 		} else {
 			if ( is_home() || is_front_page() ) {
