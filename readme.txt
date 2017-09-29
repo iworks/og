@@ -14,13 +14,13 @@ Simple and tiny adds Open Graph metadata to your posts and pages so that they lo
 
 The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][] as well as within [Google+][] posts.
 
-The Open Graph plugin inserts the Open Graph metadata into page head section, and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
+The Open Graph plugin inserts the Open Graph metadata into page head section and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
 
 No configuration, pure power.
 
 Plugin grabs data from content and if contains YouTube URL, then plugin try to get movie thumbnail and use it in og:image.
 
-If post contains YouTube links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
+If the post contains YouTube links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
 
 [Open Graph Protocol]: http://ogp.me/
 [Like Button]: https://developers.facebook.com/docs/reference/plugins/like
@@ -34,7 +34,7 @@ There are 3 ways to install this plugin:
 
 = The super easy way =
 
-1. **Log in** to your WordPress Admin panel.
+1. **Login** to your WordPress Admin panel.
 1. **Go to Plugins > Add New.**
 1. **Type** ‘OG’ into the Search Plugins field and hit Enter. Once found, you can view details such as the point release, rating, and description.
 1. **Click** Install Now. After clicking the link, you’ll be asked if you’re sure you want to install the plugin.
@@ -91,17 +91,15 @@ You don't; there's nothing to configure and there is no admin page. By default, 
 * twitter:image - the same like og:image
 * twitter:player - the same like og:video
 
-= What plugin add for single WooCommerce product? =
+= What plugin add for a single WooCommerce product? =
 
 * og:price:amount - price amount
 * og:price:currency - price currency
 * og:availability - stock status
 
-= I installed OG and ... nothing happen! =
+= I installed OG and ... nothing happens! =
 
-Please be patient, sometimes you need more a day to see results. The reason
-of this is cache on Facebook. But check your plugins too and if you use
-and caching plugins, try to do "flush cache" on your site.
+Please be patient, sometimes you need more a day to see results. The reason of this is cache on Facebook. But check your plugins too and if you use and caching plugins, try to do "flush cache" on your site.
 
 = How to filter values? =
 
@@ -175,6 +173,20 @@ Use filter "og_image_init":
         return $images;
     }
 
+= How to add Facebook app_id? =
+
+OG plugin is super simple and we do not plan to add any "options page" which is needed if you want to have data like "fb:app_id" or "fb:pages".
+
+But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use `og_array` filter to add (or modify) OpenGraph tags.
+
+    add_filter( 'og_array', 'add_og_facebook_data' );
+    function add_og_facebook_data( $og ) {
+        $og['fb'] = array(
+            'app_id' => 'my-app-id',
+            'pages' => 'foo, bar',
+        );
+        return $og;
+    }
 
 == Changelog ==
 
@@ -190,7 +202,7 @@ Use filter "og_image_init":
 
 = 2.4.5 (2017-06-13) =
 
-* Added filter "og_array" which allow to change whole OG array before print it.
+* Added filter "og_array" which allows to change whole OG array before print it.
 
 
 = 2.4.4 (2017-05-20) =
@@ -199,7 +211,7 @@ Use filter "og_image_init":
 
 = 2.4.3 (2017-05-09) =
 
-* Update "Rate" module to 1.0.1 - fixed wrong rate URL for non English.
+* Update "Rate" module to 1.0.1 - fixed wrong rate URL for non-English.
 
 = 2.4.2 (2017-05-03) =
 
@@ -210,12 +222,12 @@ Use filter "og_image_init":
 = 2.4.1 (2016-10-26) =
 
 * Fixed problem for pages and another single content. At this moment OG works for all types of single entries.
-* Added ask for rating on plugins page.
+* Added ask for the rating on the plugin page.
 * Short twitter description.
 
 = 2.4 (2016-04-10) =
 
-* Fixed the problem with properly preparation for localization.
+* Fixed the problem with proper preparation for localization.
 * Fixed the profile with grabbing YouTube image.
 * Implement WordPress code standard for PHP code used in the plugin.
 
