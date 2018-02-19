@@ -190,6 +190,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.4.8 (2018-02-19) =
+
+* Added first content image to og:image if featured image is not set. Props for [andreyenkin](https://wordpress.org/support/users/andreyenkin/)
+
 = 2.4.7 (2017-09-26) =
 
 * Added filter "og_[og_name]_value" to change single og value.

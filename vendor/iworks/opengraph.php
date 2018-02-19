@@ -28,7 +28,6 @@ class iworks_opengraph {
 		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
-
 		delete_post_meta( $post_ID, $this->meta );
 		$iworks_yt_thumbnails = array();
 		/**
@@ -101,23 +100,50 @@ class iworks_opengraph {
 			if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
 				$og['og']['image'][] = esc_url( wp_get_attachment_url( $post->ID ) );
 			}
-
 			/**
 			 * get post thumbnail
 			 */
-
+			$src = false;
 			if ( function_exists( 'has_post_thumbnail' ) ) {
 				if ( has_post_thumbnail( $post->ID ) ) {
 					$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 					$src = esc_url( $thumbnail_src[0] );
-					printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
-					printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
-					printf( '<meta name="msapplication-TileImage" content="%s" />%s', $src, PHP_EOL );
-					echo PHP_EOL;
-					array_unshift( $og['og']['image'], $src );
 				}
 			}
-
+			/**
+			 * try to grap from content
+			 */
+			if ( empty( $src ) ) {
+				$home_url = get_home_url();
+				$content = apply_filters( 'the_content', $post->post_content );
+				$images = preg_match_all( '/<img[^>]+>/', $content, $matches );
+				foreach ( $matches[0] as $img ) {
+					if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
+						$temp_src = $matches_image_src[2];
+						$pos = strpos( $temp_src, $home_url );
+						if ( false === $pos ) {
+							continue;
+						}
+						if ( 0 === $pos ) {
+							$src = $temp_src;
+							break;
+						}
+					}
+				}
+			}
+			/**
+			 * print
+			 */
+			if ( ! empty( $src ) ) {
+				printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
+				printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
+				printf( '<meta name="msapplication-TileImage" content="%s" />%s', $src, PHP_EOL );
+				echo PHP_EOL;
+				array_unshift( $og['og']['image'], $src );
+			}
+			/**
+			 * get title
+			 */
 			$og['og']['title'] = esc_attr( get_the_title() );
 			$og['og']['type'] = 'article';
 			$og['og']['url'] = get_permalink();
@@ -143,7 +169,6 @@ class iworks_opengraph {
 			$og['article']['published_time'] = get_the_date( 'c', $post->ID );
 			$og['article']['modified_time'] = get_the_modified_date( 'c' );
 			$og['article']['author'] = get_author_posts_url( $post->post_author );
-
 			/**
 			 * article: categories
 			 */
@@ -155,7 +180,6 @@ class iworks_opengraph {
 					$og['article']['section'][] = $category->name;
 				}
 			}
-
 			/**
 			 * article: categories
 			 */
@@ -166,7 +190,6 @@ class iworks_opengraph {
 					$og['article']['tag'][] = $tag->name;
 				}
 			}
-
 			/**
 			 * profile
 			 */
@@ -175,7 +198,6 @@ class iworks_opengraph {
 				'last_name' => get_the_author_meta( 'last_name', $post->post_author ),
 				'username' => get_the_author_meta( 'display_name', $post->post_author ),
 			);
-
 			/**
 			 * twitter
 			 */
@@ -185,7 +207,6 @@ class iworks_opengraph {
 					$og['twitter'][ $key ] = $og['og'][ $key ];
 				}
 			}
-
 			/**
 			 * woocommerce product
 			 */
@@ -198,16 +219,38 @@ class iworks_opengraph {
 						&& method_exists( $_product, 'get_regular_price' )
 						&& function_exists( 'get_woocommerce_currency' )
 					) {
+						if ( isset( $og['article'] ) ) {
+							unset( $og['article'] );
+						}
 						$og['og']['type'] = 'product';
-						$og['og']['price'] = array(
-							'amount' => $_product->get_regular_price(),
-							'currency' => get_woocommerce_currency(),
+						$og['product'] = array(
+							'availability' => $_product->get_stock_status(),
+							'weight' => $_product->get_weight(),
+							'price' => array(
+								'amount' => $_product->get_regular_price(),
+								'currency' => get_woocommerce_currency(),
+							),
 						);
-						$og['og']['availability'] = $_product->get_stock_status();
+						if ( $_product->is_on_sale() ) {
+							$og['product']['sale_price'] = array(
+								'amount' => $_product->get_sale_price(),
+								'currency' => get_woocommerce_currency(),
+							);
+							$from = $_product->get_date_on_sale_from();
+							$to = $_product->get_date_on_sale_to();
+							if ( ! empty( $from ) || ! empty( $to ) ) {
+								$og['product']['sale_price_dates'] = array();
+								if ( ! empty( $from ) ) {
+									$og['product']['sale_price_dates']['start'] = $from;
+								}
+								if ( ! empty( $to ) ) {
+									$og['product']['sale_price_dates']['end'] = $to;
+								}
+							}
+						}
 					}
 				}
 			}
-
 			/**
 			 * post format
 			 */
@@ -258,7 +301,6 @@ class iworks_opengraph {
 		 * @param array $og Array of all OG tags.
 		 */
 		$og = apply_filters( 'og_array', $og );
-
 		/**
 		 * print
 		 */
