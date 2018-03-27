@@ -115,7 +115,7 @@ class iworks_opengraph {
 			 */
 			if ( empty( $src ) ) {
 				$home_url = get_home_url();
-				$content = apply_filters( 'the_content', $post->post_content );
+				$content = $post->post_content;
 				$images = preg_match_all( '/<img[^>]+>/', $content, $matches );
 				foreach ( $matches[0] as $img ) {
 					if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {

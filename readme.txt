@@ -4,7 +4,7 @@ Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.6
 Tested up to: 4.9.4
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,6 +189,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
     }
 
 == Changelog ==
+
+= 2.4.9 (2018-02-27) =
+
+* Remove filter "the_content" to avoid incompatibility with some plugins.
 
 = 2.4.8 (2018-02-19) =
 
