@@ -108,6 +108,10 @@ class iworks_opengraph {
 				if ( has_post_thumbnail( $post->ID ) ) {
 					$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 					$src = esc_url( $thumbnail_src[0] );
+					$og['og']['image'] = array(
+						'width' => $thumbnail_src[1],
+						'height' => $thumbnail_src[2],
+					);
 				}
 			}
 			/**
