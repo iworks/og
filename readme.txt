@@ -190,9 +190,13 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.5.1 (2018-04-16) =
+
+* Added og:image:width and og:image:height for first content image from site URL.
+
 = 2.5.0 (2018-04-14) =
 
-* Added og:image:width and og:image:height.
+* Added og:image:width and og:image:height for featured image.
 
 = 2.4.9 (2018-02-27) =
 

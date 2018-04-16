@@ -108,10 +108,7 @@ class iworks_opengraph {
 				if ( has_post_thumbnail( $post->ID ) ) {
 					$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 					$src = esc_url( $thumbnail_src[0] );
-					$og['og']['image'] = array(
-						'width' => $thumbnail_src[1],
-						'height' => $thumbnail_src[2],
-					);
+					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
 				}
 			}
 			/**
@@ -122,6 +119,16 @@ class iworks_opengraph {
 				$content = $post->post_content;
 				$images = preg_match_all( '/<img[^>]+>/', $content, $matches );
 				foreach ( $matches[0] as $img ) {
+					if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
+						$classes = $matches_image_class[1];
+						if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
+							$attachment_id = $matches_image_id[1];
+							$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+							$src = esc_url( $thumbnail_src[0] );
+							$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+							break;
+						}
+					}
 					if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
 						$temp_src = $matches_image_src[2];
 						$pos = strpos( $temp_src, $home_url );
@@ -130,6 +137,12 @@ class iworks_opengraph {
 						}
 						if ( 0 === $pos ) {
 							$src = $temp_src;
+							$attachment_id = $this->get_attachment_id( $src );
+							if ( 0 < $attachment_id ) {
+								$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+								$src = esc_url( $thumbnail_src[0] );
+								$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+							}
 							break;
 						}
 					}
@@ -532,5 +545,49 @@ class iworks_opengraph {
 		echo '<style type="text/css">';
 		printf( '.iworks-notice-og .iworks-notice-logo{background-image:url(%s);}', esc_url( $logo ) );
 		echo '</style>';
+	}
+
+	/**
+	 * get image dimensions
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param array $image Attachment properites.
+	 *
+	 * @returns array array with Image dimensions for og tags
+	 */
+	private function get_image_dimensions( $image ) {
+		if ( ! empty( $image ) && is_array( $image ) && 2 < count( $image ) ) {
+			return array(
+				'width' => $image[1],
+				'height' => $image[2],
+			);
+		}
+		return null;
+	}
+
+	/**
+	 * try to get attachment_id
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param string $url Image url to check.
+	 *
+	 * @returns integer Attachment ID.
+	 */
+	private function get_attachment_id( $url ) {
+		global $wpdb;
+		$query = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url );
+		$attachment = $wpdb->get_col( $query );
+		if ( empty( $attachment ) ) {
+			$url2 = preg_replace( '/\-\d+x\d+(.[egjnp]+)$/', '$1', $url );
+			if ( $url != $url2 ) {
+				return $this->get_attachment_id( $url2 );
+			}
+		}
+		if ( is_array( $attachment ) && ! empty( $attachment ) ) {
+			return $attachment[0];
+		}
+		return 0;
 	}
 }
