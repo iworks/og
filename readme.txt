@@ -65,7 +65,7 @@ There are 3 ways to install this plugin:
 
 = How do I configure the Open Graph plugin? =
 
-You don't; there's nothing to configure and there is no admin page. By default, it will use whatever standard WordPress data it can to populate the Open Graph data. There are very simple yet powerful filters you can use to modify or extend the metadata returned by the plugin, described below.
+There is nothing to configure and there is no admin page. By default, it will use standard WordPress data which can to populate the Open Graph. There are very simple and powerful filters which you can use to modify or extend the metadata returned by the plugin. More information below.
 
 = What plugin add for all type of content? =
 
