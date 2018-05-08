@@ -8,7 +8,7 @@ Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simple and tiny adds Open Graph metadata to your posts and pages so that they look great when shared on sites like Facebook and Google+.
+Simple method to add Open Graph metadata to your entries so that they look great when shared on sites like Facebook and Google+.
 
 == Description ==
 
@@ -85,7 +85,7 @@ There is nothing to configure and there is no admin page. By default, it will us
 * article:published_time - date of first article publication
 * article:modified_time - date of last article modification
 * article:tag - tags used in post
-* twitter:card - "summary.
+* twitter:card - summary
 * twitter:title - the same line og:title
 * twitter:description - the same like og:description
 * twitter:image - the same like og:image
@@ -189,6 +189,12 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
     }
 
 == Changelog ==
+
+= 2.5.2 (2018-05-08) =
+
+* Added filter `og_description_words` to allow change `og:description` length.
+* Fixed a problem with wtriping last word. Props for [intrex](https://wordpress.org/support/users/intrex/)
+* We are back to trim `og:description` to 55 words (it is default for `wp_trim_words()` function).
 
 = 2.5.1 (2018-04-16) =
 
