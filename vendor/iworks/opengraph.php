@@ -166,15 +166,15 @@ class iworks_opengraph {
 			$og['og']['url'] = get_permalink();
 			if ( has_excerpt( $post->ID ) ) {
 				$og['og']['description'] = strip_tags( get_the_excerpt() );
-            } else {
-                /**
-                 * Allow to change default number of words to change content
-                 * trim.
-                 *
-                 * @since 2.5.1
-                 *
-                 */
-                $number_of_words = apply_filters( 'og_description_words', 55 );
+			} else {
+				/**
+				 * Allow to change default number of words to change content
+				 * trim.
+				 *
+				 * @since 2.5.1
+				 *
+				 */
+				$number_of_words = apply_filters( 'og_description_words', 55 );
 				$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
 			}
 			$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
@@ -311,13 +311,12 @@ class iworks_opengraph {
 		/**
 		 * short twitter description.
 		 */
-        if ( isset( $og['twitter'] ) && isset( $og['twitter']['description'] ) ) {
-            $number_of_words = apply_filters( 'og_description_words', 55 );
-            do {
-                $og['twitter']['description'] = wp_trim_words( $og['twitter']['description'], $number_of_words, '...' );
-                $number_of_words--;
-                l($number_of_words);
-            } while ( 300 < mb_strlen( $og['twitter']['description'] ) );
+		if ( isset( $og['twitter'] ) && isset( $og['twitter']['description'] ) ) {
+			$number_of_words = apply_filters( 'og_description_words', 55 );
+			do {
+				$og['twitter']['description'] = wp_trim_words( $og['twitter']['description'], $number_of_words, '...' );
+				$number_of_words--;
+			} while ( 300 < mb_strlen( $og['twitter']['description'] ) );
 		}
 		/**
 		 * Filter whole OG tags array
