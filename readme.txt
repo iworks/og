@@ -197,7 +197,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 = 2.5.2 (2018-05-08) =
 
 * Added filter `og_description_words` to allow change `og:description` length.
-* Fixed a problem with wtriping last word. Props for [intrex](https://wordpress.org/support/users/intrex/)
+* Fixed a problem with striping last word. Props for [intrex](https://wordpress.org/support/users/intrex/)
 * We are back to trim `og:description` to 55 words (it is default for `wp_trim_words()` function).
 
 = 2.5.1 (2018-04-16) =
