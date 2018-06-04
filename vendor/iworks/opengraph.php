@@ -6,6 +6,7 @@ class iworks_opengraph {
 	public function __construct() {
 		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
 		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
@@ -86,207 +87,271 @@ class iworks_opengraph {
 		 */
 		if ( is_singular() ) {
 			global $post;
-			$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
-			if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
-				foreach ( $iworks_yt_thumbnails as $youtube_id => $image ) {
-					$og['og']['image'][] = esc_url( $image );
-					$og['og']['video'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
-					$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
-				}
-			}
 			/**
-			 * attachment image page
+			 * get cache
+			 *
+			 * @since 2.6.0
 			 */
-			if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
-				$og['og']['image'][] = esc_url( wp_get_attachment_url( $post->ID ) );
-			}
-			/**
-			 * get post thumbnail
-			 */
-			$src = false;
-			if ( function_exists( 'has_post_thumbnail' ) ) {
-				if ( has_post_thumbnail( $post->ID ) ) {
-					$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-					$src = esc_url( $thumbnail_src[0] );
-					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
-				}
-			}
-			/**
-			 * try to grap from content
-			 */
-			if ( empty( $src ) ) {
-				$home_url = get_home_url();
-				$content = $post->post_content;
-				$images = preg_match_all( '/<img[^>]+>/', $content, $matches );
-				foreach ( $matches[0] as $img ) {
-					if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
-						$classes = $matches_image_class[1];
-						if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
-							$attachment_id = $matches_image_id[1];
-							$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
-							$src = esc_url( $thumbnail_src[0] );
-							$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
-							break;
-						}
+			$cache_key = $this->get_transient_key( $post->ID );
+			$cache = get_transient( $cache_key );
+			if ( false === $cache ) {
+				$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
+				if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
+					foreach ( $iworks_yt_thumbnails as $youtube_id => $image ) {
+						$og['og']['image'][] = esc_url( $image );
+						$og['og']['video'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
+						$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 					}
-					if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
-						$temp_src = $matches_image_src[2];
-						$pos = strpos( $temp_src, $home_url );
-						if ( false === $pos ) {
-							continue;
-						}
-						if ( 0 === $pos ) {
-							$src = $temp_src;
-							$attachment_id = $this->get_attachment_id( $src );
-							if ( 0 < $attachment_id ) {
+				}
+				/**
+				 * attachment image page
+				 */
+				if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
+					$og['og']['image'][] = esc_url( wp_get_attachment_url( $post->ID ) );
+				}
+				/**
+				 * get post thumbnail
+				 */
+				$src = false;
+				if ( function_exists( 'has_post_thumbnail' ) ) {
+					if ( has_post_thumbnail( $post->ID ) ) {
+						$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+						$src = esc_url( $thumbnail_src[0] );
+						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+					}
+				}
+				/**
+				 * try to grap from content
+				 */
+				if ( empty( $src ) ) {
+					$home_url = get_home_url();
+					$content = $post->post_content;
+					$images = preg_match_all( '/<img[^>]+>/', $content, $matches );
+					foreach ( $matches[0] as $img ) {
+						if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
+							$classes = $matches_image_class[1];
+							if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
+								$attachment_id = $matches_image_id[1];
 								$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
 								$src = esc_url( $thumbnail_src[0] );
 								$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+								break;
 							}
-							break;
+						}
+						if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
+							$temp_src = $matches_image_src[2];
+							$pos = strpos( $temp_src, $home_url );
+							if ( false === $pos ) {
+								continue;
+							}
+							if ( 0 === $pos ) {
+								$src = $temp_src;
+								$attachment_id = $this->get_attachment_id( $src );
+								if ( 0 < $attachment_id ) {
+									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+									$src = esc_url( $thumbnail_src[0] );
+									$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+								}
+								break;
+							}
 						}
 					}
 				}
-			}
-			/**
-			 * print
-			 */
-			if ( ! empty( $src ) ) {
-				printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
-				printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
-				printf( '<meta name="msapplication-TileImage" content="%s" />%s', $src, PHP_EOL );
-				echo PHP_EOL;
-				array_unshift( $og['og']['image'], $src );
-			}
-			/**
-			 * get title
-			 */
-			$og['og']['title'] = esc_attr( get_the_title() );
-			$og['og']['type'] = 'article';
-			$og['og']['url'] = get_permalink();
-			if ( has_excerpt( $post->ID ) ) {
-				$og['og']['description'] = strip_tags( get_the_excerpt() );
-			} else {
 				/**
-				 * Allow to change default number of words to change content
-				 * trim.
-				 *
-				 * @since 2.5.1
-				 *
+				 * print
 				 */
-				$number_of_words = apply_filters( 'og_description_words', 55 );
-				$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
-			}
-			$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
-			if ( empty( $og['og']['description'] ) ) {
-				$og['og']['description'] = $og['og']['title'];
-			}
-			/**
-			 * add tags
-			 */
-			$tags = get_the_tags();
-			if ( is_array( $tags ) && count( $tags ) > 0 ) {
-				foreach ( $tags as $tag ) {
-					$og['article']['tag'][] = esc_attr( $tag->name );
+				if ( ! empty( $src ) ) {
+					printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
+					printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
+					printf( '<meta name="msapplication-TileImage" content="%s" />%s', $src, PHP_EOL );
+					echo PHP_EOL;
+					array_unshift( $og['og']['image'], $src );
 				}
-			}
-			remove_all_filters( 'get_the_date' );
-			$og['article']['published_time'] = get_the_date( 'c', $post->ID );
-			$og['article']['modified_time'] = get_the_modified_date( 'c' );
-			$og['article']['author'] = get_author_posts_url( $post->post_author );
-			/**
-			 * article: categories
-			 */
-			$og['article']['section'] = array();
-			$post_categories = wp_get_post_categories( $post->ID );
-			if ( ! empty( $post_categories ) ) {
-				foreach ( $post_categories as $category_id ) {
-					$category = get_category( $category_id );
-					$og['article']['section'][] = $category->name;
+				/**
+				 * get title
+				 */
+				$og['og']['title'] = esc_attr( get_the_title() );
+				$og['og']['type'] = 'article';
+				$og['og']['url'] = get_permalink();
+				if ( has_excerpt( $post->ID ) ) {
+					$og['og']['description'] = strip_tags( get_the_excerpt() );
+				} else {
+					/**
+					 * Allow to change default number of words to change content
+					 * trim.
+					 *
+					 * @since 2.5.1
+					 *
+					 */
+					$number_of_words = apply_filters( 'og_description_words', 55 );
+					$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
 				}
-			}
-			/**
-			 * article: categories
-			 */
-			$og['article']['tag'] = array();
-			$post_tags = wp_get_post_tags( $post->ID );
-			if ( ! empty( $post_tags ) ) {
-				foreach ( $post_tags as $tag ) {
-					$og['article']['tag'][] = $tag->name;
+				$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
+				if ( empty( $og['og']['description'] ) ) {
+					$og['og']['description'] = $og['og']['title'];
 				}
-			}
-			/**
-			 * profile
-			 */
-			$og['profile'] = array(
-				'first_name' => get_the_author_meta( 'first_name', $post->post_author ),
-				'last_name' => get_the_author_meta( 'last_name', $post->post_author ),
-				'username' => get_the_author_meta( 'display_name', $post->post_author ),
-			);
-			/**
-			 * twitter
-			 */
-			$og['twitter']['card'] = 'summary';
-			foreach ( array( 'title', 'description', 'image', 'url' ) as $key ) {
-				if ( isset( $og['og'][ $key ] ) ) {
-					$og['twitter'][ $key ] = $og['og'][ $key ];
+				/**
+				 * add tags
+				 */
+				$tags = get_the_tags();
+				if ( is_array( $tags ) && count( $tags ) > 0 ) {
+					foreach ( $tags as $tag ) {
+						$og['article']['tag'][] = esc_attr( $tag->name );
+					}
 				}
-			}
-			/**
-			 * woocommerce product
-			 */
-			if ( 'product' == $post->post_type ) {
-				global $woocommerce;
-				if ( is_object( $woocommerce ) && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
-					$_product = wc_get_product( $post->ID );
-					if (
-						is_object( $_product )
-						&& method_exists( $_product, 'get_regular_price' )
-						&& function_exists( 'get_woocommerce_currency' )
-					) {
-						if ( isset( $og['article'] ) ) {
-							unset( $og['article'] );
-						}
-						$og['og']['type'] = 'product';
-						$og['product'] = array(
-							'availability' => $_product->get_stock_status(),
-							'weight' => $_product->get_weight(),
-							'price' => array(
-								'amount' => $_product->get_regular_price(),
-								'currency' => get_woocommerce_currency(),
-							),
-						);
-						if ( $_product->is_on_sale() ) {
-							$og['product']['sale_price'] = array(
-								'amount' => $_product->get_sale_price(),
-								'currency' => get_woocommerce_currency(),
+				remove_all_filters( 'get_the_date' );
+				$og['article']['published_time'] = get_the_date( 'c', $post->ID );
+				$og['article']['modified_time'] = get_the_modified_date( 'c' );
+				$og['article']['author'] = get_author_posts_url( $post->post_author );
+				/**
+				 * last update time
+				 *
+				 * @since 2.6.0
+				 */
+				$og['og']['updated_time'] = get_the_modified_date( 'c' );
+				/**
+				 * article: categories
+				 */
+				$og['article']['section'] = array();
+				$post_categories = wp_get_post_categories( $post->ID );
+				if ( ! empty( $post_categories ) ) {
+					foreach ( $post_categories as $category_id ) {
+						$category = get_category( $category_id );
+						$og['article']['section'][] = $category->name;
+					}
+				}
+				/**
+				 * article: categories
+				 */
+				$og['article']['tag'] = array();
+				$post_tags = wp_get_post_tags( $post->ID );
+				if ( ! empty( $post_tags ) ) {
+					foreach ( $post_tags as $tag ) {
+						$og['article']['tag'][] = $tag->name;
+					}
+				}
+				/**
+				 * profile
+				 */
+				$og['profile'] = array(
+					'first_name' => get_the_author_meta( 'first_name', $post->post_author ),
+					'last_name' => get_the_author_meta( 'last_name', $post->post_author ),
+					'username' => get_the_author_meta( 'display_name', $post->post_author ),
+				);
+				/**
+				 * twitter
+				 */
+				$og['twitter']['card'] = 'summary';
+				foreach ( array( 'title', 'description', 'image', 'url' ) as $key ) {
+					if ( isset( $og['og'][ $key ] ) ) {
+						$og['twitter'][ $key ] = $og['og'][ $key ];
+					}
+				}
+				/**
+				 * woocommerce product
+				 */
+				if ( 'product' == $post->post_type ) {
+					global $woocommerce;
+					if ( is_object( $woocommerce ) && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
+						$_product = wc_get_product( $post->ID );
+						if (
+							is_object( $_product )
+							&& method_exists( $_product, 'get_regular_price' )
+							&& function_exists( 'get_woocommerce_currency' )
+						) {
+							if ( isset( $og['article'] ) ) {
+								unset( $og['article'] );
+							}
+							$og['og']['type'] = 'product';
+							$og['product'] = array(
+								'availability' => $_product->get_stock_status(),
+								'weight' => $_product->get_weight(),
+								'price' => array(
+									'amount' => $_product->get_regular_price(),
+									'currency' => get_woocommerce_currency(),
+								),
 							);
-							$from = $_product->get_date_on_sale_from();
-							$to = $_product->get_date_on_sale_to();
-							if ( ! empty( $from ) || ! empty( $to ) ) {
-								$og['product']['sale_price_dates'] = array();
-								if ( ! empty( $from ) ) {
-									$og['product']['sale_price_dates']['start'] = $from;
-								}
-								if ( ! empty( $to ) ) {
-									$og['product']['sale_price_dates']['end'] = $to;
+							if ( $_product->is_on_sale() ) {
+								$og['product']['sale_price'] = array(
+									'amount' => $_product->get_sale_price(),
+									'currency' => get_woocommerce_currency(),
+								);
+								$from = $_product->get_date_on_sale_from();
+								$to = $_product->get_date_on_sale_to();
+								if ( ! empty( $from ) || ! empty( $to ) ) {
+									$og['product']['sale_price_dates'] = array();
+									if ( ! empty( $from ) ) {
+										$og['product']['sale_price_dates']['start'] = $from;
+									}
+									if ( ! empty( $to ) ) {
+										$og['product']['sale_price_dates']['end'] = $to;
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			/**
-			 * post format
-			 */
-			$post_format = get_post_format( $post->ID );
-			switch ( $post_format ) {
-				case 'audio':
-					$og['og']['type'] = 'music';
-				break;
-				case 'audio':
-					$og['og']['type'] = 'video';
-				break;
+				/**
+				 * post format
+				 */
+				$post_format = get_post_format( $post->ID );
+				switch ( $post_format ) {
+					case 'audio':
+						$og['og']['type'] = 'music';
+					break;
+					case 'audio':
+						$og['og']['type'] = 'video';
+					break;
+				}
+				/**
+				 * attachments: video
+				 *
+				 * @since 2.6.0
+				 */
+				$media = get_attached_media( 'video' );
+				foreach ( $media as $one ) {
+					/**
+					 * video
+					 */
+					if ( preg_match( '/^video/', $one->post_mime_type ) ) {
+						$og['og']['rich_attachment'] = true;
+						$video = array(
+							'url' => wp_get_attachment_url( $one->ID ),
+							'type' => $one->post_mime_type,
+						);
+						if ( ! isset( $og['og']['video'] ) ) {
+							$og['og']['video'] = array();
+						}
+						$og['og']['video'][] = $video;
+					}
+				}
+				/**
+				 * Attachments: audio
+				 *
+				 * @since 2.6.0
+				 */
+				$media = get_attached_media( 'audio' );
+				foreach ( $media as $one ) {
+					if ( preg_match( '/^audio/', $one->post_mime_type ) ) {
+						$og['og']['rich_attachment'] = true;
+						$audio = array(
+							'url' => wp_get_attachment_url( $one->ID ),
+							'type' => $one->post_mime_type,
+						);
+						if ( ! isset( $og['og']['audio'] ) ) {
+							$og['og']['audio'] = array();
+						}
+						$og['og']['audio'][] = $audio;
+					}
+				}
+				/**
+				 * set cache
+				 *
+				 * @since 2.6.0
+				 */
+				set_transient( $cache_key, $og, DAY_IN_SECONDS );
+			} else {
+				$og = $cache;
 			}
 		} else {
 			if ( is_home() || is_front_page() ) {
@@ -388,140 +453,161 @@ class iworks_opengraph {
 
 	private function get_locale() {
 		$facebook_allowed_locales = array(
-			'af_ZA',
-			'ak_GH',
-			'am_ET',
-			'ar_AR',
-			'as_IN',
-			'ay_BO',
-			'az_AZ',
-			'be_BY',
-			'bg_BG',
-			'bn_IN',
-			'br_FR',
-			'bs_BA',
-			'ca_ES',
-			'cb_IQ',
-			'ck_US',
-			'co_FR',
-			'cs_CZ',
-			'cx_PH',
-			'cy_GB',
-			'da_DK',
-			'de_DE',
-			'el_GR',
-			'en_GB',
-			'en_IN',
-			'en_PI',
-			'en_UD',
-			'en_US',
-			'eo_EO',
-			'es_CO',
-			'es_ES',
-			'es_LA',
-			'et_EE',
-			'eu_ES',
-			'fa_IR',
-			'fb_LT',
-			'ff_NG',
-			'fi_FI',
-			'fo_FO',
-			'fr_CA',
-			'fr_FR',
-			'fy_NL',
-			'ga_IE',
-			'gl_ES',
-			'gn_PY',
-			'gu_IN',
-			'gx_GR',
-			'ha_NG',
-			'he_IL',
-			'hi_IN',
-			'hr_HR',
-			'hu_HU',
-			'hy_AM',
-			'id_ID',
-			'ig_NG',
-			'is_IS',
-			'it_IT',
-			'ja_JP',
-			'ja_KS',
-			'jv_ID',
-			'ka_GE',
-			'kk_KZ',
-			'km_KH',
-			'kn_IN',
-			'ko_KR',
-			'ku_TR',
-			'la_VA',
-			'lg_UG',
-			'li_NL',
-			'lo_LA',
-			'lt_LT',
-			'lv_LV',
-			'mg_MG',
-			'mk_MK',
-			'ml_IN',
-			'mn_MN',
-			'mr_IN',
-			'ms_MY',
-			'mt_MT',
-			'my_MM',
-			'nb_NO',
-			'nd_ZW',
-			'ne_NP',
-			'nl_BE',
-			'nl_NL',
-			'nn_NO',
-			'ny_MW',
-			'or_IN',
-			'pa_IN',
-			'pl_PL',
-			'ps_AF',
-			'pt_BR',
-			'pt_PT',
-			'qu_PE',
-			'rm_CH',
-			'ro_RO',
-			'ru_RU',
-			'rw_RW',
-			'sa_IN',
-			'sc_IT',
-			'se_NO',
-			'si_LK',
-			'sk_SK',
-			'sl_SI',
-			'sn_ZW',
-			'so_SO',
-			'sq_AL',
-			'sr_RS',
-			'sv_SE',
-			'sw_KE',
-			'sy_SY',
-			'ta_IN',
-			'te_IN',
-			'tg_TJ',
-			'th_TH',
-			'tl_PH',
-			'tl_ST',
-			'tr_TR',
-			'tt_RU',
-			'tz_MA',
-			'uk_UA',
-			'ur_PK',
-			'uz_UZ',
-			'vi_VN',
-			'wo_SN',
-			'xh_ZA',
-			'yi_DE',
-			'yo_NG',
-			'zh_CN',
-			'zh_HK',
-			'zh_TW',
-			'zu_ZA',
-			'zz_TR',
+			'en_us',
+			'ca_es',
+			'cs_cz',
+			'cx_ph',
+			'cy_gb',
+			'da_dk',
+			'de_de',
+			'eu_es',
+			'en_pi',
+			'en_ud',
+			'ck_us',
+			'es_la',
+			'es_es',
+			'es_mx',
+			'gn_py',
+			'fi_fi',
+			'fr_fr',
+			'gl_es',
+			'ht_ht',
+			'hu_hu',
+			'it_it',
+			'ja_jp',
+			'ko_kr',
+			'nb_no',
+			'nn_no',
+			'nl_nl',
+			'fy_nl',
+			'pl_pl',
+			'pt_br',
+			'pt_pt',
+			'ro_ro',
+			'ru_ru',
+			'sk_sk',
+			'sl_si',
+			'sv_se',
+			'th_th',
+			'tr_tr',
+			'ku_tr',
+			'zh_cn',
+			'zh_hk',
+			'zh_tw',
+			'fb_lt',
+			'af_za',
+			'sq_al',
+			'hy_am',
+			'az_az',
+			'be_by',
+			'bn_in',
+			'bs_ba',
+			'bg_bg',
+			'hr_hr',
+			'nl_be',
+			'en_gb',
+			'eo_eo',
+			'et_ee',
+			'fo_fo',
+			'fr_ca',
+			'ka_ge',
+			'el_gr',
+			'gu_in',
+			'hi_in',
+			'is_is',
+			'id_id',
+			'ga_ie',
+			'jv_id',
+			'kn_in',
+			'kk_kz',
+			'ky_kg',
+			'la_va',
+			'lv_lv',
+			'li_nl',
+			'lt_lt',
+			'mi_nz',
+			'mk_mk',
+			'mg_mg',
+			'ms_my',
+			'mt_mt',
+			'mr_in',
+			'mn_mn',
+			'ne_np',
+			'pa_in',
+			'rm_ch',
+			'sa_in',
+			'sr_rs',
+			'so_so',
+			'sw_ke',
+			'tl_ph',
+			'ta_in',
+			'tt_ru',
+			'te_in',
+			'ml_in',
+			'uk_ua',
+			'uz_uz',
+			'vi_vn',
+			'xh_za',
+			'zu_za',
+			'km_kh',
+			'tg_tj',
+			'ar_ar',
+			'he_il',
+			'ur_pk',
+			'fa_ir',
+			'sy_sy',
+			'yi_de',
+			'qc_gt',
+			'qu_pe',
+			'ay_bo',
+			'se_no',
+			'ps_af',
+			'tl_st',
+			'gx_gr',
+			'my_mm',
+			'qz_mm',
+			'or_in',
+			'si_lk',
+			'rw_rw',
+			'ak_gh',
+			'nd_zw',
+			'sn_zw',
+			'cb_iq',
+			'ha_ng',
+			'yo_ng',
+			'ja_ks',
+			'lg_ug',
+			'br_fr',
+			'zz_tr',
+			'tz_ma',
+			'co_fr',
+			'ig_ng',
+			'as_in',
+			'am_et',
+			'lo_la',
+			'ny_mw',
+			'wo_sn',
+			'ff_ng',
+			'sc_it',
+			'ln_cd',
+			'tk_tm',
+			'sz_pl',
+			'bp_in',
+			'ns_za',
+			'tn_bw',
+			'st_za',
+			'ts_za',
+			'ss_sz',
+			'ks_in',
+			've_za',
+			'nr_za',
+			'ik_us',
+			'su_id',
+			'om_et',
+			'em_zm',
+			'qr_gr',
 		);
-		$locale = preg_replace( '/-/', '_', get_bloginfo( 'language' ) );
+		$locale = strtolower( preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) );
 		if ( in_array( $locale, $facebook_allowed_locales ) ) {
 			return $locale;
 		}
@@ -597,5 +683,24 @@ class iworks_opengraph {
 			return $attachment[0];
 		}
 		return 0;
+	}
+
+	/**
+	 * get transient cache key
+	 *
+	 * @since 2.6.0
+	 */
+	private function get_transient_key( $post_ID ) {
+		return sprintf( 'iworks_og_post_%d', $post_ID );
+	}
+
+	/**
+	 * delete post transient cache
+	 *
+	 * @since 2.6.0
+	 */
+	public function delete_transient_cache( $post_ID ) {
+		$cache_key = $this->get_transient_key( $post_ID );
+		delete_transient( $cache_key );
 	}
 }

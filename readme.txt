@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.8
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Stable tag: 2.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -189,6 +189,12 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
     }
 
 == Changelog ==
+
+= 2.6.0 (2018-06-04) =
+* Added attached audio files to `og:audio` tag.
+* Added attached video files to `og:video` tag.
+* Added `og:update_time` tag.
+* Added transient cache for single entries to decrease DB usage.
 
 = 2.5.2 (2018-05-09) =
 
