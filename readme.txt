@@ -195,6 +195,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 * Added attached video files to `og:video` tag.
 * Added `og:update_time` tag.
 * Added transient cache for single entries to decrease DB usage.
+* Updated Facebook locales list.
 
 = 2.5.2 (2018-05-09) =
 
