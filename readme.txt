@@ -197,7 +197,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 * Added transient cache for single entries to decrease DB usage.
 * Updated Facebook locales list.
 
-= 2.5.2 (2018-05-09) =
+= 2.5.3 (2018-05-09) =
 
 * Remove debug function, which broke whole plugin.
 
