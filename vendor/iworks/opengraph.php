@@ -2,8 +2,10 @@
 class iworks_opengraph {
 	private $meta = 'iworks_yt_thumbnails';
 	private $version = 'PLUGIN_VERSION';
+	private $debug = false;
 
 	public function __construct() {
+		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
 		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
 		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
@@ -161,10 +163,21 @@ class iworks_opengraph {
 				 * print
 				 */
 				if ( ! empty( $src ) ) {
-					printf( '<link rel="image_src" href="%s" />%s', $src, PHP_EOL );
-					printf( '<meta itemprop="image" content="%s" />%s', $src, PHP_EOL );
-					printf( '<meta name="msapplication-TileImage" content="%s" />%s', $src, PHP_EOL );
-					echo PHP_EOL;
+					printf(
+						'<link rel="image_src" href="%s" />%s',
+						esc_url( $src ),
+						$this->debug? PHP_EOL:''
+					);
+					printf(
+						'<meta itemprop="image" content="%s" />%s',
+						esc_url( $src ),
+						$this->debug? PHP_EOL:''
+					);
+					printf(
+						'<meta name="msapplication-TileImage" content="%s" />%s',
+						esc_url( $src ),
+						$this->debug? PHP_EOL:''
+					);
 					array_unshift( $og['og']['image'], $src );
 				}
 				/**
@@ -394,7 +407,6 @@ class iworks_opengraph {
 		/**
 		 * print
 		 */
-		$group = '';
 		$this->echo_array( $og );
 		echo '<!-- /OG -->';
 		echo PHP_EOL;
@@ -410,7 +422,7 @@ class iworks_opengraph {
 	 */
 	private function echo_array( $og, $parent = array() ) {
 		foreach ( $og as $tag => $data ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && empty( $parent ) ) {
+			if ( $this->debug  && empty( $parent ) ) {
 				printf( '<!-- %s -->%s', $tag, PHP_EOL );
 			}
 			$tags = $parent;
@@ -445,8 +457,8 @@ class iworks_opengraph {
 			sprintf(
 				'<meta property="%s" content="%s" />%s',
 				esc_attr( implode( ':', $property ) ),
-				esc_attr( $value ),
-				PHP_EOL
+				esc_attr( strip_tags( $value ) ),
+				$this->debug? PHP_EOL:''
 			)
 		);
 	}

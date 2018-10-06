@@ -101,6 +101,8 @@ There is nothing to configure and there is no admin page. By default, it will us
 
 Please be patient, sometimes you need more a day to see results. The reason of this is cache on Facebook. But check your plugins too and if you use and caching plugins, try to do "flush cache" on your site.
 
+You can force FB to refresh OpenGraph data by using this page https://developers.facebook.com/tools/debug/sharing/. Just go to Sharing Debugger, enter your URL and hit the button "Scrap Again".
+
 = How to filter values? =
 
 Use auto filters. If you have value like this:
@@ -189,6 +191,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
     }
 
 == Changelog ==
+
+= 2.6.1 (2018-09-06) =
+* Added `esc_url` for image src value.
+* Striped tags from OG tag value.
 
 = 2.6.0 (2018-06-04) =
 * Added attached audio files to `og:audio` tag.
