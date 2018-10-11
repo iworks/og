@@ -3,8 +3,8 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.8
-Tested up to: 4.9.6
-Stable tag: 2.6.0
+Tested up to: 4.9.8
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,9 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
     }
 
 == Changelog ==
+
+= 2.6.2 (2018-10-11) =
+* Fixed blog posts page og:url. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/)
 
 = 2.6.1 (2018-09-06) =
 * Added `esc_url` for image src value.

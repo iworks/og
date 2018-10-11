@@ -373,6 +373,9 @@ class iworks_opengraph {
 			$og['og']['description'] = esc_attr( get_bloginfo( 'description' ) );
 			$og['og']['title'] = esc_attr( get_bloginfo( 'title' ) );
 			$og['og']['url'] = home_url();
+			if ( ! is_front_page() && is_home() ) {
+				$og['og']['url'] = get_permalink( get_option( 'page_for_posts' ) );
+			}
 		}
 		/**
 		 * get site icon and use it as default og:image
