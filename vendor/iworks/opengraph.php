@@ -1,5 +1,5 @@
 <?php
-class iworks_opengraph {
+class Iworks_Opengraph {
 	private $meta = 'iworks_yt_thumbnails';
 	private $version = 'PLUGIN_VERSION';
 	private $debug = false;
@@ -9,6 +9,7 @@ class iworks_opengraph {
 		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
 		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
+		add_action( 'edit_attachment', array( $this, 'delete_transient_cache' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
@@ -24,14 +25,14 @@ class iworks_opengraph {
 		return $plugin_meta;
 	}
 
-	public function add_youtube_thumbnails( $post_ID, $post ) {
+	public function add_youtube_thumbnails( $post_id, $post ) {
 		if ( 'revision' == $post->post_type ) {
 			return;
 		}
 		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
-		delete_post_meta( $post_ID, $this->meta );
+		delete_post_meta( $post_id, $this->meta );
 		$iworks_yt_thumbnails = array();
 		/**
 		 * parse short youtube share url
@@ -50,7 +51,7 @@ class iworks_opengraph {
 			}
 		}
 		if ( count( $iworks_yt_thumbnails ) ) {
-			update_post_meta( $post_ID, $this->meta, array_unique( $iworks_yt_thumbnails ) );
+			update_post_meta( $post_id, $this->meta, array_unique( $iworks_yt_thumbnails ) );
 		}
 	}
 
@@ -64,6 +65,9 @@ class iworks_opengraph {
 	}
 
 	public function wp_head() {
+		if ( is_404() ) {
+			return;
+		}
 		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
 		echo PHP_EOL;
 		$og = array(
@@ -366,6 +370,27 @@ class iworks_opengraph {
 			} else {
 				$og = $cache;
 			}
+		} else if ( is_search() ) {
+			$og['og']['url'] = add_query_arg( 's', get_query_var( 's' ), home_url() );
+		} else if ( is_archive() ) {
+			$obj = get_queried_object();
+			if ( is_a( $obj, 'WP_Term' ) ) {
+				$og['og']['url'] = get_term_link( $obj->term_id );
+				$og['og']['description'] = strip_tags( term_description( $obj->term_id, $obj->taxonomy ) );
+			} else if ( is_a( $obj, 'WP_Post_Type' ) ) {
+				$og['og']['url'] = get_post_type_archive_link( $obj->name );
+			} else if ( is_date() ) {
+				$year = get_query_var( 'year' );
+				$month = get_query_var( 'monthnum' );
+				$day = get_query_var( 'day' );
+				if ( is_day() ) {
+					$og['og']['url'] = get_day_link( $year, $month, $day );
+				} else if ( is_month() ) {
+					$og['og']['url'] = get_month_link( $year, $month );
+				} else {
+					$og['og']['url'] = get_year_link( $year );
+				}
+			}
 		} else {
 			if ( is_home() || is_front_page() ) {
 				$og['og']['type'] = 'website';
@@ -376,6 +401,9 @@ class iworks_opengraph {
 			if ( ! is_front_page() && is_home() ) {
 				$og['og']['url'] = get_permalink( get_option( 'page_for_posts' ) );
 			}
+		}
+		if ( ! isset( $og['og']['title'] ) || empty( $og['og']['title'] ) ) {
+			$og['og']['title'] = wp_get_document_title();
 		}
 		/**
 		 * get site icon and use it as default og:image
@@ -705,8 +733,8 @@ class iworks_opengraph {
 	 *
 	 * @since 2.6.0
 	 */
-	private function get_transient_key( $post_ID ) {
-		return sprintf( 'iworks_og_post_%d', $post_ID );
+	private function get_transient_key( $post_id ) {
+		return sprintf( 'iworks_og_post_%d', $post_id );
 	}
 
 	/**
@@ -714,8 +742,8 @@ class iworks_opengraph {
 	 *
 	 * @since 2.6.0
 	 */
-	public function delete_transient_cache( $post_ID ) {
-		$cache_key = $this->get_transient_key( $post_ID );
+	public function delete_transient_cache( $id ) {
+		$cache_key = $this->get_transient_key( $id );
 		delete_transient( $cache_key );
 	}
 }

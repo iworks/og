@@ -192,6 +192,14 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+
+= 2.7.0 (2018-10-21) =
+* Added proper og:url for custom post archive page. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/)
+* Added proper og:url for a day, month and year archive page.
+* Added proper og:url for a search result.
+* Added proper og:url for taxonomy archive page.
+* Removed OpenGraph from 404 page.
+
 = 2.6.2 (2018-10-11) =
 * Fixed blog posts page og:url. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/)
 

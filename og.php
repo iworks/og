@@ -11,12 +11,12 @@ License: GNU GPL
  */
 
 require_once dirname( __FILE__ ) .'/vendor/iworks/opengraph.php';
-new iworks_opengraph();
+new Iworks_Opengraph();
 
 include_once dirname( __FILE__ ) .'/vendor/iworks/rate/rate.php';
 do_action(
 	'iworks-register-plugin',
 	plugin_basename( __FILE__ ),
-    __( 'OG', 'og' ),
-    'og'
+	__( 'OG', 'og' ),
+	'og'
 );
