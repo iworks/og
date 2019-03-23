@@ -4,7 +4,7 @@ Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.8
 Tested up to: 5.1
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,25 +193,25 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 == Changelog ==
 
 = 2.7.3 (2019-04-23) =
-* Added "summary_large_image" for twitter:card if attached image has width bigger then 520px. Props for (Bobby Eberle)[https://www.facebook.com/bobby.eberle]
+* Added "summary_large_image" for twitter:card if attached image has width bigger then 520px. Props for [Bobby Eberle](https://www.facebook.com/bobby.eberle).
 
 
 = 2.7.2 (2019-04-13) =
 * Fixed `sprintf()` issue. Props for [John Glynn](https://www.linkedin.com/in/john-glynn-2a233426/)
 
 = 2.7.1 (2019-04-13) =
-* Added locale string into cache settings to be able handle languages. Props for [Oleksandr Omelchenko](https://wordpress.org/support/users/konusua/)
-* Added cache locale value inside the class object to 
+* Added locale string into cache settings to be able handle languages. Props for [Oleksandr Omelchenko](https://wordpress.org/support/users/konusua/).
+* Added cache locale value inside the class object to.
 
 = 2.7.0 (2018-10-21) =
-* Added proper og:url for custom post archive page. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/)
+* Added proper og:url for custom post archive page. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/).
 * Added proper og:url for a day, month and year archive page.
 * Added proper og:url for a search result.
 * Added proper og:url for taxonomy archive page.
 * Removed OpenGraph from 404 page.
 
 = 2.6.2 (2018-10-11) =
-* Fixed blog posts page og:url. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/)
+* Fixed blog posts page og:url. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/).
 
 = 2.6.1 (2018-09-06) =
 * Added `esc_url` for image src value.
@@ -231,7 +231,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 = 2.5.2 (2018-05-08) =
 
 * Added filter `og_description_words` to allow change `og:description` length.
-* Fixed a problem with striping last word. Props for [intrex](https://wordpress.org/support/users/intrex/)
+* Fixed a problem with striping last word. Props for [intrex](https://wordpress.org/support/users/intrex/).
 * We are back to trim `og:description` to 55 words (it is default for `wp_trim_words()` function).
 
 = 2.5.1 (2018-04-16) =
@@ -248,13 +248,13 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 = 2.4.8 (2018-02-19) =
 
-* Added first content image to og:image if featured image is not set. Props for [andreyenkin](https://wordpress.org/support/users/andreyenkin/)
+* Added first content image to og:image if featured image is not set. Props for [andreyenkin](https://wordpress.org/support/users/andreyenkin/).
 
 = 2.4.7 (2017-09-26) =
 
 * Added filter "og_[og_name]_value" to change single og value.
 * Added og:type for post formats "audio" and "video".
-* Fixed og:type for WooCommerce product. Props for [shaharsol](https://wordpress.org/support/users/shaharsol/)
+* Fixed og:type for WooCommerce product. Props for [shaharsol](https://wordpress.org/support/users/shaharsol/).
 
 = 2.4.6 (2017-09-13) =
 
@@ -267,7 +267,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 = 2.4.4 (2017-05-20) =
 
-* Fixed site crash when WooCommerce is active. Props for [JLY](https://wordpress.org/support/users/jose-luis-yanez/)
+* Fixed site crash when WooCommerce is active. Props for [JLY](https://wordpress.org/support/users/jose-luis-yanez/).
 
 = 2.4.3 (2017-05-09) =
 
@@ -297,7 +297,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 * Added esc_attr to headers tags.
 * Added msapplication-TileImage.
 * Added og:site_name.
-* Added profile:first_name, profile:last_name & profile:username props for [Arek](http://arek.bibliotekarz.com/)
+* Added profile:first_name, profile:last_name & profile:username props for [Arek](http://arek.bibliotekarz.com/).
 * Added tags.
 * Added twitter tags.
 * Added usage of site icon when is no icon - all cases.
