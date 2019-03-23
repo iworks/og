@@ -3,6 +3,7 @@ class Iworks_Opengraph {
 	private $meta = 'iworks_yt_thumbnails';
 	private $version = 'PLUGIN_VERSION';
 	private $debug = false;
+	private $locale = null;
 
 	public function __construct() {
 		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
@@ -37,7 +38,7 @@ class Iworks_Opengraph {
 		/**
 		 * parse short youtube share url
 		 */
-		if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-]+)#i', $post->post_content, $matches ) ) {
+		if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[1] as $youtube_id ) {
 				$iworks_yt_thumbnails[ $youtube_id ] = sprintf( 'http://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
 			}
@@ -45,7 +46,7 @@ class Iworks_Opengraph {
 		/**
 		 * parse long youtube url
 		 */
-		if ( preg_match_all( '#https?://(www\.)?youtube\.com/watch\?v=([0-9a-z\-]+)#i', $post->post_content, $matches ) ) {
+		if ( preg_match_all( '#https?://(www\.)?youtube\.com/watch\?v=([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[2] as $youtube_id ) {
 				$iworks_yt_thumbnails[ $youtube_id ] = sprintf( 'http://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
 			}
@@ -55,6 +56,9 @@ class Iworks_Opengraph {
 		}
 	}
 
+	/**
+	 * Strip white chars to better usage.
+	 */
 	private function strip_white_chars( $content ) {
 		if ( $content ) {
 			$content = preg_replace( '/[\n\t\r]/', ' ', $content );
@@ -68,6 +72,15 @@ class Iworks_Opengraph {
 		if ( is_404() ) {
 			return;
 		}
+		/**
+		 * Get image size
+		 *
+		 * @since 2.7.3
+		 */
+		$image_width = 0;
+		/**
+		 * Print version
+		 */
 		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
 		echo PHP_EOL;
 		$og = array(
@@ -94,12 +107,17 @@ class Iworks_Opengraph {
 		if ( is_singular() ) {
 			global $post;
 			/**
+			 * Image width
+			 */
+
+			/**
 			 * get cache
 			 *
 			 * @since 2.6.0
 			 */
 			$cache_key = $this->get_transient_key( $post->ID );
 			$cache = get_transient( $cache_key );
+			$cache = false;
 			if ( false === $cache ) {
 				$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
 				if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
@@ -122,8 +140,8 @@ class Iworks_Opengraph {
 				if ( function_exists( 'has_post_thumbnail' ) ) {
 					if ( has_post_thumbnail( $post->ID ) ) {
 						$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-						$src = esc_url( $thumbnail_src[0] );
-						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+						$image_width = $thumbnail_src[1];
+						$og['og']['image'] = $thumbnail_src[0];
 					}
 				}
 				/**
@@ -162,27 +180,6 @@ class Iworks_Opengraph {
 							}
 						}
 					}
-				}
-				/**
-				 * print
-				 */
-				if ( ! empty( $src ) ) {
-					printf(
-						'<link rel="image_src" href="%s" />%s',
-						esc_url( $src ),
-						$this->debug? PHP_EOL:''
-					);
-					printf(
-						'<meta itemprop="image" content="%s" />%s',
-						esc_url( $src ),
-						$this->debug? PHP_EOL:''
-					);
-					printf(
-						'<meta name="msapplication-TileImage" content="%s" />%s',
-						esc_url( $src ),
-						$this->debug? PHP_EOL:''
-					);
-					array_unshift( $og['og']['image'], $src );
 				}
 				/**
 				 * get title
@@ -377,6 +374,13 @@ class Iworks_Opengraph {
 			if ( is_a( $obj, 'WP_Term' ) ) {
 				$og['og']['url'] = get_term_link( $obj->term_id );
 				$og['og']['description'] = strip_tags( term_description( $obj->term_id, $obj->taxonomy ) );
+				$image_id = intval( get_term_meta( $obj->term_id, 'image', true ) );
+				if ( 0 < $image_id ) {
+					$thumbnail_src = wp_get_attachment_image_src( $image_id, 'full' );
+					$image_width = $thumbnail_src[1];
+					$src = $thumbnail_src[0];
+					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+				}
 			} else if ( is_a( $obj, 'WP_Post_Type' ) ) {
 				$og['og']['url'] = get_post_type_archive_link( $obj->name );
 			} else if ( is_date() ) {
@@ -408,6 +412,24 @@ class Iworks_Opengraph {
 		/**
 		 * get site icon and use it as default og:image
 		 */
+		if ( ! empty( $src ) ) {
+			printf(
+				'<link rel="image_src" href="%s" />%s',
+				esc_url( $src ),
+				$this->debug? PHP_EOL:''
+			);
+			printf(
+				'<meta itemprop="image" content="%s" />%s',
+				esc_url( $src ),
+				$this->debug? PHP_EOL:''
+			);
+			printf(
+				'<meta name="msapplication-TileImage" content="%s" />%s',
+				esc_url( $src ),
+				$this->debug? PHP_EOL:''
+			);
+			array_unshift( $og['og']['image'], $src );
+		}
 		if (
 			(
 				! isset( $og['og']['image'] )
@@ -418,7 +440,15 @@ class Iworks_Opengraph {
 			$og['og']['image'] = get_site_icon_url();
 		}
 		/**
-		 * short twitter description.
+		 * Twitter: change card type if image is big enought
+		 *
+		 * @since 2.7.3
+		 */
+		if ( 520 < $image_width ) {
+			$og['twitter']['card'] = 'summary_large_image';
+		}
+		/**
+		 * Twitter: Short description.
 		 */
 		if ( isset( $og['twitter'] ) && isset( $og['twitter']['description'] ) ) {
 			$number_of_words = apply_filters( 'og_description_words', 55 );
@@ -495,6 +525,9 @@ class Iworks_Opengraph {
 	}
 
 	private function get_locale() {
+		if ( null !== $this->locale ) {
+			return $this->locale;
+		}
 		$facebook_allowed_locales = array(
 			'en_us',
 			'ca_es',
@@ -650,17 +683,19 @@ class Iworks_Opengraph {
 			'em_zm',
 			'qr_gr',
 		);
+		$this->locale = false;
 		$locale = strtolower( preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) );
 		if ( in_array( $locale, $facebook_allowed_locales ) ) {
-			return $locale;
+			$this->locale = $locale;
+			return $this->locale;
 		}
 		/**
 		 * exception for German locales
 		 */
 		if ( preg_match( '/^de/', $locale ) ) {
-			return 'de_DE';
+			$this->locale = 'de_DE';
 		}
-		return false;
+		return $this->locale;
 	}
 
 	/**
@@ -694,7 +729,13 @@ class Iworks_Opengraph {
 	 * @returns array array with Image dimensions for og tags
 	 */
 	private function get_image_dimensions( $image ) {
-		if ( ! empty( $image ) && is_array( $image ) && 2 < count( $image ) ) {
+		if (
+			! empty( $image )
+			&& is_array( $image )
+			&& 2 < count( $image )
+			&& 0 < intval( $image[1] )
+			&& 0 < intval( $image[2] )
+		) {
 			return array(
 				'width' => $image[1],
 				'height' => $image[2],
@@ -734,7 +775,12 @@ class Iworks_Opengraph {
 	 * @since 2.6.0
 	 */
 	private function get_transient_key( $post_id ) {
-		return sprintf( 'iworks_og_post_%d', $post_id );
+		$key = sprintf( 'iworks_og_post_%d', $post_id );
+		$locale = $this->get_locale();
+		if ( ! empty( $locale ) ) {
+			$key = sprintf( 'iworks_og_post_%d_%s', $post_id, $locale );
+		}
+		return $key;
 	}
 
 	/**

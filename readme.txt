@@ -3,8 +3,8 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.8
-Tested up to: 4.9.8
-Stable tag: 2.7.0
+Tested up to: 5.1
+Stable tag: 2.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,6 +192,16 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.7.3 (2019-04-23) =
+* Added "summary_large_image" for twitter:card if attached image has width bigger then 520px. Props for (Bobby Eberle)[https://www.facebook.com/bobby.eberle]
+
+
+= 2.7.2 (2019-04-13) =
+* Fixed `sprintf()` issue. Props for [John Glynn](https://www.linkedin.com/in/john-glynn-2a233426/)
+
+= 2.7.1 (2019-04-13) =
+* Added locale string into cache settings to be able handle languages. Props for [Oleksandr Omelchenko](https://wordpress.org/support/users/konusua/)
+* Added cache locale value inside the class object to 
 
 = 2.7.0 (2018-10-21) =
 * Added proper og:url for custom post archive page. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/)
