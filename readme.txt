@@ -3,8 +3,8 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.8
-Tested up to: 5.1
-Stable tag: 2.7.3
+Tested up to: 5.2
+Stable tag: 2.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
     }
 
 == Changelog ==
+
+= 2.7.5 (2019-05-15) =
+
+* Fixed missing `og:image:alt` for featured image.
 
 = 2.7.4 (2019-04-25) =
 * Fixed a problem with `og:image` content for document with featured image and images in the content. Props for [sudoranger](https://wordpress.org/support/users/sudoranger/)

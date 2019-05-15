@@ -139,10 +139,11 @@ class Iworks_Opengraph {
 				$src = false;
 				if ( function_exists( 'has_post_thumbnail' ) ) {
 					if ( has_post_thumbnail( $post->ID ) ) {
-						$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
+						$thumbnail_src = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
 						$image_width = $thumbnail_src[1];
 						$src = esc_url( $thumbnail_src[0] );
-						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
 					}
 				}
 				/**
@@ -159,7 +160,7 @@ class Iworks_Opengraph {
 								$attachment_id = $matches_image_id[1];
 								$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
 								$src = esc_url( $thumbnail_src[0] );
-								$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+								$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								break;
 							}
 						}
@@ -175,7 +176,7 @@ class Iworks_Opengraph {
 								if ( 0 < $attachment_id ) {
 									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
 									$src = esc_url( $thumbnail_src[0] );
-									$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+									$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								}
 								break;
 							}
@@ -380,7 +381,7 @@ class Iworks_Opengraph {
 					$thumbnail_src = wp_get_attachment_image_src( $image_id, 'full' );
 					$image_width = $thumbnail_src[1];
 					$src = $thumbnail_src[0];
-					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src );
+					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $image_id );
 				}
 			} else if ( is_a( $obj, 'WP_Post_Type' ) ) {
 				$og['og']['url'] = get_post_type_archive_link( $obj->name );
@@ -724,12 +725,15 @@ class Iworks_Opengraph {
 	 * get image dimensions
 	 *
 	 * @since 2.5.1
+	 * @since 2.7.5 Added param $image_id
 	 *
 	 * @param array $image Attachment properites.
+	 * @param integer $image_id Attachment ID.
 	 *
 	 * @returns array array with Image dimensions for og tags
 	 */
-	private function get_image_dimensions( $image ) {
+	private function get_image_dimensions( $image, $image_id ) {
+		$data = array();
 		if (
 			! empty( $image )
 			&& is_array( $image )
@@ -737,10 +741,27 @@ class Iworks_Opengraph {
 			&& 0 < intval( $image[1] )
 			&& 0 < intval( $image[2] )
 		) {
-			return array(
+			$data = array(
 				'width' => $image[1],
 				'height' => $image[2],
 			);
+		}
+		$caption = wp_get_attachment_caption( $image_id );
+		if ( ! empty( $caption ) ) {
+			$data['alt'] = $caption;
+		} else {
+			$alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+			if ( ! empty( $alt ) ) {
+				$data['alt'] = $alt;
+			} else {
+				$title = get_the_title( $image_id );
+				if ( ! empty( $title ) ) {
+					$data['alt'] = $title;
+				}
+			}
+		}
+		if ( ! empty( $data ) ) {
+			return $data;
 		}
 		return null;
 	}
