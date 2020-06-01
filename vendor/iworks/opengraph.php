@@ -1,9 +1,9 @@
 <?php
 class Iworks_Opengraph {
-	private $meta = 'iworks_yt_thumbnails';
+	private $meta    = 'iworks_yt_thumbnails';
 	private $version = 'PLUGIN_VERSION';
-	private $debug = false;
-	private $locale = null;
+	private $debug   = false;
+	private $locale  = null;
 
 	public function __construct() {
 		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
@@ -21,7 +21,7 @@ class Iworks_Opengraph {
 	 */
 	public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
 		if ( isset( $plugin_data['slug'] ) && 'og' == $plugin_data['slug'] ) {
-			$plugin_meta['rating'] = sprintf( __( 'If you like <strong>OG</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733;%s rating. A huge thanks in advance!', 'og' ), '<a href="https://wordpress.org/support/plugin/og/reviews/?rate=5#new-post" target="_blank">', '</a>' );
+			$plugin_meta['rating'] = sprintf( __( 'If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in advance!', 'og' ), '<a href="https://wordpress.org/support/plugin/og/reviews/?rate=5#new-post" target="_blank">', '</a>' );
 		}
 		return $plugin_meta;
 	}
@@ -84,13 +84,13 @@ class Iworks_Opengraph {
 		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
 		echo PHP_EOL;
 		$og = array(
-			'og' => array(
-				'image' => apply_filters( 'og_image_init', array() ),
-				'video' => apply_filters( 'og_video_init', array() ),
+			'og'      => array(
+				'image'       => apply_filters( 'og_image_init', array() ),
+				'video'       => apply_filters( 'og_video_init', array() ),
 				'description' => '',
-				'type' => 'blog',
-				'locale' => $this->get_locale(),
-				'site_name' => get_bloginfo( 'name' ),
+				'type'        => 'blog',
+				'locale'      => $this->get_locale(),
+				'site_name'   => get_bloginfo( 'name' ),
 			),
 			'article' => array(
 				'tag' => array(),
@@ -116,14 +116,15 @@ class Iworks_Opengraph {
 			 * @since 2.6.0
 			 */
 			$cache_key = $this->get_transient_key( $post->ID );
-			$cache = get_transient( $cache_key );
-			$cache = false;
+			$cache     = get_transient( $cache_key );
+			$cache     = false;
 			if ( false === $cache ) {
+				$src                  = false;
 				$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
 				if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
 					foreach ( $iworks_yt_thumbnails as $youtube_id => $image ) {
-						$og['og']['image'][] = esc_url( $image );
-						$og['og']['video'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
+						$og['og']['image'][]       = esc_url( $image );
+						$og['og']['video'][]       = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 						$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 					}
 				}
@@ -131,19 +132,23 @@ class Iworks_Opengraph {
 				 * attachment image page
 				 */
 				if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
-					$og['og']['image'][] = esc_url( wp_get_attachment_url( $post->ID ) );
+					$post_thumbnail_id             = $post->IDD;
+						$thumbnail_src             = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$og['og']['image']         = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+						$og['og']['image']['type'] = get_post_mime_type( $post_thumbnail_id );
+						$src                       = esc_url( wp_get_attachment_url( $post->ID ) );
 				}
 				/**
 				 * get post thumbnail
 				 */
-				$src = false;
-				if ( function_exists( 'has_post_thumbnail' ) ) {
+				if ( empty( $src ) && function_exists( 'has_post_thumbnail' ) ) {
 					if ( has_post_thumbnail( $post->ID ) ) {
-						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
-						$thumbnail_src = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$image_width = $thumbnail_src[1];
-						$src = esc_url( $thumbnail_src[0] );
-						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+						$post_thumbnail_id         = get_post_thumbnail_id( $post->ID );
+						$thumbnail_src             = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$image_width               = $thumbnail_src[1];
+						$src                       = esc_url( $thumbnail_src[0] );
+						$og['og']['image']         = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+						$og['og']['image']['type'] = get_post_mime_type( $post_thumbnail_id );
 					}
 				}
 				/**
@@ -151,31 +156,31 @@ class Iworks_Opengraph {
 				 */
 				if ( empty( $src ) ) {
 					$home_url = get_home_url();
-					$content = $post->post_content;
-					$images = preg_match_all( '/<img[^>]+>/', $content, $matches );
+					$content  = $post->post_content;
+					$images   = preg_match_all( '/<img[^>]+>/', $content, $matches );
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
 							$classes = $matches_image_class[1];
 							if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
-								$attachment_id = $matches_image_id[1];
-								$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
-								$src = esc_url( $thumbnail_src[0] );
+								$attachment_id     = $matches_image_id[1];
+								$thumbnail_src     = wp_get_attachment_image_src( $attachment_id, 'full' );
+								$src               = esc_url( $thumbnail_src[0] );
 								$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								break;
 							}
 						}
 						if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
 							$temp_src = $matches_image_src[2];
-							$pos = strpos( $temp_src, $home_url );
+							$pos      = strpos( $temp_src, $home_url );
 							if ( false === $pos ) {
 								continue;
 							}
 							if ( 0 === $pos ) {
-								$src = $temp_src;
+								$src           = $temp_src;
 								$attachment_id = $this->get_attachment_id( $src );
 								if ( 0 < $attachment_id ) {
-									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
-									$src = esc_url( $thumbnail_src[0] );
+									$thumbnail_src     = wp_get_attachment_image_src( $attachment_id, 'full' );
+									$src               = esc_url( $thumbnail_src[0] );
 									$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								}
 								break;
@@ -184,11 +189,17 @@ class Iworks_Opengraph {
 					}
 				}
 				/**
+				 * Add og:image:secure_url
+				 */
+				if ( is_ssl() && isset( $og['og']['image'] ) && preg_match( '/^https/', $src ) ) {
+					$og['og']['image']['secure_url'] = $src;
+				}
+				/**
 				 * get title
 				 */
 				$og['og']['title'] = esc_attr( get_the_title() );
-				$og['og']['type'] = 'article';
-				$og['og']['url'] = get_permalink();
+				$og['og']['type']  = 'article';
+				$og['og']['url']   = get_permalink();
 				if ( has_excerpt( $post->ID ) ) {
 					$og['og']['description'] = strip_tags( get_the_excerpt() );
 				} else {
@@ -199,7 +210,7 @@ class Iworks_Opengraph {
 					 * @since 2.5.1
 					 *
 					 */
-					$number_of_words = apply_filters( 'og_description_words', 55 );
+					$number_of_words         = apply_filters( 'og_description_words', 55 );
 					$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
 				}
 				$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
@@ -217,8 +228,8 @@ class Iworks_Opengraph {
 				}
 				remove_all_filters( 'get_the_date' );
 				$og['article']['published_time'] = get_the_date( 'c', $post->ID );
-				$og['article']['modified_time'] = get_the_modified_date( 'c' );
-				$og['article']['author'] = get_author_posts_url( $post->post_author );
+				$og['article']['modified_time']  = get_the_modified_date( 'c' );
+				$og['article']['author']         = get_author_posts_url( $post->post_author );
 				/**
 				 * last update time
 				 *
@@ -229,10 +240,10 @@ class Iworks_Opengraph {
 				 * article: categories
 				 */
 				$og['article']['section'] = array();
-				$post_categories = wp_get_post_categories( $post->ID );
+				$post_categories          = wp_get_post_categories( $post->ID );
 				if ( ! empty( $post_categories ) ) {
 					foreach ( $post_categories as $category_id ) {
-						$category = get_category( $category_id );
+						$category                   = get_category( $category_id );
 						$og['article']['section'][] = $category->name;
 					}
 				}
@@ -240,7 +251,7 @@ class Iworks_Opengraph {
 				 * article: categories
 				 */
 				$og['article']['tag'] = array();
-				$post_tags = wp_get_post_tags( $post->ID );
+				$post_tags            = wp_get_post_tags( $post->ID );
 				if ( ! empty( $post_tags ) ) {
 					foreach ( $post_tags as $tag ) {
 						$og['article']['tag'][] = $tag->name;
@@ -251,8 +262,8 @@ class Iworks_Opengraph {
 				 */
 				$og['profile'] = array(
 					'first_name' => get_the_author_meta( 'first_name', $post->post_author ),
-					'last_name' => get_the_author_meta( 'last_name', $post->post_author ),
-					'username' => get_the_author_meta( 'display_name', $post->post_author ),
+					'last_name'  => get_the_author_meta( 'last_name', $post->post_author ),
+					'username'   => get_the_author_meta( 'display_name', $post->post_author ),
 				);
 				/**
 				 * twitter
@@ -279,21 +290,21 @@ class Iworks_Opengraph {
 								unset( $og['article'] );
 							}
 							$og['og']['type'] = 'product';
-							$og['product'] = array(
+							$og['product']    = array(
 								'availability' => $_product->get_stock_status(),
-								'weight' => $_product->get_weight(),
-								'price' => array(
-									'amount' => $_product->get_regular_price(),
+								'weight'       => $_product->get_weight(),
+								'price'        => array(
+									'amount'   => $_product->get_regular_price(),
 									'currency' => get_woocommerce_currency(),
 								),
 							);
 							if ( $_product->is_on_sale() ) {
 								$og['product']['sale_price'] = array(
-									'amount' => $_product->get_sale_price(),
+									'amount'   => $_product->get_sale_price(),
 									'currency' => get_woocommerce_currency(),
 								);
-								$from = $_product->get_date_on_sale_from();
-								$to = $_product->get_date_on_sale_to();
+								$from                        = $_product->get_date_on_sale_from();
+								$to                          = $_product->get_date_on_sale_to();
 								if ( ! empty( $from ) || ! empty( $to ) ) {
 									$og['product']['sale_price_dates'] = array();
 									if ( ! empty( $from ) ) {
@@ -314,10 +325,10 @@ class Iworks_Opengraph {
 				switch ( $post_format ) {
 					case 'audio':
 						$og['og']['type'] = 'music';
-					break;
+						break;
 					case 'audio':
 						$og['og']['type'] = 'video';
-					break;
+						break;
 				}
 				/**
 				 * attachments: video
@@ -331,8 +342,8 @@ class Iworks_Opengraph {
 					 */
 					if ( preg_match( '/^video/', $one->post_mime_type ) ) {
 						$og['og']['rich_attachment'] = true;
-						$video = array(
-							'url' => wp_get_attachment_url( $one->ID ),
+						$video                       = array(
+							'url'  => wp_get_attachment_url( $one->ID ),
 							'type' => $one->post_mime_type,
 						);
 						if ( ! isset( $og['og']['video'] ) ) {
@@ -350,8 +361,8 @@ class Iworks_Opengraph {
 				foreach ( $media as $one ) {
 					if ( preg_match( '/^audio/', $one->post_mime_type ) ) {
 						$og['og']['rich_attachment'] = true;
-						$audio = array(
-							'url' => wp_get_attachment_url( $one->ID ),
+						$audio                       = array(
+							'url'  => wp_get_attachment_url( $one->ID ),
 							'type' => $one->post_mime_type,
 						);
 						if ( ! isset( $og['og']['audio'] ) ) {
@@ -369,29 +380,29 @@ class Iworks_Opengraph {
 			} else {
 				$og = $cache;
 			}
-		} else if ( is_search() ) {
+		} elseif ( is_search() ) {
 			$og['og']['url'] = add_query_arg( 's', get_query_var( 's' ), home_url() );
-		} else if ( is_archive() ) {
+		} elseif ( is_archive() ) {
 			$obj = get_queried_object();
 			if ( is_a( $obj, 'WP_Term' ) ) {
-				$og['og']['url'] = get_term_link( $obj->term_id );
+				$og['og']['url']         = get_term_link( $obj->term_id );
 				$og['og']['description'] = strip_tags( term_description( $obj->term_id, $obj->taxonomy ) );
-				$image_id = intval( get_term_meta( $obj->term_id, 'image', true ) );
+				$image_id                = intval( get_term_meta( $obj->term_id, 'image', true ) );
 				if ( 0 < $image_id ) {
-					$thumbnail_src = wp_get_attachment_image_src( $image_id, 'full' );
-					$image_width = $thumbnail_src[1];
-					$src = $thumbnail_src[0];
+					$thumbnail_src     = wp_get_attachment_image_src( $image_id, 'full' );
+					$image_width       = $thumbnail_src[1];
+					$src               = $thumbnail_src[0];
 					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $image_id );
 				}
-			} else if ( is_a( $obj, 'WP_Post_Type' ) ) {
+			} elseif ( is_a( $obj, 'WP_Post_Type' ) ) {
 				$og['og']['url'] = get_post_type_archive_link( $obj->name );
-			} else if ( is_date() ) {
-				$year = get_query_var( 'year' );
+			} elseif ( is_date() ) {
+				$year  = get_query_var( 'year' );
 				$month = get_query_var( 'monthnum' );
-				$day = get_query_var( 'day' );
+				$day   = get_query_var( 'day' );
 				if ( is_day() ) {
 					$og['og']['url'] = get_day_link( $year, $month, $day );
-				} else if ( is_month() ) {
+				} elseif ( is_month() ) {
 					$og['og']['url'] = get_month_link( $year, $month );
 				} else {
 					$og['og']['url'] = get_year_link( $year );
@@ -402,8 +413,8 @@ class Iworks_Opengraph {
 				$og['og']['type'] = 'website';
 			}
 			$og['og']['description'] = esc_attr( get_bloginfo( 'description' ) );
-			$og['og']['title'] = esc_attr( get_bloginfo( 'title' ) );
-			$og['og']['url'] = home_url();
+			$og['og']['title']       = esc_attr( get_bloginfo( 'title' ) );
+			$og['og']['url']         = home_url();
 			if ( ! is_front_page() && is_home() ) {
 				$og['og']['url'] = get_permalink( get_option( 'page_for_posts' ) );
 			}
@@ -418,17 +429,17 @@ class Iworks_Opengraph {
 			printf(
 				'<link rel="image_src" href="%s" />%s',
 				esc_url( $src ),
-				$this->debug? PHP_EOL:''
+				$this->debug ? PHP_EOL : ''
 			);
 			printf(
 				'<meta itemprop="image" content="%s" />%s',
 				esc_url( $src ),
-				$this->debug? PHP_EOL:''
+				$this->debug ? PHP_EOL : ''
 			);
 			printf(
 				'<meta name="msapplication-TileImage" content="%s" />%s',
 				esc_url( $src ),
-				$this->debug? PHP_EOL:''
+				$this->debug ? PHP_EOL : ''
 			);
 			array_unshift( $og['og']['image'], $src );
 		}
@@ -485,7 +496,7 @@ class Iworks_Opengraph {
 	 */
 	private function echo_array( $og, $parent = array() ) {
 		foreach ( $og as $tag => $data ) {
-			if ( $this->debug  && empty( $parent ) ) {
+			if ( $this->debug && empty( $parent ) ) {
 				printf( '<!-- %s -->%s', $tag, PHP_EOL );
 			}
 			$tags = $parent;
@@ -521,7 +532,7 @@ class Iworks_Opengraph {
 				'<meta property="%s" content="%s" />%s',
 				esc_attr( implode( ':', $property ) ),
 				esc_attr( strip_tags( $value ) ),
-				$this->debug? PHP_EOL:''
+				$this->debug ? PHP_EOL : ''
 			)
 		);
 	}
@@ -685,8 +696,8 @@ class Iworks_Opengraph {
 			'em_zm',
 			'qr_gr',
 		);
-		$this->locale = false;
-		$locale = strtolower( preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) );
+		$this->locale             = false;
+		$locale                   = strtolower( preg_replace( '/-/', '_', get_bloginfo( 'language' ) ) );
 		if ( in_array( $locale, $facebook_allowed_locales ) ) {
 			$this->locale = $locale;
 			return $this->locale;
@@ -715,7 +726,7 @@ class Iworks_Opengraph {
 	 * @since 2.4.2
 	 */
 	public function iworks_rate_css() {
-		$logo = plugin_dir_url( dirname( dirname( __FILE__ ) ) ).'assets/images/logo.png';
+		$logo = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/images/logo.png';
 		echo '<style type="text/css">';
 		printf( '.iworks-notice-og .iworks-notice-logo{background-image:url(%s);}', esc_url( $logo ) );
 		echo '</style>';
@@ -742,7 +753,7 @@ class Iworks_Opengraph {
 			&& 0 < intval( $image[2] )
 		) {
 			$data = array(
-				'width' => $image[1],
+				'width'  => $image[1],
 				'height' => $image[2],
 			);
 		}
@@ -777,7 +788,7 @@ class Iworks_Opengraph {
 	 */
 	private function get_attachment_id( $url ) {
 		global $wpdb;
-		$query = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url );
+		$query      = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url );
 		$attachment = $wpdb->get_col( $query );
 		if ( empty( $attachment ) ) {
 			$url2 = preg_replace( '/\-\d+x\d+(.[egjnp]+)$/', '$1', $url );
@@ -797,7 +808,7 @@ class Iworks_Opengraph {
 	 * @since 2.6.0
 	 */
 	private function get_transient_key( $post_id ) {
-		$key = sprintf( 'iworks_og_post_%d', $post_id );
+		$key    = sprintf( 'iworks_og_post_%d', $post_id );
 		$locale = $this->get_locale();
 		if ( ! empty( $locale ) ) {
 			$key = sprintf( 'iworks_og_post_%d_%s', $post_id, $locale );

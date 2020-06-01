@@ -192,8 +192,11 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
-= 2.7.5 (2019-05-15) =
+= 2.7.6 (2020-06-01) =
+* Added `og:image:secure_url` for images with https url. Props for [mociofiletto](https://wordpress.org/support/users/mociofiletto/)
+* Improved attachment page OpenGraph tags.
 
+= 2.7.5 (2019-05-15) =
 * Fixed missing `og:image:alt` for featured image.
 
 = 2.7.4 (2019-04-25) =
