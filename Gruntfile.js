@@ -237,6 +237,7 @@ module.exports = function( grunt ) {
 					'!package-lock.json',
 					'!postcss.config.js',
 					'!README.md',
+					'!LICENSE',
 					'!**/README.md',
 					'!**/*.map',
 					'!release/**',
@@ -259,23 +260,24 @@ module.exports = function( grunt ) {
 		// BUILD: Replace conditional tags in code.
 		replace: {
 			options: {
-                patterns: [
-                    {
-                        match: /^Version: .+$/g,
-                        replace: 'Version: <%= pkg.version %>'
-                    },
-                    { match: /PLUGIN_VERSION/g, replace: '<%= pkg.version %>' },
-                    { match: /BUILDTIME/g, replace: buildtime },
-                    { match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
-                ]
+				patterns: [
+					{
+						match: /^Version: .+$/g,
+						replace: 'Version: <%= pkg.version %>'
+					},
+					{ match: /PLUGIN_VERSION/g, replace: '<%= pkg.version %>' },
+					{ match: /BUILDTIME/g, replace: buildtime },
+					{ match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
+				]
 			},
 			files: {
 				expand: true,
 				src: [
-					'./release/**/*.php'
+					'release/**',
+					'!release/**/images/**'
 				],
-				dest: './'
-            }
+				dest: '.'
+			}
 		},
 
 		compress: {
@@ -335,13 +337,13 @@ module.exports = function( grunt ) {
 
 	// Default task.
 	
-	grunt.registerTask( 'default', ['clean:temp', 'concat', 'uglify', 'sass', 'cssmin', 'replace' ] );
+	grunt.registerTask( 'default', ['clean:temp', 'concat', 'uglify', 'sass', 'cssmin' ] );
 	grunt.registerTask( 'js', [ 'concat', 'uglify' ] );
 	grunt.registerTask( 'css', [ 'sass', 'cssmin' ] );
 	grunt.registerTask( 'i18n', [ 'checktextdomain', 'makepot', 'potomo' ] );
 	
 	// grunt.registerTask( 'build', [ 'default', 'i18n', 'clean', 'copy', 'compress', 'notes'] );
-	grunt.registerTask( 'build', [ 'default', 'clean', 'copy', 'compress', 'notes'] );
+	grunt.registerTask( 'build', [ 'default', 'clean', 'copy', 'replace', 'compress', 'notes'] );
 	grunt.registerTask( 'test', ['phpunit', 'jshint', 'notes'] );
 
 	grunt.util.linefeed = '\n';
