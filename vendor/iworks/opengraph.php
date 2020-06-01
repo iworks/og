@@ -107,10 +107,6 @@ class Iworks_Opengraph {
 		if ( is_singular() ) {
 			global $post;
 			/**
-			 * Image width
-			 */
-
-			/**
 			 * get cache
 			 *
 			 * @since 2.6.0
@@ -132,41 +128,40 @@ class Iworks_Opengraph {
 				 * attachment image page
 				 */
 				if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
-					$post_thumbnail_id             = $post->IDD;
-						$thumbnail_src             = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$og['og']['image']         = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
-						$og['og']['image']['type'] = get_post_mime_type( $post_thumbnail_id );
-						$src                       = esc_url( wp_get_attachment_url( $post->ID ) );
+					$post_thumbnail_id = $post->IDD;
+					$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+					$src               = esc_url( wp_get_attachment_url( $post->ID ) );
 				}
 				/**
 				 * get post thumbnail
 				 */
 				if ( empty( $src ) && function_exists( 'has_post_thumbnail' ) ) {
 					if ( has_post_thumbnail( $post->ID ) ) {
-						$post_thumbnail_id         = get_post_thumbnail_id( $post->ID );
-						$thumbnail_src             = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$image_width               = $thumbnail_src[1];
-						$src                       = esc_url( $thumbnail_src[0] );
-						$og['og']['image']         = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
-						$og['og']['image']['type'] = get_post_mime_type( $post_thumbnail_id );
+						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
+						$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$image_width       = $thumbnail_src[1];
+						$src               = esc_url( $thumbnail_src[0] );
+						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
 					}
 				}
 				/**
 				 * try to grap from content
 				 */
 				if ( empty( $src ) ) {
-					$home_url = get_home_url();
-					$content  = $post->post_content;
-					$images   = preg_match_all( '/<img[^>]+>/', $content, $matches );
+					$src               = array();
+					$og['og']['image'] = array();
+					$home_url          = get_home_url();
+					$content           = $post->post_content;
+					$images            = preg_match_all( '/<img[^>]+>/', $content, $matches );
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
 							$classes = $matches_image_class[1];
 							if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
-								$attachment_id     = $matches_image_id[1];
-								$thumbnail_src     = wp_get_attachment_image_src( $attachment_id, 'full' );
-								$src               = esc_url( $thumbnail_src[0] );
-								$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
-								break;
+								$attachment_id       = $matches_image_id[1];
+								$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
+								$src[]               = esc_url( $thumbnail_src[0] );
+								$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 							}
 						}
 						if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
@@ -179,20 +174,32 @@ class Iworks_Opengraph {
 								$src           = $temp_src;
 								$attachment_id = $this->get_attachment_id( $src );
 								if ( 0 < $attachment_id ) {
-									$thumbnail_src     = wp_get_attachment_image_src( $attachment_id, 'full' );
-									$src               = esc_url( $thumbnail_src[0] );
-									$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
+									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
+									$src[]               = esc_url( $thumbnail_src[0] );
+									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								}
-								break;
 							}
 						}
 					}
 				}
 				/**
 				 * Add og:image:secure_url
+				 *
+				 * @since 2.7.7
 				 */
-				if ( is_ssl() && isset( $og['og']['image'] ) && preg_match( '/^https/', $src ) ) {
-					$og['og']['image']['secure_url'] = $src;
+				if ( is_ssl() && isset( $og['og']['image'] ) ) {
+					if ( is_array( $src ) ) {
+						for ( $i = 0; $i < count( $src ); $i++ ) {
+							$data        = array();
+							$data['src'] = $src[ $i ];
+							if ( preg_match( '/^https/', $src[ $i ] ) ) {
+								$data['secure_url'] = $src[ $i ];
+							}
+							$og['og']['image'][ $i ] = $data + $og['og']['image'][ $i ];
+						}
+					} elseif ( preg_match( '/^https/', $src ) ) {
+						$og['og']['image']['secure_url'] = $src;
+					}
 				}
 				/**
 				 * get title
@@ -258,12 +265,21 @@ class Iworks_Opengraph {
 					}
 				}
 				/**
-				 * profile
+				 * Filter `og:profile` values.
+				 *
+				 * @since 2.7.6
+				 *
+				 * @param array Array of `og:profile` values.
+				 * @param integer User ID.
 				 */
-				$og['profile'] = array(
-					'first_name' => get_the_author_meta( 'first_name', $post->post_author ),
-					'last_name'  => get_the_author_meta( 'last_name', $post->post_author ),
-					'username'   => get_the_author_meta( 'display_name', $post->post_author ),
+				$og['profile'] = apply_filters(
+					'og_profile',
+					array(
+						'first_name' => get_the_author_meta( 'first_name', $post->post_author ),
+						'last_name'  => get_the_author_meta( 'last_name', $post->post_author ),
+						'username'   => get_the_author_meta( 'display_name', $post->post_author ),
+					),
+					$post->post_author
 				);
 				/**
 				 * twitter
@@ -425,24 +441,6 @@ class Iworks_Opengraph {
 		/**
 		 * get site icon and use it as default og:image
 		 */
-		if ( ! empty( $src ) ) {
-			printf(
-				'<link rel="image_src" href="%s" />%s',
-				esc_url( $src ),
-				$this->debug ? PHP_EOL : ''
-			);
-			printf(
-				'<meta itemprop="image" content="%s" />%s',
-				esc_url( $src ),
-				$this->debug ? PHP_EOL : ''
-			);
-			printf(
-				'<meta name="msapplication-TileImage" content="%s" />%s',
-				esc_url( $src ),
-				$this->debug ? PHP_EOL : ''
-			);
-			array_unshift( $og['og']['image'], $src );
-		}
 		if (
 			(
 				! isset( $og['og']['image'] )
@@ -451,6 +449,32 @@ class Iworks_Opengraph {
 			&& function_exists( 'get_site_icon_url' )
 		) {
 			$og['og']['image'] = get_site_icon_url();
+		}
+		/**
+		 * Produce image extra tags
+		 */
+		if ( ! empty( $src ) ) {
+			$tmp_src = $src;
+			if ( is_array( $tmp_src ) ) {
+				$tmp_src = array_shift( $tmp_src );
+			}
+			if ( ! empty( $tmp_src ) ) {
+				printf(
+					'<link rel="image_src" href="%s" />%s',
+					esc_url( $tmp_src ),
+					$this->debug ? PHP_EOL : ''
+				);
+				printf(
+					'<meta itemprop="image" content="%s" />%s',
+					esc_url( $tmp_src ),
+					$this->debug ? PHP_EOL : ''
+				);
+				printf(
+					'<meta name="msapplication-TileImage" content="%s" />%s',
+					esc_url( $tmp_src ),
+					$this->debug ? PHP_EOL : ''
+				);
+			}
 		}
 		/**
 		 * Twitter: change card type if image is big enought
@@ -511,8 +535,30 @@ class Iworks_Opengraph {
 		}
 	}
 
+	/**
+	 * Echo one row
+	 *
+	 * @since 2.4.2
+	 */
 	private function echo_one( $property, $value ) {
-		$filter_name = sprintf( 'og_%s_value', implode( '_', $property ) );
+		$meta_property = implode( ':', $property );
+		/**
+		 * add og:image:src exception
+		 *
+		 * @since 2.7.7
+		 */
+		if ( 'og:image:src' === $meta_property ) {
+			$meta_property = 'og:image';
+		}
+		/**
+		 * Property filter string
+		 * @since 2.7.7
+		 */
+		$property_filter_string = preg_replace( '/:/', '_', $meta_property );
+		/**
+		 * filter name
+		 */
+		$filter_name = sprintf( 'og_%s_value', $property_filter_string );
 		/**
 		 * Filter value of single meta
 		 *
@@ -525,12 +571,12 @@ class Iworks_Opengraph {
 		/**
 		 * Filter to change whole meta
 		 */
-		$filter_name = sprintf( 'og_%s_meta', implode( '_', $property ) );
+		$filter_name = sprintf( 'og_%s_meta', $property_filter_string );
 		echo apply_filters(
 			$filter_name,
 			sprintf(
 				'<meta property="%s" content="%s" />%s',
-				esc_attr( implode( ':', $property ) ),
+				esc_attr( $meta_property ),
 				esc_attr( strip_tags( $value ) ),
 				$this->debug ? PHP_EOL : ''
 			)
@@ -771,6 +817,12 @@ class Iworks_Opengraph {
 				}
 			}
 		}
+		/**
+		 * Set mime type
+		 *
+		 * @since 2.7.7
+		 */
+		$data['type'] = get_post_mime_type( $image_id );
 		if ( ! empty( $data ) ) {
 			return $data;
 		}

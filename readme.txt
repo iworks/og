@@ -3,8 +3,8 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, Facebook, Twitter, social
 Requires at least: 3.8
-Tested up to: 5.2
-Stable tag: 2.7.5
+Tested up to: 5.4
+Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,9 +192,13 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
-= 2.7.6 (2020-06-01) =
+= 2.7.7 (2020-06-01) =
 * Added `og:image:secure_url` for images with https url. Props for [mociofiletto](https://wordpress.org/support/users/mociofiletto/)
 * Improved attachment page OpenGraph tags.
+* For entry without thumbnail get all content images into og:image.
+
+= 2.7.6 (2019-08-18) =
+* Added filter `og_profile` to allow change `profile` values. Props for [edmorrow](https://wordpress.org/support/users/edmorrow/)
 
 = 2.7.5 (2019-05-15) =
 * Fixed missing `og:image:alt` for featured image.
