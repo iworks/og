@@ -175,9 +175,7 @@ class Iworks_Opengraph {
 							if ( 0 === $pos ) {
 								$attachment_id = $this->get_attachment_id( $src );
 								if ( 0 < $attachment_id ) {
-									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
-
-									l( $thumbnail_src );
+									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
 									$src[]               = esc_url( $thumbnail_src[0] );
 									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								} else {
