@@ -111,9 +111,11 @@ class Iworks_Opengraph {
 			 *
 			 * @since 2.6.0
 			 */
-			$cache_key = $this->get_transient_key( $post->ID );
-			$cache     = get_transient( $cache_key );
 			$cache     = false;
+			$cache_key = $this->get_transient_key( $post->ID );
+			if ( ! $this->debug ) {
+				$cache = get_transient( $cache_key );
+			}
 			if ( false === $cache ) {
 				$src                  = false;
 				$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
@@ -172,8 +174,10 @@ class Iworks_Opengraph {
 							}
 							if ( 0 === $pos ) {
 								$attachment_id = $this->get_attachment_id( $src );
-								if ( 0 < $attachment_id && is_attachment( $attachment_id ) ) {
-									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
+								if ( 0 < $attachment_id ) {
+									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+
+									l( $thumbnail_src );
 									$src[]               = esc_url( $thumbnail_src[0] );
 									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								} else {
@@ -192,7 +196,7 @@ class Iworks_Opengraph {
 					if ( is_array( $src ) ) {
 						for ( $i = 0; $i < count( $src ); $i++ ) {
 							$data        = array();
-							$data['src'] = $src[ $i ];
+							$data['url'] = $src[ $i ];
 							if ( preg_match( '/^https/', $src[ $i ] ) ) {
 								$data['secure_url'] = $src[ $i ];
 							}
@@ -548,7 +552,7 @@ class Iworks_Opengraph {
 		 *
 		 * @since 2.7.7
 		 */
-		if ( 'og:image:src' === $meta_property ) {
+		if ( 'og:image:url' === $meta_property ) {
 			$meta_property = 'og:image';
 		}
 		/**
@@ -800,6 +804,7 @@ class Iworks_Opengraph {
 			&& 0 < intval( $image[2] )
 		) {
 			$data = array(
+				'url'    => $image[0],
 				'width'  => $image[1],
 				'height' => $image[2],
 			);
