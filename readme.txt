@@ -192,6 +192,9 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.8.0 (2020-xx-xx) =
+* Removed Facebook check for allowed locales.
+
 = 2.7.9 (2020-06-02) =
 * Improved cache key - now it include plugin version, to avoid get older cache.
 
