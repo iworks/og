@@ -192,6 +192,9 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.7.9 (2020-06-02) =
+* Improved cache key - now it include plugin version, to avoid get older cache.
+
 = 2.7.8 (2020-06-02) =
 * Fixed an issue with no feature image, but wit multiple images in content. Props for [anthonykung](https://wordpress.org/support/users/anthonykung/)
 

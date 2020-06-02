@@ -864,10 +864,10 @@ class Iworks_Opengraph {
 	 * @since 2.6.0
 	 */
 	private function get_transient_key( $post_id ) {
-		$key    = sprintf( 'iworks_og_post_%d', $post_id );
+		$key    = sprintf( 'og_%d_%s', $post_id, $this->version );
 		$locale = $this->get_locale();
 		if ( ! empty( $locale ) ) {
-			$key = sprintf( 'iworks_og_post_%d_%s', $post_id, $locale );
+			$key .= '_' . $locale;
 		}
 		return $key;
 	}
