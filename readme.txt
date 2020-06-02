@@ -192,6 +192,9 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.7.8 (2020-06-02) =
+* Fixed an issue with no feature image, but wit multiple images in content. Props for [anthonykung](https://wordpress.org/support/users/anthonykung/)
+
 = 2.7.7 (2020-06-01) =
 * Added `og:image:secure_url` for images with https url. Props for [mociofiletto](https://wordpress.org/support/users/mociofiletto/)
 * Improved attachment page OpenGraph tags.

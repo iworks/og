@@ -171,12 +171,13 @@ class Iworks_Opengraph {
 								continue;
 							}
 							if ( 0 === $pos ) {
-								$src           = $temp_src;
 								$attachment_id = $this->get_attachment_id( $src );
-								if ( 0 < $attachment_id ) {
+								if ( 0 < $attachment_id && is_attachment( $attachment_id ) ) {
 									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
 									$src[]               = esc_url( $thumbnail_src[0] );
 									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
+								} else {
+									$src[] = $temp_src;
 								}
 							}
 						}
