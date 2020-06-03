@@ -193,15 +193,16 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 == Changelog ==
 
 = 2.8.2 (2020-06-03) =
-* Removed array sum code it is incompatible with older PHP.
 * Added Vimeo video support for og:image and og:video.
+* Improved default YouTube images, now it is saved with SSL.
+* Removed array sum code it is incompatible with older PHP.
 
 = 2.8.1 (2020-06-03) =
-* Added multiple `og:image` for all YouTube movies.
 * Added dimensions and type for YouTube images if it is possible.
-* Removed post meta for YouTube images when movies was deleted from entry.
-* Use ssl for YouTube images if site is on ssl.
 * Added filter `og_twitter_creator` to easy setup Twitter @username of creator.
+* Added multiple `og:image` for all YouTube movies.
+* Removed post meta for YouTube images when movies was deleted from entry.
+* Use SSL for YouTube images if site is on SSL.
 
 = 2.8.0 (2020-06-03) =
 * Removed Facebook check for allowed locales.

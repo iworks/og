@@ -50,11 +50,7 @@ class Iworks_Opengraph {
 		 */
 		if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[1] as $youtube_id ) {
-				$thumbnails[ $youtube_id ] = sprintf(
-					'http%s://img.youtube.com/vi/%s/maxresdefault.jpg',
-					is_ssl() ? 's' : '',
-					$youtube_id
-				);
+				$thumbnails[ $youtube_id ] = sprintf( 'https://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
 			}
 		}
 		/**
@@ -62,7 +58,7 @@ class Iworks_Opengraph {
 		 */
 		if ( preg_match_all( '#https?://(www\.)?youtube\.com/watch\?v=([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[2] as $youtube_id ) {
-				$thumbnails[ $youtube_id ] = sprintf( 'http://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
+				$thumbnails[ $youtube_id ] = sprintf( 'https://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
 			}
 		}
 		if ( count( $thumbnails ) ) {
@@ -70,10 +66,11 @@ class Iworks_Opengraph {
 				$data = @getimagesize( $image_url );
 				if ( ! empty( $data ) ) {
 					$thumbnails[ $youtube_id ] = array(
-						'url'    => $image_url,
-						'width'  => $data[0],
-						'height' => $data[1],
-						'type'   => $data['mime'],
+						'url'        => preg_replace( '/^https/', 'http', $image_url ),
+						'secure_url' => preg_match( '/^https/', $image_url ) ? $image_url : '',
+						'width'      => $data[0],
+						'height'     => $data[1],
+						'type'       => $data['mime'],
 					);
 				}
 			}
@@ -211,8 +208,9 @@ class Iworks_Opengraph {
 							continue;
 						}
 						$og['og']['image'][]       = array(
-							'url'   => $vimeo['thumbnail_large'],
-							'width' => 640,
+							'url'        => preg_replace( '/^https/', 'http', $vimeo['thumbnail_large'] ),
+							'secure_url' => preg_match( '/^https/', $vimeo['thumbnail_large'] ) ? $vimeo['thumbnail_large'] : '',
+							'width'      => 640,
 						);
 						$og['og']['video'][]       = array(
 							'url'        => esc_url( sprintf( 'http://vimeo.com/%d', $vimeo['id'] ) ),
@@ -223,7 +221,6 @@ class Iworks_Opengraph {
 						$og['twitter']['player'][] = esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) );
 					}
 				}
-
 				/**
 				 * attachment image page
 				 */
@@ -278,18 +275,6 @@ class Iworks_Opengraph {
 									$src[] = $temp_src;
 								}
 							}
-						}
-					}
-				}
-				/**
-				 * Add og:image:secure_url
-				 *
-				 * @since 2.7.7
-				 */
-				if ( is_ssl() && isset( $og['og']['image'] ) ) {
-					for ( $i = 0; $i < count( $src ); $i++ ) {
-						if ( preg_match( '/^https/', $src[ $i ] ) ) {
-							$og['og']['image'][ $i ]['secure_url'] = $src[ $i ];
 						}
 					}
 				}
@@ -726,19 +711,18 @@ class Iworks_Opengraph {
 	 * @returns array array with Image dimensions for og tags
 	 */
 	private function get_image_dimensions( $image, $image_id ) {
-		$data = array();
-		if (
-			! empty( $image )
-			&& is_array( $image )
-			&& 2 < count( $image )
-			&& 0 < intval( $image[1] )
-			&& 0 < intval( $image[2] )
-		) {
-			$data = array(
-				'url'    => $image[0],
-				'width'  => $image[1],
-				'height' => $image[2],
-			);
+		if ( empty( $image ) || ! is_array( $image ) ) {
+			return null;
+		}
+		$data = array(
+			'url' => $image[0],
+		);
+		if ( preg_match( '/^https/', $image[0] ) ) {
+			$data['secure_url'] = $image[0];
+		}
+		if ( 2 < count( $image ) ) {
+			$data['width']  = intval( $image[1] );
+			$data['height'] = intval( $image[2] );
 		}
 		$caption = wp_get_attachment_caption( $image_id );
 		if ( ! empty( $caption ) ) {
@@ -760,10 +744,7 @@ class Iworks_Opengraph {
 		 * @since 2.7.7
 		 */
 		$data['type'] = get_post_mime_type( $image_id );
-		if ( ! empty( $data ) ) {
-			return $data;
-		}
-		return null;
+		return $data;
 	}
 
 	/**
