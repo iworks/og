@@ -192,6 +192,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.8.2 (2020-06-03) =
+* Removed array sum code it is incompatible with older PHP.
+* Added Vimeo video support for og:image and og:video.
+
 = 2.8.1 (2020-06-03) =
 * Added multiple `og:image` for all YouTube movies.
 * Added dimensions and type for YouTube images if it is possible.

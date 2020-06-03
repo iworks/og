@@ -1,9 +1,16 @@
 <?php
 class Iworks_Opengraph {
-	private $meta    = 'iworks_yt_thumbnails';
-	private $version = 'PLUGIN_VERSION';
-	private $debug   = false;
-	private $locale  = null;
+	private $youtube_meta_name = 'iworks_yt_thumbnails';
+	private $version           = 'PLUGIN_VERSION';
+	private $debug             = false;
+	private $locale            = null;
+
+	/**
+	 * Vimeo custom field for thumbnails
+	 *
+	 * @since 2.8.2
+	 */
+	private $vimeo_meta_name = '_og_vimeo_thumbnails';
 
 	public function __construct() {
 		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
@@ -11,6 +18,7 @@ class Iworks_Opengraph {
 		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'add_vimeo_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
 		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
@@ -35,14 +43,14 @@ class Iworks_Opengraph {
 		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
-		delete_post_meta( $post_id, $this->meta );
-		$iworks_yt_thumbnails = array();
+		delete_post_meta( $post_id, $this->youtube_meta_name );
+		$thumbnails = array();
 		/**
 		 * parse short youtube share url
 		 */
 		if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[1] as $youtube_id ) {
-				$iworks_yt_thumbnails[ $youtube_id ] = sprintf(
+				$thumbnails[ $youtube_id ] = sprintf(
 					'http%s://img.youtube.com/vi/%s/maxresdefault.jpg',
 					is_ssl() ? 's' : '',
 					$youtube_id
@@ -54,14 +62,14 @@ class Iworks_Opengraph {
 		 */
 		if ( preg_match_all( '#https?://(www\.)?youtube\.com/watch\?v=([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[2] as $youtube_id ) {
-				$iworks_yt_thumbnails[ $youtube_id ] = sprintf( 'http://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
+				$thumbnails[ $youtube_id ] = sprintf( 'http://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
 			}
 		}
-		if ( count( $iworks_yt_thumbnails ) ) {
-			foreach ( $iworks_yt_thumbnails as $youtube_id => $image_url ) {
+		if ( count( $thumbnails ) ) {
+			foreach ( $thumbnails as $youtube_id => $image_url ) {
 				$data = @getimagesize( $image_url );
 				if ( ! empty( $data ) ) {
-					$iworks_yt_thumbnails[ $youtube_id ] = array(
+					$thumbnails[ $youtube_id ] = array(
 						'url'    => $image_url,
 						'width'  => $data[0],
 						'height' => $data[1],
@@ -69,15 +77,46 @@ class Iworks_Opengraph {
 					);
 				}
 			}
-			update_post_meta( $post_id, $this->meta, $iworks_yt_thumbnails );
+			update_post_meta( $post_id, $this->youtube_meta_name, $thumbnails );
 		}
+	}
+
+	/**
+	 * Get Vimeo thumbnails
+	 *
+	 * @since 2.8.1
+	 */
+	public function add_vimeo_thumbnails( $post_id, $post ) {
+		if ( 'revision' === $post->post_type ) {
+			return;
+		}
+		if ( 'publish' !== $post->post_status ) {
+			return;
+		}
+		delete_post_meta( $post_id, $this->vimeo_meta_name );
+		$thumbnails = array();
 		/**
-		 * delete post meta if empty
-		 *
-		 * @since 2.8.1
+		 * parse vimeo url
 		 */
-		if ( empty( $iworks_yt_thumbnails ) ) {
-			delete_post_meta( $post_id, $this->meta );
+		if ( ! preg_match_all( '#https?://(.+\.)?vimeo\.com/(\d+)#i', $post->post_content, $matches ) ) {
+			return;
+		}
+		$videos = array_unique( $matches[2] );
+		foreach ( $videos as $vimeo_id ) {
+			if ( isset( $thumbnails[ $vimeo_id ] ) ) {
+				continue;
+			}
+			$url      = sprintf( 'https://vimeo.com/api/v2/video/%s.php', $vimeo_id );
+			$response = wp_remote_get( $url );
+			if ( is_array( $response ) && ! is_wp_error( $response ) ) {
+				$data = maybe_unserialize( $response['body'] );
+				if ( is_array( $data ) ) {
+					$thumbnails[ $vimeo_id ] = $data[0];
+				}
+			}
+		}
+		if ( count( $thumbnails ) ) {
+			update_post_meta( $post_id, $this->vimeo_meta_name, $thumbnails );
 		}
 	}
 
@@ -139,10 +178,13 @@ class Iworks_Opengraph {
 				$cache = get_transient( $cache_key );
 			}
 			if ( false === $cache ) {
-				$src                  = false;
-				$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
-				if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
-					foreach ( $iworks_yt_thumbnails as $youtube_id => $image ) {
+				$src = false;
+				/**
+				 * check YouTube movies
+				 */
+				$thumbnails = get_post_meta( $post->ID, $this->youtube_meta_name, true );
+				if ( is_array( $thumbnails ) && count( $thumbnails ) ) {
+					foreach ( $thumbnails as $youtube_id => $image ) {
 						if ( empty( $image ) ) {
 							continue;
 						}
@@ -157,6 +199,31 @@ class Iworks_Opengraph {
 						$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 					}
 				}
+				/**
+				 * check Vimeo movies
+				 *
+				 * @since 2.8.2
+				 */
+				$thumbnails = get_post_meta( $post->ID, $this->vimeo_meta_name, true );
+				if ( is_array( $thumbnails ) && count( $thumbnails ) ) {
+					foreach ( $thumbnails as $vimeo ) {
+						if ( empty( $vimeo ) ) {
+							continue;
+						}
+						$og['og']['image'][]       = array(
+							'url'   => $vimeo['thumbnail_large'],
+							'width' => 640,
+						);
+						$og['og']['video'][]       = array(
+							'url'        => esc_url( sprintf( 'http://vimeo.com/%d', $vimeo['id'] ) ),
+							'secure_url' => esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) ),
+							'width'      => intval( $vimeo['width'] ),
+							'height'     => intval( $vimeo['height'] ),
+						);
+						$og['twitter']['player'][] = esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) );
+					}
+				}
+
 				/**
 				 * attachment image page
 				 */
@@ -221,12 +288,9 @@ class Iworks_Opengraph {
 				 */
 				if ( is_ssl() && isset( $og['og']['image'] ) ) {
 					for ( $i = 0; $i < count( $src ); $i++ ) {
-						$data        = array();
-						$data['url'] = $src[ $i ];
 						if ( preg_match( '/^https/', $src[ $i ] ) ) {
-							$data['secure_url'] = $src[ $i ];
+							$og['og']['image'][ $i ]['secure_url'] = $src[ $i ];
 						}
-						$og['og']['image'][ $i ] = $data + $og['og']['image'][ $i ];
 					}
 				}
 				/**
@@ -580,13 +644,11 @@ class Iworks_Opengraph {
 	private function echo_one( $property, $value ) {
 		$meta_property = implode( ':', $property );
 		/**
-		 * add og:image:src exception
+		 * add og:(image|video):url exception
 		 *
 		 * @since 2.7.7
 		 */
-		if ( 'og:image:url' === $meta_property ) {
-			$meta_property = 'og:image';
-		}
+		$meta_property = preg_replace( '/^og:(image|video):url$/', 'og:$1', $meta_property );
 		/**
 		 * Property filter string
 		 * @since 2.7.7
