@@ -42,7 +42,11 @@ class Iworks_Opengraph {
 		 */
 		if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[1] as $youtube_id ) {
-				$iworks_yt_thumbnails[ $youtube_id ] = sprintf( 'http://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
+				$iworks_yt_thumbnails[ $youtube_id ] = sprintf(
+					'http%s://img.youtube.com/vi/%s/maxresdefault.jpg',
+					is_ssl() ? 's' : '',
+					$youtube_id
+				);
 			}
 		}
 		/**
@@ -54,7 +58,26 @@ class Iworks_Opengraph {
 			}
 		}
 		if ( count( $iworks_yt_thumbnails ) ) {
-			update_post_meta( $post_id, $this->meta, array_unique( $iworks_yt_thumbnails ) );
+			foreach ( $iworks_yt_thumbnails as $youtube_id => $image_url ) {
+				$data = @getimagesize( $image_url );
+				if ( ! empty( $data ) ) {
+					$iworks_yt_thumbnails[ $youtube_id ] = array(
+						'url'    => $image_url,
+						'width'  => $data[0],
+						'height' => $data[1],
+						'type'   => $data['mime'],
+					);
+				}
+			}
+			update_post_meta( $post_id, $this->meta, $iworks_yt_thumbnails );
+		}
+		/**
+		 * delete post meta if empty
+		 *
+		 * @since 2.8.1
+		 */
+		if ( empty( $iworks_yt_thumbnails ) ) {
+			delete_post_meta( $post_id, $this->meta );
 		}
 	}
 
@@ -94,6 +117,7 @@ class Iworks_Opengraph {
 			'twitter' => array(
 				'partner' => 'ogwp',
 				'site'    => apply_filters( 'og_twitter_site', '' ),
+				'creator' => apply_filters( 'og_twitter_creator', '' ),
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 		);
@@ -119,7 +143,16 @@ class Iworks_Opengraph {
 				$iworks_yt_thumbnails = get_post_meta( $post->ID, $this->meta, true );
 				if ( is_array( $iworks_yt_thumbnails ) && count( $iworks_yt_thumbnails ) ) {
 					foreach ( $iworks_yt_thumbnails as $youtube_id => $image ) {
-						$og['og']['image'][]       = esc_url( $image );
+						if ( empty( $image ) ) {
+							continue;
+						}
+						if ( is_array( $image ) ) {
+							$og['og']['image'][] = $image;
+						} elseif ( is_string( $image ) ) {
+							$og['og']['image'][] = array(
+								'url' => esc_url( $image ),
+							);
+						}
 						$og['og']['video'][]       = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 						$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 					}

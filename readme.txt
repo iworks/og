@@ -8,11 +8,11 @@ Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simple method to add Open Graph metadata to your entries so that they look great when shared on sites like Facebook and Google+.
+Simple method to add Open Graph metadata to your entries so that they look great when shared on sites.
 
 == Description ==
 
-The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][] as well as within [Google+][] posts.
+The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][].
 
 The Open Graph plugin inserts the Open Graph metadata into page head section and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
 
@@ -22,11 +22,11 @@ Plugin grabs data from content and if contains YouTube URL, then plugin try to g
 
 If the post contains YouTube links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
 
+Rich filters implementation to allow data change.
+
 [Open Graph Protocol]: http://ogp.me/
 [Like Button]: https://developers.facebook.com/docs/reference/plugins/like
 [Graph API]: https://developers.facebook.com/docs/reference/api/
-[Google+]: http://www.google.com/+
-[+1 Button]: https://developers.google.com/+/plugins/+1button/
 
 == Installation ==
 
@@ -192,10 +192,17 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.8.1 (2020-06-03) =
+* Added multiple `og:image` for all YouTube movies.
+* Added dimensions and type for YouTube images if it is possible.
+* Removed post meta for YouTube images when movies was deleted from entry.
+* Use ssl for YouTube images if site is on ssl.
+* Added filter `og_twitter_creator` to easy setup Twitter @username of creator.
+
 = 2.8.0 (2020-06-03) =
 * Removed Facebook check for allowed locales.
 * Fixed Twitter `summary_large_image` issue.
-* Added filter `og_twitter_site` to easy setup Twitter @username.
+* Added filter `og_twitter_site` to easy setup Twitter @username for site owner.
 
 = 2.7.9 (2020-06-02) =
 * Improved cache key - now it include plugin version, to avoid get older cache.
