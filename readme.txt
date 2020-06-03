@@ -192,6 +192,9 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.8.3 (2020-06-03) =
+* Fixed problem with wrong database query param.
+
 = 2.8.2 (2020-06-03) =
 * Added Vimeo video support for og:image and og:video.
 * Improved default YouTube images, now it is saved with SSL.

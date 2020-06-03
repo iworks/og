@@ -248,31 +248,34 @@ class Iworks_Opengraph {
 					$src      = array();
 					$home_url = get_home_url();
 					$content  = $post->post_content;
-					$images   = preg_match_all( '/<img[^>]+>/', $content, $matches );
-					foreach ( $matches[0] as $img ) {
-						if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
-							$classes = $matches_image_class[1];
-							if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
-								$attachment_id       = $matches_image_id[1];
-								$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
-								$src[]               = esc_url( $thumbnail_src[0] );
-								$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
-							}
-						}
-						if ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
-							$temp_src = $matches_image_src[2];
-							$pos      = strpos( $temp_src, $home_url );
-							if ( false === $pos ) {
-								continue;
-							}
-							if ( 0 === $pos ) {
-								$attachment_id = $this->get_attachment_id( $src );
+					if ( preg_match_all( '/<img[^>]+>/', $content, $matches ) ) {
+						$matches = array_unique( $matches[0] );
+						foreach ( $matches as $img ) {
+							if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
+								$classes = $matches_image_class[1];
+								if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
+									$attachment_id       = $matches_image_id[1];
+									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
+									$src[]               = esc_url( $thumbnail_src[0] );
+									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
+									continue;
+								}
+							} elseif ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
+								$temp_src = $matches_image_src[2];
+								$pos      = strpos( $temp_src, $home_url );
+								if ( false === $pos ) {
+									continue;
+								}
+								if ( 0 !== $pos ) {
+									continue;
+								}
+								$attachment_id = $this->get_attachment_id( $temp_src );
 								if ( 0 < $attachment_id ) {
 									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
 									$src[]               = esc_url( $thumbnail_src[0] );
 									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
 								} else {
-									$src[] = $temp_src;
+									$og['og']['image'][] = $this->get_image_dimensions( array( $temp_src ) );
 								}
 							}
 						}
@@ -710,7 +713,7 @@ class Iworks_Opengraph {
 	 *
 	 * @returns array array with Image dimensions for og tags
 	 */
-	private function get_image_dimensions( $image, $image_id ) {
+	private function get_image_dimensions( $image, $image_id = 0 ) {
 		if ( empty( $image ) || ! is_array( $image ) ) {
 			return null;
 		}
@@ -724,26 +727,28 @@ class Iworks_Opengraph {
 			$data['width']  = intval( $image[1] );
 			$data['height'] = intval( $image[2] );
 		}
-		$caption = wp_get_attachment_caption( $image_id );
-		if ( ! empty( $caption ) ) {
-			$data['alt'] = $caption;
+		if ( 0 === $image_id ) {
+			$size = @getimagesize( $image[0] );
+			if ( ! empty( $size ) ) {
+				$data['width']  = $size[0];
+				$data['height'] = $size[1];
+				$data['type']   = $size['mime'];
+			}
 		} else {
-			$alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
-			if ( ! empty( $alt ) ) {
-				$data['alt'] = $alt;
-			} else {
-				$title = get_the_title( $image_id );
-				if ( ! empty( $title ) ) {
-					$data['alt'] = $title;
+			$data['alt'] = wp_get_attachment_caption( $image_id );
+			if ( empty( $data['alt'] ) ) {
+				$data['alt'] = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+				if ( empty( $data['alt'] ) ) {
+					$data['alt'] = get_the_title( $image_id );
 				}
 			}
+			/**
+			 * Set mime type
+			 *
+			 * @since 2.7.7
+			 */
+			$data['type'] = get_post_mime_type( $image_id );
 		}
-		/**
-		 * Set mime type
-		 *
-		 * @since 2.7.7
-		 */
-		$data['type'] = get_post_mime_type( $image_id );
 		return $data;
 	}
 
@@ -757,6 +762,9 @@ class Iworks_Opengraph {
 	 * @returns integer Attachment ID.
 	 */
 	private function get_attachment_id( $url ) {
+		if ( ! is_string( $url ) ) {
+			return 0;
+		}
 		global $wpdb;
 		$query      = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url );
 		$attachment = $wpdb->get_col( $query );
