@@ -93,6 +93,7 @@ class Iworks_Opengraph {
 			),
 			'twitter' => array(
 				'partner' => 'ogwp',
+				'site'    => apply_filters( 'og_twitter_site', '' ),
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 		);
