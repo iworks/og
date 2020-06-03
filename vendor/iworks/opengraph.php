@@ -75,12 +75,6 @@ class Iworks_Opengraph {
 			return;
 		}
 		/**
-		 * Get image size
-		 *
-		 * @since 2.7.3
-		 */
-		$image_width = 0;
-		/**
 		 * Print version
 		 */
 		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
@@ -98,7 +92,8 @@ class Iworks_Opengraph {
 				'tag' => array(),
 			),
 			'twitter' => array(
-				'player' => apply_filters( 'og_video_init', array() ),
+				'partner' => 'ogwp',
+				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 		);
 		// plugin: Facebook Page Publish
@@ -132,32 +127,30 @@ class Iworks_Opengraph {
 				 * attachment image page
 				 */
 				if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
-					$post_thumbnail_id = $post->IDD;
-					$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
-					$src               = esc_url( wp_get_attachment_url( $post->ID ) );
+					$post_thumbnail_id   = $post->IDD;
+					$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+					$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+					$src                 = esc_url( wp_get_attachment_url( $post->ID ) );
 				}
 				/**
 				 * get post thumbnail
 				 */
 				if ( empty( $src ) && function_exists( 'has_post_thumbnail' ) ) {
 					if ( has_post_thumbnail( $post->ID ) ) {
-						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
-						$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$image_width       = $thumbnail_src[1];
-						$src               = esc_url( $thumbnail_src[0] );
-						$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+						$post_thumbnail_id   = get_post_thumbnail_id( $post->ID );
+						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$src                 = esc_url( $thumbnail_src[0] );
+						$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
 					}
 				}
 				/**
 				 * try to grap from content
 				 */
 				if ( empty( $src ) ) {
-					$src               = array();
-					$og['og']['image'] = array();
-					$home_url          = get_home_url();
-					$content           = $post->post_content;
-					$images            = preg_match_all( '/<img[^>]+>/', $content, $matches );
+					$src      = array();
+					$home_url = get_home_url();
+					$content  = $post->post_content;
+					$images   = preg_match_all( '/<img[^>]+>/', $content, $matches );
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
 							$classes = $matches_image_class[1];
@@ -193,17 +186,13 @@ class Iworks_Opengraph {
 				 * @since 2.7.7
 				 */
 				if ( is_ssl() && isset( $og['og']['image'] ) ) {
-					if ( is_array( $src ) ) {
-						for ( $i = 0; $i < count( $src ); $i++ ) {
-							$data        = array();
-							$data['url'] = $src[ $i ];
-							if ( preg_match( '/^https/', $src[ $i ] ) ) {
-								$data['secure_url'] = $src[ $i ];
-							}
-							$og['og']['image'][ $i ] = $data + $og['og']['image'][ $i ];
+					for ( $i = 0; $i < count( $src ); $i++ ) {
+						$data        = array();
+						$data['url'] = $src[ $i ];
+						if ( preg_match( '/^https/', $src[ $i ] ) ) {
+							$data['secure_url'] = $src[ $i ];
 						}
-					} elseif ( preg_match( '/^https/', $src ) ) {
-						$og['og']['image']['secure_url'] = $src;
+						$og['og']['image'][ $i ] = $data + $og['og']['image'][ $i ];
 					}
 				}
 				/**
@@ -286,15 +275,6 @@ class Iworks_Opengraph {
 					),
 					$post->post_author
 				);
-				/**
-				 * twitter
-				 */
-				$og['twitter']['card'] = 'summary';
-				foreach ( array( 'title', 'description', 'image', 'url' ) as $key ) {
-					if ( isset( $og['og'][ $key ] ) ) {
-						$og['twitter'][ $key ] = $og['og'][ $key ];
-					}
-				}
 				/**
 				 * woocommerce product
 				 */
@@ -393,6 +373,33 @@ class Iworks_Opengraph {
 					}
 				}
 				/**
+				 * twitter
+				 */
+				$og['twitter']['card'] = 'summary';
+				foreach ( array( 'title', 'description', 'url' ) as $key ) {
+					if ( isset( $og['og'][ $key ] ) ) {
+						$og['twitter'][ $key ] = $og['og'][ $key ];
+					}
+				}
+				if (
+					isset( $og['og']['image'] )
+					&& is_array( $og['og']['image'] )
+					&& ! empty( $og['og']['image'] )
+				) {
+					$img = $og['og']['image'][0];
+					if ( isset( $img['url'] ) ) {
+						$og['twitter']['image'] = $img['url'];
+						/**
+						 * Twitter: change card type if image is big enought
+						 *
+						 * @since 2.7.3
+						 */
+						if ( isset( $img['width'] ) && 519 < $img['width'] ) {
+							$og['twitter']['card'] = 'summary_large_image';
+						}
+					}
+				}
+				/**
 				 * set cache
 				 *
 				 * @since 2.6.0
@@ -411,7 +418,6 @@ class Iworks_Opengraph {
 				$image_id                = intval( get_term_meta( $obj->term_id, 'image', true ) );
 				if ( 0 < $image_id ) {
 					$thumbnail_src     = wp_get_attachment_image_src( $image_id, 'full' );
-					$image_width       = $thumbnail_src[1];
 					$src               = $thumbnail_src[0];
 					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $image_id );
 				}
@@ -480,14 +486,6 @@ class Iworks_Opengraph {
 					$this->debug ? PHP_EOL : ''
 				);
 			}
-		}
-		/**
-		 * Twitter: change card type if image is big enought
-		 *
-		 * @since 2.7.3
-		 */
-		if ( 520 < $image_width ) {
-			$og['twitter']['card'] = 'summary_large_image';
 		}
 		/**
 		 * Twitter: Short description.
