@@ -1,7 +1,7 @@
 === OG ===
 Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
-Tags: OpenGraph, Open Graph, Facebook, Twitter, social
+Tags: OpenGraph, Open Graph, social, share
 Requires at least: 3.8
 Tested up to: 5.4
 Stable tag: PLUGIN_VERSION
@@ -20,7 +20,7 @@ No configuration, pure power.
 
 Plugin grabs data from content and if contains YouTube URL, then plugin try to get movie thumbnail and use it in og:image.
 
-If the post contains YouTube links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
+If the post contains YouTube or Vimeo links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
 
 Rich filters implementation to allow data change.
 
@@ -192,9 +192,12 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
-= 2.8.4 (2020-xx-xx) =
+= 2.8.4 (2020-06-20) =
 * Added Pinterest `og::see_also` tag when [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/) plugin is used and post has related posts.
-
+* Fixed `og:image:alt` value, now we use ALT first.
+* Improved og:audio tag on audio attachment page.
+* Improved og:video tag on video attachment page.
+* Improved usage with [Orphans](https://wordpress.org/plugins/sierotki/) plugin.
 
 = 2.8.3 (2020-06-03) =
 * Fixed problem with wrong database query param.

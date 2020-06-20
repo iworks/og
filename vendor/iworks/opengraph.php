@@ -157,8 +157,14 @@ class Iworks_Opengraph {
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 		);
-		// plugin: Facebook Page Publish
+		/**
+		 *  plugin: Facebook Page Publish
+		 */
 		remove_action( 'wp_head', 'fpp_head_action' );
+		/**
+		 * Plugin: Orphans - turn off replacement
+		 */
+		add_filter( 'orphan_skip_replacement', '__return_true' );
 		/**
 		 * produce
 		 */
@@ -224,11 +230,41 @@ class Iworks_Opengraph {
 				/**
 				 * attachment image page
 				 */
-				if ( is_attachment() && wp_attachment_is_image( $post->ID ) ) {
-					$post_thumbnail_id   = $post->IDD;
-					$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-					$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
-					$src                 = esc_url( wp_get_attachment_url( $post->ID ) );
+				if ( is_attachment() ) {
+					if ( wp_attachment_is_image( $post->ID ) ) {
+						$post_thumbnail_id   = $post->ID;
+						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+						$src                 = esc_url( wp_get_attachment_url( $post->ID ) );
+					} elseif ( wp_attachment_is( 'video', $post->ID ) ) {
+						$og['og']['type']   = 'video';
+						$src                = esc_url( wp_get_attachment_url( $post->ID ) );
+						$og['video']['url'] = $src;
+						if ( is_ssl() ) {
+							$og['video']['secure_url'] = $src;
+						}
+						$meta = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
+						if ( isset( $meta['mime_type'] ) ) {
+							$og['video']['type'] = $meta['mime_type'];
+						}
+						if ( isset( $meta['width'] ) ) {
+							$og['video']['width'] = $meta['width'];
+						}
+						if ( isset( $meta['height'] ) ) {
+							$og['video']['height'] = $meta['height'];
+						}
+					} elseif ( wp_attachment_is( 'audio', $post->ID ) ) {
+						$og['og']['type']   = 'audio';
+						$src                = esc_url( wp_get_attachment_url( $post->ID ) );
+						$og['audio']['url'] = $src;
+						if ( is_ssl() ) {
+							$og['audio']['secure_url'] = $src;
+						}
+						$meta = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
+						if ( isset( $meta['mime_type'] ) ) {
+							$og['audio']['type'] = $meta['mime_type'];
+						}
+					}
 				}
 				/**
 				 * get post thumbnail
@@ -284,9 +320,11 @@ class Iworks_Opengraph {
 				/**
 				 * get title
 				 */
-				$og['og']['title'] = esc_attr( get_the_title() );
-				$og['og']['type']  = 'article';
-				$og['og']['url']   = get_permalink();
+				$og['og']['title'] = $this->strip_white_chars( esc_attr( get_the_title() ) );
+				if ( ! isset( $og['og']['type'] ) ) {
+					$og['og']['type'] = 'article';
+				}
+				$og['og']['url'] = get_permalink();
 				if ( has_excerpt( $post->ID ) ) {
 					$og['og']['description'] = strip_tags( get_the_excerpt() );
 				} else {
@@ -413,7 +451,7 @@ class Iworks_Opengraph {
 					case 'audio':
 						$og['og']['type'] = 'music';
 						break;
-					case 'audio':
+					case 'video':
 						$og['og']['type'] = 'video';
 						break;
 				}
@@ -611,6 +649,10 @@ class Iworks_Opengraph {
 		$this->echo_array( $og );
 		echo '<!-- /OG -->';
 		echo PHP_EOL;
+		/**
+		 * Plugin: Orphans - turn off replacement
+		 */
+		remove_filter( 'orphan_skip_replacement', '__return_true' );
 	}
 
 	/**
@@ -749,9 +791,9 @@ class Iworks_Opengraph {
 				$data['type']   = $size['mime'];
 			}
 		} else {
-			$data['alt'] = wp_get_attachment_caption( $image_id );
+			$data['alt'] = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 			if ( empty( $data['alt'] ) ) {
-				$data['alt'] = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+				$data['alt'] = wp_get_attachment_caption( $image_id );
 				if ( empty( $data['alt'] ) ) {
 					$data['alt'] = get_the_title( $image_id );
 				}
