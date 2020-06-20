@@ -192,6 +192,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 
 == Changelog ==
 
+= 2.8.4 (2020-xx-xx) =
+* Added Pinterest `og::see_also` tag when [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/) plugin is used and post has related posts.
+
+
 = 2.8.3 (2020-06-03) =
 * Fixed problem with wrong database query param.
 

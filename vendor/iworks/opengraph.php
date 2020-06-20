@@ -163,7 +163,7 @@ class Iworks_Opengraph {
 		 * produce
 		 */
 		if ( is_singular() ) {
-			global $post;
+			global $post, $yarpp;
 			/**
 			 * get cache
 			 *
@@ -482,6 +482,20 @@ class Iworks_Opengraph {
 						 */
 						if ( isset( $img['width'] ) && 519 < $img['width'] ) {
 							$og['twitter']['card'] = 'summary_large_image';
+						}
+					}
+				}
+				/**
+				 * Yet Another Related Posts Plugin (YARPP) + Pintrest og:see_also tag.
+				 *
+				 * @since 2.8.4
+				 */
+				if ( is_a( $yarpp, 'YARPP' ) ) {
+					$related = $yarpp->get_related();
+					if ( ! empty( $related ) ) {
+						$og['og']['see_also'] = array();
+						foreach ( $related as $one ) {
+							$og['og']['see_also'][] = get_permalink( $one->ID );
 						}
 					}
 				}
