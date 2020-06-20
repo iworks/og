@@ -193,7 +193,7 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
 == Changelog ==
 
 = 2.8.4 (2020-06-20) =
-* Added Pinterest `og::see_also` tag when [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/) plugin is used and post has related posts.
+* Added Pinterest `og:see_also` tag when [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/) plugin is used and post has related posts.
 * Fixed `og:image:alt` value, now we use ALT first.
 * Improved og:audio tag on audio attachment page.
 * Improved og:video tag on video attachment page.
