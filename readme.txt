@@ -73,7 +73,7 @@ There is nothing to configure and there is no admin page. By default, it will us
 * og:site_name - blog title
 * og:title - post/page/archive/tag/... title
 * og:url - the post/page permalink
-* og:type - "website" for the homepage, "article" for single content and blog for all others
+* og:type - "article" for single content and "website" for all others
 * og:description - site description
 * og:site_name - site name
 
@@ -190,7 +190,19 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
         return $og;
     }
 
+
+= How to disable author URL (article:author)? =
+
+Use "og_article_author_value" filter, to return empty value for
+"article:author" key:
+
+    add_filter( 'og_article_author_value', '__return_empty_string' );
+
+
 == Changelog ==
+
+= 2.8.5 (2020-06-20) =
+* Fixed minor issue with og:type.
 
 = 2.8.4 (2020-06-20) =
 * Added Pinterest `og:see_also` tag when [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/) plugin is used and post has related posts.
