@@ -143,7 +143,7 @@ class Iworks_Opengraph {
 				'image'       => apply_filters( 'og_image_init', array() ),
 				'video'       => apply_filters( 'og_video_init', array() ),
 				'description' => '',
-				'type'        => 'blog',
+				'type'        => 'website',
 				'locale'      => $this->get_locale(),
 				'site_name'   => get_bloginfo( 'name' ),
 			),
@@ -170,6 +170,10 @@ class Iworks_Opengraph {
 		 */
 		if ( is_singular() ) {
 			global $post, $yarpp;
+			/**
+			 * set OG:Type
+			 */
+			$og['og']['type'] = 'article';
 			/**
 			 * get cache
 			 *
@@ -321,10 +325,7 @@ class Iworks_Opengraph {
 				 * get title
 				 */
 				$og['og']['title'] = $this->strip_white_chars( esc_attr( get_the_title() ) );
-				if ( ! isset( $og['og']['type'] ) ) {
-					$og['og']['type'] = 'article';
-				}
-				$og['og']['url'] = get_permalink();
+				$og['og']['url']   = get_permalink();
 				if ( has_excerpt( $post->ID ) ) {
 					$og['og']['description'] = strip_tags( get_the_excerpt() );
 				} else {
