@@ -122,6 +122,7 @@ class Iworks_Opengraph {
 	 */
 	private function strip_white_chars( $content ) {
 		if ( $content ) {
+			$content = strip_tags( $content );
 			$content = preg_replace( '/[\n\t\r]/', ' ', $content );
 			$content = preg_replace( '/ {2,}/', ' ', $content );
 			$content = preg_replace( '/ +$/', '', $content );
@@ -324,7 +325,7 @@ class Iworks_Opengraph {
 				/**
 				 * get title
 				 */
-				$og['og']['title'] = $this->strip_white_chars( esc_attr( get_the_title() ) );
+				$og['og']['title'] = $this->strip_white_chars( get_the_title() );
 				$og['og']['url']   = get_permalink();
 				if ( has_excerpt( $post->ID ) ) {
 					$og['og']['description'] = strip_tags( get_the_excerpt() );

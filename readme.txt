@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: http://iworks.pl/donate/og.php
 Tags: OpenGraph, Open Graph, social, share
 Requires at least: 3.8
-Tested up to: 5.4
+Tested up to: 5.5
 Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -200,6 +200,9 @@ Use "og_article_author_value" filter, to return empty value for
 
 
 == Changelog ==
+
+= 2.8.6 (2020-08-24) =
+* Strip HTML tags from values. Props for [igb10](https://wordpress.org/support/users/igb10/)
 
 = 2.8.5 (2020-06-20) =
 * Fixed minor issue with og:type.
