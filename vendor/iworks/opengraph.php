@@ -188,6 +188,17 @@ class Iworks_Opengraph {
 			if ( false === $cache ) {
 				$src = false;
 				/**
+				 * get post thumbnail
+				 */
+				if ( empty( $src ) && function_exists( 'has_post_thumbnail' ) ) {
+					if ( has_post_thumbnail( $post->ID ) ) {
+						$post_thumbnail_id   = get_post_thumbnail_id( $post->ID );
+						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$src                 = esc_url( $thumbnail_src[0] );
+						$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+					}
+				}
+				/**
 				 * check YouTube movies
 				 */
 				$thumbnails = get_post_meta( $post->ID, $this->youtube_meta_name, true );
@@ -269,17 +280,6 @@ class Iworks_Opengraph {
 						if ( isset( $meta['mime_type'] ) ) {
 							$og['audio']['type'] = $meta['mime_type'];
 						}
-					}
-				}
-				/**
-				 * get post thumbnail
-				 */
-				if ( empty( $src ) && function_exists( 'has_post_thumbnail' ) ) {
-					if ( has_post_thumbnail( $post->ID ) ) {
-						$post_thumbnail_id   = get_post_thumbnail_id( $post->ID );
-						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$src                 = esc_url( $thumbnail_src[0] );
-						$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
 					}
 				}
 				/**

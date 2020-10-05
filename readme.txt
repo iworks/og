@@ -201,8 +201,8 @@ Use "og_article_author_value" filter, to return empty value for
 
 == Changelog ==
 
-= 2.8.6 (2020-08-24) =
-* Strip HTML tags from values. Props for [igb10](https://wordpress.org/support/users/igb10/)
+= 2.8.7 (2020-10-05) =
+* Fixed `og:image` order issue, move thumbnail was offered first, instead entry featured image. Props for Maurício Varallo II.
 
 = 2.8.5 (2020-06-20) =
 * Fixed minor issue with og:type.
