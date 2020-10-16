@@ -548,6 +548,20 @@ class Iworks_Opengraph {
 			} else {
 				$og = $cache;
 			}
+		} elseif ( is_author() ) {
+			$og['og']['type']    = 'profile';
+			$og['og']['profile'] = array(
+				'username'   => get_the_author(),
+				'first_name' => get_the_author_meta( 'first_name' ),
+				'last_name'  => get_the_author_meta( 'last_name' ),
+			);
+			$og['og']['image'] = get_avatar_url(
+				get_the_author_meta( 'ID' ),
+				array(
+					'size'    => 512,
+					'default' => 404,
+				)
+			);
 		} elseif ( is_search() ) {
 			$og['og']['url'] = add_query_arg( 's', get_query_var( 's' ), home_url() );
 		} elseif ( is_archive() ) {

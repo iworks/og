@@ -201,6 +201,9 @@ Use "og_article_author_value" filter, to return empty value for
 
 == Changelog ==
 
+= 2.8.8 (2020-10-16) =
+* Added `is_author()` page with `og:profile` values and user gravatar as `og:image`.
+
 = 2.8.7 (2020-10-05) =
 * Fixed `og:image` order issue, move thumbnail was offered first, instead entry featured image. Props for Maurício Varallo II.
 
