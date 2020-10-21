@@ -36,6 +36,12 @@ class Iworks_Opengraph {
 		return $plugin_meta;
 	}
 
+	/**
+	 * Try to find YouTube movies in post content
+	 *
+	 * @param integer $post_id Post ID
+	 * @param WP_Post  $post Porst to parse
+	 */
 	public function add_youtube_thumbnails( $post_id, $post ) {
 		if ( 'revision' == $post->post_type ) {
 			return;
@@ -43,14 +49,13 @@ class Iworks_Opengraph {
 		if ( 'publish' !== $post->post_status ) {
 			return;
 		}
-		delete_post_meta( $post_id, $this->youtube_meta_name );
 		$thumbnails = array();
 		/**
 		 * parse short youtube share url
 		 */
 		if ( preg_match_all( '#https?://youtu.be/([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[1] as $youtube_id ) {
-				$thumbnails[ $youtube_id ] = sprintf( 'https://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
+				$thumbnails[] = $youtube_id;
 			}
 		}
 		/**
@@ -58,24 +63,47 @@ class Iworks_Opengraph {
 		 */
 		if ( preg_match_all( '#https?://(www\.)?youtube\.com/watch\?v=([0-9a-z\-_]+)#i', $post->post_content, $matches ) ) {
 			foreach ( $matches[2] as $youtube_id ) {
-				$thumbnails[ $youtube_id ] = sprintf( 'https://img.youtube.com/vi/%s/maxresdefault.jpg', $youtube_id );
+				$thumbnails[] = $youtube_id;
 			}
 		}
+		$meta = array();
 		if ( count( $thumbnails ) ) {
-			foreach ( $thumbnails as $youtube_id => $image_url ) {
-				$data = @getimagesize( $image_url );
-				if ( ! empty( $data ) ) {
-					$thumbnails[ $youtube_id ] = array(
-						'url'        => preg_replace( '/^https/', 'http', $image_url ),
-						'secure_url' => preg_match( '/^https/', $image_url ) ? $image_url : '',
-						'width'      => $data[0],
-						'height'     => $data[1],
-						'type'       => $data['mime'],
-					);
+			$thumbnails = array_unique( $thumbnails );
+			foreach ( $thumbnails as $youtube_id ) {
+				foreach ( array( 'maxresdefault', 'hqdefault', '0' ) as $image_size ) {
+					if ( array_key_exists( $youtube_id, $meta ) ) {
+						continue;
+					}
+					$image_url = sprintf( 'https://img.youtube.com/vi/%s/%s.jpg', $youtube_id, $image_size );
+					$head      = wp_remote_head( $image_url );
+					if ( is_wp_error( $head ) ) {
+						continue;
+					}
+					if (
+						! isset( $head['response'] )
+						|| ! isset( $head['response']['code'] )
+						|| 200 !== $head['response']['code']
+					) {
+						continue;
+					}
+					$data = @getimagesize( $image_url );
+					if ( ! empty( $data ) ) {
+						$meta[ $youtube_id ] = array(
+							'url'        => preg_replace( '/^https/', 'http', $image_url ),
+							'secure_url' => preg_match( '/^https/', $image_url ) ? $image_url : '',
+							'width'      => $data[0],
+							'height'     => $data[1],
+							'type'       => $data['mime'],
+						);
+					}
 				}
 			}
-			update_post_meta( $post_id, $this->youtube_meta_name, $thumbnails );
 		}
+		if ( empty( $meta ) ) {
+			delete_post_meta( $post_id, $this->youtube_meta_name );
+			return;
+		}
+		update_post_meta( $post_id, $this->youtube_meta_name, $meta );
 	}
 
 	/**
@@ -555,7 +583,7 @@ class Iworks_Opengraph {
 				'first_name' => get_the_author_meta( 'first_name' ),
 				'last_name'  => get_the_author_meta( 'last_name' ),
 			);
-			$og['og']['image'] = get_avatar_url(
+			$og['og']['image']   = get_avatar_url(
 				get_the_author_meta( 'ID' ),
 				array(
 					'size'    => 512,
