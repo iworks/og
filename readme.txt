@@ -203,7 +203,7 @@ Use "og_article_author_value" filter, to return empty value for
 
 = 2.8.9 (2020-10-21) =
 * Added response code check for YouTube thumbnails. Props for [Biblioteka Targówek](https://wordpress.org/support/users/bekatarg/).
-* Added fallback for YouTube thumbnails: `maxresdefault'->'hqdefault'->'0'.
+* Added fallback for YouTube thumbnails: `maxresdefault` -> `hqdefault` -> `0`.
 
 = 2.8.8 (2020-10-16) =
 * Added `is_author()` page with `og:profile` values and user gravatar as `og:image`.
