@@ -25,6 +25,36 @@ class Iworks_Opengraph {
 	}
 
 	/**
+	 * Check to add video
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param WP_Post $post Current post.
+	 *
+	 * @return boolean
+	 *
+	 */
+	private function check_add_video_thumbnails_by_post( $post ) {
+		if ( 'revision' === $post->post_type ) {
+			return false;
+		}
+		if ( 'publish' !== $post->post_status ) {
+			return false;
+		}
+		/**
+		 * Turn off add thanks.
+		 *
+		 * Alow to turn off adding video thumbnails.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param boolean
+		 * @param WP_Post $post Current post.
+		 */
+		return apply_filters( 'og_check_add_video_thumbnails_by_post', true, $post );
+	}
+
+	/**
 	 * Ask for rating.
 	 *
 	 * @since 1.0.0
@@ -43,10 +73,7 @@ class Iworks_Opengraph {
 	 * @param WP_Post  $post Porst to parse
 	 */
 	public function add_youtube_thumbnails( $post_id, $post ) {
-		if ( 'revision' == $post->post_type ) {
-			return;
-		}
-		if ( 'publish' !== $post->post_status ) {
+		if ( false === $this->check_add_video_thumbnails_by_post( $post ) ) {
 			return;
 		}
 		$thumbnails = array();
@@ -112,10 +139,7 @@ class Iworks_Opengraph {
 	 * @since 2.8.1
 	 */
 	public function add_vimeo_thumbnails( $post_id, $post ) {
-		if ( 'revision' === $post->post_type ) {
-			return;
-		}
-		if ( 'publish' !== $post->post_status ) {
+		if ( false === $this->check_add_video_thumbnails_by_post( $post ) ) {
 			return;
 		}
 		delete_post_meta( $post_id, $this->vimeo_meta_name );
@@ -218,7 +242,18 @@ class Iworks_Opengraph {
 				/**
 				 * get post thumbnail
 				 */
-				if ( empty( $src ) && function_exists( 'has_post_thumbnail' ) ) {
+				if (
+					/**
+					 * Allow to turn toggle thumbnail
+					 *
+					 * @since 2.9.0
+					 *
+					 * @param boolean True to use entry thumbnail
+					 */
+					apply_filters( 'og_allow_to_use_thumbnail', true )
+					&& empty( $src )
+					&& function_exists( 'has_post_thumbnail' )
+				) {
 					if ( has_post_thumbnail( $post->ID ) ) {
 						$post_thumbnail_id   = get_post_thumbnail_id( $post->ID );
 						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
@@ -229,21 +264,32 @@ class Iworks_Opengraph {
 				/**
 				 * check YouTube movies
 				 */
-				$thumbnails = get_post_meta( $post->ID, $this->youtube_meta_name, true );
-				if ( is_array( $thumbnails ) && count( $thumbnails ) ) {
-					foreach ( $thumbnails as $youtube_id => $image ) {
-						if ( empty( $image ) ) {
-							continue;
+				if (
+					/**
+					 * Allow to turn toggle youtube thumbnail
+					 *
+					 * @since 2.9.0
+					 *
+					 * @param boolean True to use youtube thumbnail
+					 */
+					apply_filters( 'og_allow_to_use_youtube', true )
+				) {
+					$thumbnails = get_post_meta( $post->ID, $this->youtube_meta_name, true );
+					if ( is_array( $thumbnails ) && count( $thumbnails ) ) {
+						foreach ( $thumbnails as $youtube_id => $image ) {
+							if ( empty( $image ) ) {
+								continue;
+							}
+							if ( is_array( $image ) ) {
+								$og['og']['image'][] = $image;
+							} elseif ( is_string( $image ) ) {
+								$og['og']['image'][] = array(
+									'url' => esc_url( $image ),
+								);
+							}
+							$og['og']['video'][]       = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
+							$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 						}
-						if ( is_array( $image ) ) {
-							$og['og']['image'][] = $image;
-						} elseif ( is_string( $image ) ) {
-							$og['og']['image'][] = array(
-								'url' => esc_url( $image ),
-							);
-						}
-						$og['og']['video'][]       = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
-						$og['twitter']['player'][] = esc_url( sprintf( 'https://youtu.be/%s', $youtube_id ) );
 					}
 				}
 				/**
@@ -251,24 +297,35 @@ class Iworks_Opengraph {
 				 *
 				 * @since 2.8.2
 				 */
-				$thumbnails = get_post_meta( $post->ID, $this->vimeo_meta_name, true );
-				if ( is_array( $thumbnails ) && count( $thumbnails ) ) {
-					foreach ( $thumbnails as $vimeo ) {
-						if ( empty( $vimeo ) ) {
-							continue;
+				if (
+					/**
+					 * Allow to turn toggle Vimeo thumbnail
+					 *
+					 * @since 2.9.0
+					 *
+					 * @param boolean True to use Vimeo thumbnail
+					 */
+					apply_filters( 'og_allow_to_use_vimeo', true )
+				) {
+					$thumbnails = get_post_meta( $post->ID, $this->vimeo_meta_name, true );
+					if ( is_array( $thumbnails ) && count( $thumbnails ) ) {
+						foreach ( $thumbnails as $vimeo ) {
+							if ( empty( $vimeo ) ) {
+								continue;
+							}
+							$og['og']['image'][]       = array(
+								'url'        => preg_replace( '/^https/', 'http', $vimeo['thumbnail_large'] ),
+								'secure_url' => preg_match( '/^https/', $vimeo['thumbnail_large'] ) ? $vimeo['thumbnail_large'] : '',
+								'width'      => 640,
+							);
+							$og['og']['video'][]       = array(
+								'url'        => esc_url( sprintf( 'http://vimeo.com/%d', $vimeo['id'] ) ),
+								'secure_url' => esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) ),
+								'width'      => intval( $vimeo['width'] ),
+								'height'     => intval( $vimeo['height'] ),
+							);
+							$og['twitter']['player'][] = esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) );
 						}
-						$og['og']['image'][]       = array(
-							'url'        => preg_replace( '/^https/', 'http', $vimeo['thumbnail_large'] ),
-							'secure_url' => preg_match( '/^https/', $vimeo['thumbnail_large'] ) ? $vimeo['thumbnail_large'] : '',
-							'width'      => 640,
-						);
-						$og['og']['video'][]       = array(
-							'url'        => esc_url( sprintf( 'http://vimeo.com/%d', $vimeo['id'] ) ),
-							'secure_url' => esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) ),
-							'width'      => intval( $vimeo['width'] ),
-							'height'     => intval( $vimeo['height'] ),
-						);
-						$og['twitter']['player'][] = esc_url( sprintf( 'https://vimeo.com/%d', $vimeo['id'] ) );
 					}
 				}
 				/**
@@ -313,7 +370,10 @@ class Iworks_Opengraph {
 				/**
 				 * try to grap from content
 				 */
-				if ( empty( $src ) ) {
+				if (
+					apply_filters( 'og_allow_to_use_content_image', true )
+					&& empty( $src )
+				) {
 					$src      = array();
 					$home_url = get_home_url();
 					$content  = $post->post_content;
@@ -381,9 +441,8 @@ class Iworks_Opengraph {
 						$og['article']['tag'][] = esc_attr( $tag->name );
 					}
 				}
-				remove_all_filters( 'get_the_date' );
-				$og['article']['published_time'] = get_the_date( 'c', $post->ID );
-				$og['article']['modified_time']  = get_the_modified_date( 'c' );
+				$og['article']['published_time'] = date( 'c', strtotime( $post->post_date_gmt ) );
+				$og['article']['modified_time']  = date( 'c', strtotime( $post->post_modified_gmt ) );
 				$og['article']['author']         = get_author_posts_url( $post->post_author );
 				/**
 				 * last update time
@@ -572,7 +631,16 @@ class Iworks_Opengraph {
 				 *
 				 * @since 2.6.0
 				 */
-				set_transient( $cache_key, $og, DAY_IN_SECONDS );
+				/**
+				 * og_set_transient_expiration
+				 *
+				 * Filter allow to change exception time.
+				 *
+				 * @since 2.9.0
+				 *
+				 * @param integer expire time, default DAY_IN_SECONDS
+				 */
+				set_transient( $cache_key, $og, apply_filters( 'og_set_transient_expiration', DAY_IN_SECONDS ) );
 			} else {
 				$og = $cache;
 			}
@@ -775,10 +843,10 @@ class Iworks_Opengraph {
 	 */
 	private function get_locale() {
 		if ( null !== $this->locale ) {
-			return $this->locale;
+			return apply_filters( 'og_get_locale', $this->locale );
 		}
 		$this->locale = preg_replace( '/-/', '_', get_bloginfo( 'language' ) );
-		return $this->locale;
+		return apply_filters( 'og_get_locale', $this->locale );
 	}
 
 	/**

@@ -198,8 +198,21 @@ Use "og_article_author_value" filter, to return empty value for
 
     add_filter( 'og_article_author_value', '__return_empty_string' );
 
+= How to disable featured image as og:image? =
+
+Use "og_allow_to_use_thumbnail" filter and return false.
+
+add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
+
+= 2.9.0 (2021-03-31 =
+* Added `og_allow_to_use_thumbnail` filter to disable feature image as og:image.
+* Added `og_allow_to_use_vimeo` filter to disable Vimeo movie thumbnail as og:image.
+* Added `og_allow_to_use_youtube` filter to disable YouTube movie thumbnail as og:image.
+* Added `og_check_add_video_thumbnails_by_post` to disable video from post, by post (second parameter is $post).
+* Added `og_get_locale` to filter locale.
+* Added `og_set_transient_expiration` filter, default is DAY_IN_SECONDS.
 
 = 2.8.9 (2020-10-21) =
 * Added response code check for YouTube thumbnails. Props for [Biblioteka Targówek](https://wordpress.org/support/users/bekatarg/).
