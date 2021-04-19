@@ -759,6 +759,7 @@ class Iworks_Opengraph {
 		 * print
 		 */
 		$this->echo_array( $og );
+		do_action( 'iworks_og_after', $og );
 		echo '<!-- /OG -->';
 		echo PHP_EOL;
 		/**
