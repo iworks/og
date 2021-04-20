@@ -117,7 +117,13 @@ class Iworks_Ld_Json {
 		/**
 		 * image
 		 */
-		if ( isset( $this->og['og']['image'] ) && 0 < count( $this->og['og']['image'] ) ) {
+		if (
+			isset( $this->og['og']['image'] )
+			&& (
+				( is_array( $this->og['og']['image'] ) && 0 < count( $this->og['og']['image'] ) )
+				|| ! empty( $this->og['og']['image'] )
+			)
+		) {
 			$data['image'] = array();
 			if ( is_string( $this->og['og']['image'] ) ) {
 				$data['image'][] = $this->og['og']['image'];
