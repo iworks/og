@@ -10,13 +10,13 @@ Author URI: http://iworks.pl/
 License: GNU GPL
  */
 
-require_once dirname( __FILE__ ) . '/vendor/iworks/class-iworks-opengraph.php';
+require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-opengraph.php';
 new Iworks_Opengraph();
 
-require_once dirname( __FILE__ ) . '/vendor/iworks/class-iworks-ld-json.php';
+require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-ld-json.php';
 new Iworks_Ld_Json();
 
-include_once dirname( __FILE__ ) . '/vendor/iworks/rate/rate.php';
+include_once dirname( __FILE__ ) . '/includes/iworks/rate/rate.php';
 do_action(
 	'iworks-register-plugin',
 	plugin_basename( __FILE__ ),
