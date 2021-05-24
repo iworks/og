@@ -11,10 +11,10 @@ License: GNU GPL
  */
 
 require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-opengraph.php';
-new Iworks_Opengraph();
+new iWorks_OpenGraph();
 
-require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-ld-json.php';
-new Iworks_Ld_Json();
+// require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-ld-json.php';
+// new iWorks_LD_plus_JSON();
 
 include_once dirname( __FILE__ ) . '/includes/iworks/rate/rate.php';
 do_action(

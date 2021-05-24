@@ -4,7 +4,7 @@
  *
  * @since 3.0.0
  */
-class Iworks_Ld_Json {
+class iWorks_LD_plus_JSON {
 
 	/**
 	 * LD+JSON data array

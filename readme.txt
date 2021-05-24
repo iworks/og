@@ -209,6 +209,7 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 = 2.9.1 (2021-xx-xx) =
 * Renamed directory `vendor` into `includes`.
 * Updated iWorks Rate to 1.0.3.
+* Added check image exists instead just processing.
 
 = 2.9.0 (2021-03-31 =
 * Added `og_allow_to_use_thumbnail` filter to disable feature image as og:image.

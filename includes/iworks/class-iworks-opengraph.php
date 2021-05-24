@@ -1,5 +1,5 @@
 <?php
-class Iworks_Opengraph {
+class iWorks_OpenGraph {
 	private $youtube_meta_name = 'iworks_yt_thumbnails';
 	private $version           = 'PLUGIN_VERSION';
 	private $debug             = false;
@@ -383,11 +383,13 @@ class Iworks_Opengraph {
 							if ( preg_match( '/class="([^"]+)"/', $img, $matches_image_class ) ) {
 								$classes = $matches_image_class[1];
 								if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
-									$attachment_id       = $matches_image_id[1];
-									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
-									$src[]               = esc_url( $thumbnail_src[0] );
-									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
-									continue;
+									$attachment_id = $matches_image_id[1];
+									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+									if ( is_array( $thumbnail_src ) ) {
+										$src[]               = esc_url( $thumbnail_src[0] );
+										$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
+										continue;
+									}
 								}
 							} elseif ( preg_match( '/src=([\'"])?([^"^\'^ ^>]+)([\'" >])?/', $img, $matches_image_src ) ) {
 								$temp_src = $matches_image_src[2];
@@ -400,9 +402,11 @@ class Iworks_Opengraph {
 								}
 								$attachment_id = $this->get_attachment_id( $temp_src );
 								if ( 0 < $attachment_id ) {
-									$thumbnail_src       = wp_get_attachment_image_src( $attachment_id, 'full' );
-									$src[]               = esc_url( $thumbnail_src[0] );
-									$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
+									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+									if ( is_array( $thumbnail_src ) ) {
+										$src[]               = esc_url( $thumbnail_src[0] );
+										$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
+									}
 								} else {
 									$og['og']['image'][] = $this->get_image_dimensions( array( $temp_src ) );
 								}
