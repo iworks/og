@@ -22,6 +22,9 @@ class iWorks_OpenGraph {
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
 		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
+		/**
+		 * iWorks Rate Class
+		 */
 		add_filter( 'iworks_rate_notice_logo_style', array( $this, 'filter_plugin_logo' ), 10, 2 );
 	}
 
