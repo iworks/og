@@ -1,6 +1,6 @@
 === OG ===
 Contributors: iworks
-Donate link: http://iworks.pl/donate/og.php
+Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
 Tags: OpenGraph, Open Graph, social, share
 Requires at least: 4.6
 Tested up to: 5.7
@@ -206,9 +206,9 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
 
-= 2.9.1 (2021-xx-xx) =
+= 2.9.1 (2021-06-23) =
 * Renamed directory `vendor` into `includes`.
-* Updated iWorks Rate to 1.0.3.
+* Updated iWorks Rate to 2.0.0.
 * Added check image exists instead just processing.
 
 = 2.9.0 (2021-03-31 =

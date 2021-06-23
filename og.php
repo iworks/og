@@ -13,13 +13,6 @@ License: GNU GPL
 require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-opengraph.php';
 new iWorks_OpenGraph();
 
-// require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-ld-json.php';
-// new iWorks_LD_plus_JSON();
-
 include_once dirname( __FILE__ ) . '/includes/iworks/rate/rate.php';
-do_action(
-	'iworks-register-plugin',
-	plugin_basename( __FILE__ ),
-	__( 'OG', 'og' ),
-	'og'
-);
+do_action( 'iworks-register-plugin', plugin_basename( __FILE__ ), __( 'OG', 'og' ), 'og' );
+

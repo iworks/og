@@ -22,6 +22,22 @@ class iWorks_OpenGraph {
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
 		add_action( 'wp_head', array( $this, 'wp_head' ), 9 );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
+		add_filter( 'iworks_rate_notice_logo_style', array( $this, 'filter_plugin_logo' ), 10, 2 );
+	}
+
+	/**
+	 * Plugin logo for rate messages
+	 *
+	 * @since 2.9.1
+	 *
+	 * @param string $logo Logo, can be empty.
+	 * @param object $plugin Plugin basic data.
+	 */
+	public function filter_plugin_logo( $logo, $plugin ) {
+		if ( 'og' === $plugin['slug'] ) {
+			return plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . '/assets/images/logo.png';
+		}
+		return $logo;
 	}
 
 	/**
