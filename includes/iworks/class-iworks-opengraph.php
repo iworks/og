@@ -34,6 +34,9 @@ class iWorks_OpenGraph {
 	 * @param object $plugin Plugin basic data.
 	 */
 	public function filter_plugin_logo( $logo, $plugin ) {
+		if ( is_object( $plugin ) ) {
+			$plugin = (array) $plugin;
+		}
 		if ( 'og' === $plugin['slug'] ) {
 			return plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . '/assets/images/logo.png';
 		}
