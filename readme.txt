@@ -206,6 +206,8 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
 
+= 2.9.1 (2021-xx-xx) =
+
 = 2.9.1 (2021-06-23) =
 * Renamed directory `vendor` into `includes`.
 * Updated iWorks Rate to 2.0.0.
