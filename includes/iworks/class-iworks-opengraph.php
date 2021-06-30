@@ -198,7 +198,7 @@ class iWorks_OpenGraph {
 		if ( $content ) {
 			$content = strip_tags( $content );
 			$content = preg_replace( '/\s+/', ' ', $content );
-            $content = trim( $content );
+			$content = trim( $content );
 		}
 		return $content;
 	}
@@ -529,15 +529,15 @@ class iWorks_OpenGraph {
 								unset( $og['article'] );
 							}
 							$og['og']['type'] = 'product';
-                            $og['product']    = array(
-                                'retailer_item_id' => $_product->get_sku(),
-								'availability' => $_product->get_stock_status(),
-								'weight'       => $_product->get_weight(),
-								'price'        => array(
+							$og['product']    = array(
+								'retailer_item_id' => $_product->get_sku(),
+								'availability'     => $_product->get_stock_status(),
+								'weight'           => $_product->get_weight(),
+								'price'            => array(
 									'amount'   => $_product->get_regular_price(),
 									'currency' => get_woocommerce_currency(),
-                                ),
-                                'category' => array(),
+								),
+								'category'         => array(),
 							);
 							if ( $_product->is_on_sale() ) {
 								$og['product']['sale_price'] = array(
@@ -555,29 +555,29 @@ class iWorks_OpenGraph {
 										$og['product']['sale_price_dates']['end'] = $to;
 									}
 								}
-                            }
-                            /**
-                             * Product Categories
-                             *
-                             * @since 2.9.2
-                             */
-                            $terms = get_the_terms( $post->ID, 'product_cat' );
-                            if ( is_array( $terms ) ) {
-                                foreach( $terms as $term ) {
-                                    $og['product']['category'][] = $term->name;
-                                }
-                            }
-                            /**
-                             * Product Tags
-                             *
-                             * @since 2.9.2
-                             */
-                            $terms = get_the_terms( $post->ID, 'product_tag' );
-                            if ( is_array( $terms ) ) {
-                                foreach( $terms as $term ) {
-                                    $og['product']['tag'][] = $term->name;
-                                }
-                            }
+							}
+							/**
+							 * Product Categories
+							 *
+							 * @since 2.9.2
+							 */
+							$terms = get_the_terms( $post->ID, 'product_cat' );
+							if ( is_array( $terms ) ) {
+								foreach ( $terms as $term ) {
+									$og['product']['category'][] = $term->name;
+								}
+							}
+							/**
+							 * Product Tags
+							 *
+							 * @since 2.9.2
+							 */
+							$terms = get_the_terms( $post->ID, 'product_tag' );
+							if ( is_array( $terms ) ) {
+								foreach ( $terms as $term ) {
+									$og['product']['tag'][] = $term->name;
+								}
+							}
 						}
 					}
 				}
@@ -706,13 +706,13 @@ class iWorks_OpenGraph {
 					'size'    => 512,
 					'default' => 404,
 				)
-            );
-            /**
-             * Author bio
-             *
-             * @since 2.9.2
-             */
-            $og['og']['description'] = $this->strip_white_chars( strip_tags( get_the_author_meta( 'description' ) ) );
+			);
+			/**
+			 * Author bio
+			 *
+			 * @since 2.9.2
+			 */
+			$og['og']['description'] = $this->strip_white_chars( strip_tags( get_the_author_meta( 'description' ) ) );
 		} elseif ( is_search() ) {
 			$og['og']['url'] = add_query_arg( 's', get_query_var( 's' ), home_url() );
 		} elseif ( is_archive() ) {
