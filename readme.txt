@@ -206,8 +206,12 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
 
-= 2.9.2 (2021-xx-xx) =
-* Updated iWorks Rate to 2.0.1.
+= 2.9.2 (2021-06-30) =
+* Updated iWorks Rate to 2.0.3.
+* Added og:description into author page (from user bio).
+* Added product:category for WooCommerce product categories.
+* Added product:tags for WooCommerce product tags.
+* Added product:retailer_item_id for WooCommerce SKU.
 
 = 2.9.1 (2021-06-23) =
 * Renamed directory `vendor` into `includes`.
