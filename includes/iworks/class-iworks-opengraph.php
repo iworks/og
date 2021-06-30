@@ -528,8 +528,9 @@ class iWorks_OpenGraph {
 							if ( isset( $og['article'] ) ) {
 								unset( $og['article'] );
 							}
-							$og['og']['type'] = 'product';
-							$og['product']    = array(
+							$og['og']['type']  = 'product';
+							$og['og']['brand'] = '';
+							$og['product']     = array(
 								'retailer_item_id' => $_product->get_sku(),
 								'availability'     => $_product->get_stock_status(),
 								'weight'           => $_product->get_weight(),
@@ -576,6 +577,34 @@ class iWorks_OpenGraph {
 							if ( is_array( $terms ) ) {
 								foreach ( $terms as $term ) {
 									$og['product']['tag'][] = $term->name;
+								}
+							}
+							/**
+							 * Product Brand by:
+							 * - YITH WooCommerce Brands Add-On
+							 *
+							 * @since 2.9.2
+							 */
+							$brand_taxonomies = array(
+								'product_brand',
+								'berocket_brand',
+								'gswcbr_brand',
+								'pwb-brand',
+								'yith_product_brand',
+							);
+							foreach ( $brand_taxonomies as $taxonomy ) {
+								if ( ! empty( $og['brand'] ) ) {
+									continue;
+								}
+								if ( ! taxonomy_exists( $taxonomy ) ) {
+									continue;
+								}
+								$terms = get_the_terms( $post->ID, $taxonomy );
+								if ( is_array( $terms ) ) {
+									foreach ( $terms as $term ) {
+										$og['og']['brand']      = $term->name;
+										$og['product']['brand'] = $term->name;
+									}
 								}
 							}
 						}

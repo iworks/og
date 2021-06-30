@@ -207,16 +207,17 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 == Changelog ==
 
 = 2.9.2 (2021-06-30) =
-* Updated iWorks Rate to 2.0.3.
+* Added og:brand as integration with few plugins.
 * Added og:description into author page (from user bio).
 * Added product:category for WooCommerce product categories.
-* Added product:tags for WooCommerce product tags.
 * Added product:retailer_item_id for WooCommerce SKU.
+* Added product:tags for WooCommerce product tags.
+* Updated iWorks Rate to 2.0.3.
 
 = 2.9.1 (2021-06-23) =
+* Added check image exists instead just processing.
 * Renamed directory `vendor` into `includes`.
 * Updated iWorks Rate to 2.0.0.
-* Added check image exists instead just processing.
 
 = 2.9.0 (2021-03-31 =
 * Added `og_allow_to_use_thumbnail` filter to disable feature image as og:image.
