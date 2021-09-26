@@ -1,4 +1,4 @@
-=== OG ===
+=== OG - Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
 Tags: OpenGraph, Open Graph, social, share
@@ -205,6 +205,10 @@ Use "og_allow_to_use_thumbnail" filter and return false.
 add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
+
+= 2.9.3 (2021-xx-xx) =
+* Renamed plugin into "OG - Better Share on Social Media".
+* Updated iWorks Rate to 2.0.3.
 
 = 2.9.2 (2021-06-30) =
 * Added og:brand as integration with few plugins.
