@@ -206,7 +206,7 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
 
-= 2.9.3 (2021-xx-xx) =
+= 2.9.3 (2021-11-08) =
 * Added author gravatar as twitter:image on author archive.
 * Added Schema.org html meta tags.
 * Fixed missing og:url on author archive page.
