@@ -213,7 +213,7 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 * Fixed missing Twitter on single page.
 * Improved og:url for search results page.
 * Renamed plugin into "OG - Better Share on Social Media".
-* Updated iWorks Rate to 2.0.3.
+* Updated iWorks Rate to 2.0.4.
 
 = 2.9.2 (2021-06-30) =
 * Added og:brand as integration with few plugins.
