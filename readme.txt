@@ -3,7 +3,7 @@ Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
 Tags: OpenGraph, Open Graph, social, share
 Requires at least: 4.6
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -207,6 +207,11 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 == Changelog ==
 
 = 2.9.3 (2021-xx-xx) =
+* Added author gravatar as twitter:image on author archive.
+* Added Schema.org html meta tags.
+* Fixed missing og:url on author archive page.
+* Fixed missing Twitter on single page.
+* Improved og:url for search results page.
 * Renamed plugin into "OG - Better Share on Social Media".
 * Updated iWorks Rate to 2.0.3.
 

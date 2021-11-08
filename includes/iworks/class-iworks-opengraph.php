@@ -12,6 +12,20 @@ class iWorks_OpenGraph {
 	 */
 	private $vimeo_meta_name = '_og_vimeo_thumbnails';
 
+	/**
+	 * Schema.org mapping
+	 *
+	 * @since 2.9.3
+	 */
+	private $schema_org_mapping = array(
+		'name'          => array( 'og', 'title' ),
+		'headline'      => array( 'og', 'title' ),
+		'description'   => array( 'og', 'description' ),
+		'datePublished' => array( 'article', 'published_time' ),
+		'dateModified'  => array( 'article', 'modified_time' ),
+		'author'        => array( 'profile', 'username' ),
+	);
+
 	public function __construct() {
 		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
 		add_action( 'edit_attachment', array( $this, 'delete_transient_cache' ) );
@@ -26,6 +40,10 @@ class iWorks_OpenGraph {
 		 * iWorks Rate Class
 		 */
 		add_filter( 'iworks_rate_notice_logo_style', array( $this, 'filter_plugin_logo' ), 10, 2 );
+		/**
+		 * own filters
+		 */
+		add_filter( 'og_schema_datePublished', array( $this, 'filter_og_schema_datepublished' ) );
 	}
 
 	/**
@@ -230,6 +248,7 @@ class iWorks_OpenGraph {
 				'creator' => apply_filters( 'og_twitter_creator', '' ),
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
+			'schema'  => array(),
 		);
 		/**
 		 *  plugin: Facebook Page Publish
@@ -441,7 +460,7 @@ class iWorks_OpenGraph {
 				$og['og']['title'] = $this->strip_white_chars( get_the_title() );
 				$og['og']['url']   = get_permalink();
 				if ( has_excerpt( $post->ID ) ) {
-					$og['og']['description'] = strip_tags( get_the_excerpt() );
+					$og['og']['description'] = get_the_excerpt();
 				} else {
 					/**
 					 * Allow to change default number of words to change content
@@ -667,11 +686,6 @@ class iWorks_OpenGraph {
 				 * twitter
 				 */
 				$og['twitter']['card'] = 'summary';
-				foreach ( array( 'title', 'description', 'url' ) as $key ) {
-					if ( isset( $og['og'][ $key ] ) ) {
-						$og['twitter'][ $key ] = $og['og'][ $key ];
-					}
-				}
 				if (
 					isset( $og['og']['image'] )
 					&& is_array( $og['og']['image'] )
@@ -679,7 +693,6 @@ class iWorks_OpenGraph {
 				) {
 					$img = $og['og']['image'][0];
 					if ( isset( $img['url'] ) ) {
-						$og['twitter']['image'] = $img['url'];
 						/**
 						 * Twitter: change card type if image is big enought
 						 *
@@ -723,6 +736,8 @@ class iWorks_OpenGraph {
 				$og = $cache;
 			}
 		} elseif ( is_author() ) {
+			$author_id           = get_the_author_meta( 'ID' );
+			$og['og']['url']     = get_author_posts_url( $author_id );
 			$og['og']['type']    = 'profile';
 			$og['og']['profile'] = array(
 				'username'   => get_the_author(),
@@ -730,7 +745,7 @@ class iWorks_OpenGraph {
 				'last_name'  => get_the_author_meta( 'last_name' ),
 			);
 			$og['og']['image']   = get_avatar_url(
-				get_the_author_meta( 'ID' ),
+				$author_id,
 				array(
 					'size'    => 512,
 					'default' => 404,
@@ -743,12 +758,12 @@ class iWorks_OpenGraph {
 			 */
 			$og['og']['description'] = $this->strip_white_chars( strip_tags( get_the_author_meta( 'description' ) ) );
 		} elseif ( is_search() ) {
-			$og['og']['url'] = add_query_arg( 's', get_query_var( 's' ), home_url() );
+			$og['og']['url'] = get_search_link();
 		} elseif ( is_archive() ) {
 			$obj = get_queried_object();
 			if ( is_a( $obj, 'WP_Term' ) ) {
 				$og['og']['url']         = get_term_link( $obj->term_id );
-				$og['og']['description'] = strip_tags( term_description( $obj->term_id, $obj->taxonomy ) );
+				$og['og']['description'] = $this->strip_white_chars( term_description( $obj->term_id, $obj->taxonomy ) );
 				$image_id                = intval( get_term_meta( $obj->term_id, 'image', true ) );
 				if ( 0 < $image_id ) {
 					$thumbnail_src     = wp_get_attachment_image_src( $image_id, 'full' );
@@ -773,8 +788,8 @@ class iWorks_OpenGraph {
 			if ( is_home() || is_front_page() ) {
 				$og['og']['type'] = 'website';
 			}
-			$og['og']['description'] = esc_attr( get_bloginfo( 'description' ) );
-			$og['og']['title']       = esc_attr( get_bloginfo( 'title' ) );
+			$og['og']['description'] = $this->strip_white_chars( get_bloginfo( 'description' ) );
+			$og['og']['title']       = get_bloginfo( 'title' );
 			$og['og']['url']         = home_url();
 			if ( ! is_front_page() && is_home() ) {
 				$og['og']['url'] = get_permalink( get_option( 'page_for_posts' ) );
@@ -796,6 +811,62 @@ class iWorks_OpenGraph {
 			$og['og']['image'] = get_site_icon_url();
 		}
 		/**
+		 * image
+		 *
+		 * @since 2.9.3 (refactored)
+		 */
+		if ( isset( $og['og']['image'] ) ) {
+			$tmp_src = null;
+			if ( is_string( $og['og']['image'] ) ) {
+				$tmp_src = $og['og']['image'];
+			} elseif (
+				is_array( $og['og']['image'] )
+				&& ! empty( $og['og']['image'] )
+			) {
+				$img = $og['og']['image'][0];
+				if ( isset( $img['url'] ) ) {
+					$tmp_src = $img['url'];
+				}
+			}
+			/**
+			 * Twitter image
+			 *
+			 * @since 2.9.3
+			 */
+			if ( ! isset( $og['twitter']['image'] ) ) {
+				$og['twitter']['image'] = $tmp_src;
+			}
+			/**
+			 * Schema.org
+			 *
+			 * @since 2.9.3
+			 */
+			if ( ! isset( $og['schema']['image'] ) ) {
+				$og['schema']['image'] = $tmp_src;
+			}
+		}
+		/**
+		 * Twitter
+		 */
+		foreach ( array( 'title', 'description', 'url' ) as $key ) {
+			if ( isset( $og['og'][ $key ] ) ) {
+				$og['twitter'][ $key ] = $og['og'][ $key ];
+			}
+		}
+		/**
+		 * Schema.org
+		 */
+		foreach ( $this->schema_org_mapping as $itemprop => $og_keys ) {
+			if ( isset( $og[ $og_keys[0] ] ) ) {
+				if ( isset( $og[ $og_keys[0] ][ $og_keys[1] ] ) ) {
+					$og['schema'][ $itemprop ] = apply_filters(
+						'og_schema_' . $itemprop,
+						$og[ $og_keys[0] ][ $og_keys[1] ]
+					);
+				}
+			}
+		}
+		/**
 		 * Produce image extra tags
 		 */
 		if ( ! empty( $src ) ) {
@@ -810,15 +881,16 @@ class iWorks_OpenGraph {
 					$this->debug ? PHP_EOL : ''
 				);
 				printf(
-					'<meta itemprop="image" content="%s" />%s',
-					esc_url( $tmp_src ),
-					$this->debug ? PHP_EOL : ''
-				);
-				printf(
 					'<meta name="msapplication-TileImage" content="%s" />%s',
 					esc_url( $tmp_src ),
 					$this->debug ? PHP_EOL : ''
 				);
+				/**
+				 * Schema.org
+				 *
+				 * @since 2.9.3
+				 */
+				$og['schema']['image'] = $tmp_src;
 			}
 		}
 		/**
@@ -872,7 +944,11 @@ class iWorks_OpenGraph {
 			if ( is_array( $data ) ) {
 				$this->echo_array( $data, $tags );
 			} else {
-				$this->echo_one( $tags, $data );
+				if ( 'schema' === $tags[0] ) {
+					$this->echo_one( $tags[1], $data, 'itemprop' );
+				} else {
+					$this->echo_one( $tags, $data );
+				}
 			}
 		}
 	}
@@ -882,8 +958,11 @@ class iWorks_OpenGraph {
 	 *
 	 * @since 2.4.2
 	 */
-	private function echo_one( $property, $value ) {
-		$meta_property = implode( ':', $property );
+	private function echo_one( $property, $value, $name = 'property' ) {
+		$meta_property = $property;
+		if ( is_array( $property ) ) {
+			$meta_property = implode( ':', $property );
+		}
 		/**
 		 * add og:(image|video):url exception
 		 *
@@ -915,7 +994,8 @@ class iWorks_OpenGraph {
 		echo apply_filters(
 			$filter_name,
 			sprintf(
-				'<meta property="%s" content="%s" />%s',
+				'<meta %s="%s" content="%s" />%s',
+				esc_attr( $name ),
 				esc_attr( $meta_property ),
 				esc_attr( strip_tags( $value ) ),
 				$this->debug ? PHP_EOL : ''
@@ -1055,5 +1135,14 @@ class iWorks_OpenGraph {
 	public function delete_transient_cache( $id ) {
 		$cache_key = $this->get_transient_key( $id );
 		delete_transient( $cache_key );
+	}
+
+	/**
+	 * Schema.org: date filter
+	 *
+	 * @since 2.9.3
+	 */
+	public function filter_og_schema_datepublished( $date ) {
+		return date( 'Y-m-d', strtotime( $date ) );
 	}
 }
