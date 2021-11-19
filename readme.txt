@@ -206,6 +206,15 @@ add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
 == Changelog ==
 
+= 2.9.4 (2021-11-19) =
+* Added `og_og_array` filter to a part of OpenGraph array.
+* Added `og_article_array` filter to a part of OpenGraph array.
+* Added `og_twitter_array` filter to a part of OpenGraph array.
+* Added `og_schema_array` filter to a part of OpenGraph array.
+* Added `og_profile_array` filter to a part of OpenGraph array.
+* Added integration with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/) for Twitter.
+* Added support for `twitter:label` and `twitter:data`.
+
 = 2.9.3 (2021-11-08) =
 * Added author gravatar as twitter:image on author archive.
 * Added Schema.org html meta tags.

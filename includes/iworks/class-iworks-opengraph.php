@@ -44,6 +44,12 @@ class iWorks_OpenGraph {
 		 * own filters
 		 */
 		add_filter( 'og_schema_datePublished', array( $this, 'filter_og_schema_datepublished' ) );
+		/**
+		 * integrations wiith external plugins
+		 *
+		 * @since 2.9.4
+		 */
+		add_action( 'plugins_loaded', array( $this, 'load_integrations' ) );
 	}
 
 	/**
@@ -904,6 +910,14 @@ class iWorks_OpenGraph {
 			} while ( 300 < mb_strlen( $og['twitter']['description'] ) );
 		}
 		/**
+		 * filter sections
+		 *
+		 * @since 2.9.3
+		 */
+		foreach ( $og as $key => $data ) {
+			$og[ $key ] = apply_filters( 'og_' . $key . '_array', $data );
+		}
+		/**
 		 * Filter whole OG tags array
 		 *
 		 * @since 2.4.5
@@ -941,7 +955,14 @@ class iWorks_OpenGraph {
 			if ( ! is_integer( $tag ) ) {
 				$tags[] = $tag;
 			}
-			if ( is_array( $data ) ) {
+			/**
+			 * Twitter labels
+			 *
+			 * @since 2.9.4
+			 */
+			if ( 'labels' === $tag && count( $parent ) && 'twitter' === $parent[0] ) {
+				$this->echo_twiter_labels( $data );
+			} elseif ( is_array( $data ) ) {
 				$this->echo_array( $data, $tags );
 			} else {
 				if ( 'schema' === $tags[0] ) {
@@ -1144,5 +1165,46 @@ class iWorks_OpenGraph {
 	 */
 	public function filter_og_schema_datepublished( $date ) {
 		return date( 'Y-m-d', strtotime( $date ) );
+	}
+
+	/**
+	 * matbe load integrations
+	 *
+	 * @since 2.9.4
+	 */
+	public function load_integrations() {
+		$root = dirname( __file__ ) . '/opengraph';
+		include_once $root . '/class-iworks-opengraph-integrations.php';
+		$root .= '/integrations';
+		/**
+		 * Reading Time WP
+		 * https://wordpress.org/plugins/reading-time-wp/
+		 *
+		 * @since 2.9.4
+		 */
+		if ( class_exists( 'Reading_Time_WP' ) ) {
+			include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
+			new iWorks_OpenGraph_Integrations_Reading_Time_WP();
+		}
+	}
+
+	/**
+	 * Echo Twitter labels
+	 *
+	 * @since 2.9.4
+	 */
+	public function echo_twiter_labels( $data ) {
+		$counter = 1;
+		foreach ( $data as $one ) {
+			if ( ! isset( $one['label'] ) ) {
+				continue;
+			}
+			if ( ! isset( $one['data'] ) ) {
+				continue;
+			}
+			$this->echo_one( 'twitter:label' . $counter, $one['label'] );
+			$this->echo_one( 'twitter:data' . $counter, $one['data'] );
+			$counter++;
+		}
 	}
 }
