@@ -204,7 +204,21 @@ Use "og_allow_to_use_thumbnail" filter and return false.
 
 add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
 
+= How to avoid WhatsApp issue with og:image tag?
+
+In some cases WhatsApp doesn't show `og:image` and some times you can avoid it pushing og tags fairly close to the top of the `<head>`. 
+
+If you have similar issue you can change priority for `wp_action`.
+
+Use this code to change it to `0` (default is `9`).
+
+    add_filter( 'og_wp_head_prioryty', '__return_zero' );
+
+
 == Changelog ==
+
+= 2.9.5 (2021-12-29) =
+* Added filter `og_wp_head_prioryty` to allow to change `wp_head` priority.
 
 = 2.9.4 (2021-11-19) =
 * Added `og_og_array` filter to a part of OpenGraph array.
