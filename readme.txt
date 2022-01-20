@@ -217,6 +217,9 @@ Use this code to change it to `0` (default is `9`).
 
 == Changelog ==
 
+= 2.9.6 (2022-01-20) =
+* Updated iWorks Rate to 2.0.6.
+
 = 2.9.5 (2021-12-29) =
 * Added filter `og_wp_head_prioryty` to allow to change `wp_head` priority.
 
