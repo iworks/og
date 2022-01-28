@@ -1,4 +1,4 @@
-=== OG - Better Share on Social Media ===
+=== OG — Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
 Tags: OpenGraph, Open Graph, social, share
