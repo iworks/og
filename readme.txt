@@ -1,7 +1,7 @@
 === OG — Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
-Tags: OpenGraph, Open Graph, social, share
+Tags: OpenGraph, Open Graph, social, share, facebook
 Requires at least: 4.6
 Tested up to: 5.9
 Stable tag: PLUGIN_VERSION
@@ -216,6 +216,10 @@ Use this code to change it to `0` (default is `9`).
 
 
 == Changelog ==
+
+= 2.9.7 (2022-02-xx) =
+* Added `twitter:image:alt`.
+* Shorted `twitter:description` length into 200 characters. More: [Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/markup).
 
 = 2.9.6 (2022-01-20) =
 * Updated iWorks Rate to 2.0.6.

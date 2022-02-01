@@ -707,6 +707,13 @@ class iWorks_OpenGraph {
 						if ( isset( $img['width'] ) && 519 < $img['width'] ) {
 							$og['twitter']['card'] = 'summary_large_image';
 						}
+						$og['twitter']['image']['image'] = $img['url'];
+						/**
+						 * twitter:image:alt
+						 *
+						 * @since 2.9.7
+						 */
+						$og['twitter']['image']['alt'] = $img['alt'];
 					}
 				}
 				/**
@@ -907,7 +914,7 @@ class iWorks_OpenGraph {
 			do {
 				$og['twitter']['description'] = wp_trim_words( $og['twitter']['description'], $number_of_words, '...' );
 				$number_of_words--;
-			} while ( 300 < mb_strlen( $og['twitter']['description'] ) );
+			} while ( 200 < mb_strlen( $og['twitter']['description'] ) );
 		}
 		/**
 		 * filter sections
@@ -967,6 +974,8 @@ class iWorks_OpenGraph {
 			} else {
 				if ( 'schema' === $tags[0] ) {
 					$this->echo_one( $tags[1], $data, 'itemprop' );
+				} elseif ( 2 < sizeof( $tags ) && $tags[1] === $tags[2] ) {
+					$this->echo_one( array( $tags[0], $tags[1] ), $data );
 				} else {
 					$this->echo_one( $tags, $data );
 				}
