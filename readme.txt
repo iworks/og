@@ -217,7 +217,9 @@ Use this code to change it to `0` (default is `9`).
 
 == Changelog ==
 
-= 2.9.7 (2022-02-xx) =
+= 2.9.7 (2022-02-03) =
+* Added integration with plugin [Categories Images](https://wordpress.org/plugins/categories-images/).
+* Added filter `filter_og_get_image_dimensions_by_id` to allow get image data by attachment_ID.
 * Added `twitter:image:alt`.
 * Shorted `twitter:description` length into 200 characters. More: [Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/markup).
 

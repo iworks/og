@@ -44,6 +44,7 @@ class iWorks_OpenGraph {
 		 * own filters
 		 */
 		add_filter( 'og_schema_datePublished', array( $this, 'filter_og_schema_datepublished' ) );
+		add_filter( 'og_get_image_dimensions', array( $this, 'filter_og_get_image_dimensions_by_id' ), 10, 2 );
 		/**
 		 * integrations wiith external plugins
 		 *
@@ -1193,7 +1194,17 @@ class iWorks_OpenGraph {
 		 */
 		if ( class_exists( 'Reading_Time_WP' ) ) {
 			include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
-			new iWorks_OpenGraph_Integrations_Reading_Time_WP();
+			new iWorks_OpenGraph_Integrations_Reading_Time_WP;
+		}
+		/**
+		 * Categories Images
+		 * https://wordpress.org/plugins/categories-images/
+		 *
+		 * @since 2.9.7
+		 */
+		if ( class_exists( 'ZCategoriesImages' ) ) {
+			include_once $root . '/class-iworks-opengraph-integrations-categories-images.php';
+			new iWorks_OpenGraph_Integrations_Categories_Images;
 		}
 	}
 
@@ -1215,5 +1226,18 @@ class iWorks_OpenGraph {
 			$this->echo_one( 'twitter:data' . $counter, $one['data'] );
 			$counter++;
 		}
+	}
+
+	/**
+	 * get image dimensions filter
+	 *
+	 * @since 2.9.7
+	 */
+	public function filter_og_get_image_dimensions_by_id( $image, $attachment_id ) {
+		$attachment = wp_get_attachment_image_src( $attachment_id, 'full' );
+		if ( empty( $attachment ) ) {
+			return $image;
+		}
+		return $this->get_image_dimensions( $attachment, $attachment_id );
 	}
 }
