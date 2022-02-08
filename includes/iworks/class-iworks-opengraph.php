@@ -1280,7 +1280,7 @@ class iWorks_OpenGraph {
 		$type    = $this->get_type();
 		$output .= sprintf(
 			' itemscope itemtype="%s"',
-			esc_attr( $this->map_itemscope_itemtype( $type ) ),
+			esc_attr( $this->map_itemscope_itemtype( $type ) )
 		);
 		return $output;
 	}

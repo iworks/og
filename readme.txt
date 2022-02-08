@@ -217,6 +217,9 @@ Use this code to change it to `0` (default is `9`).
 
 == Changelog ==
 
+= 2.9.9 (2022-02-08) =
+* Fixed older PHP issues.
+
 = 2.9.8 (2022-02-08) =
 * Added for itemscope itemtype to HTML using `language_attributes` filter. Props for [Michał Ruszczyk](https://profiles.wordpress.org/mruszczyk/).
 
