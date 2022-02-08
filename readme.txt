@@ -217,6 +217,9 @@ Use this code to change it to `0` (default is `9`).
 
 == Changelog ==
 
+= 2.9.8 (2022-02-08) =
+* Added for itemscope itemtype to HTML using `language_attributes` filter. Props for [Michał Ruszczyk](https://profiles.wordpress.org/mruszczyk/).
+
 = 2.9.7 (2022-02-03) =
 * Added integration with plugin [Categories Images](https://wordpress.org/plugins/categories-images/).
 * Added filter `filter_og_get_image_dimensions_by_id` to allow get image data by attachment_ID.

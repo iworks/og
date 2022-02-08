@@ -28,13 +28,17 @@ class iWorks_OpenGraph {
 
 	public function __construct() {
 		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
+		/**
+		 * WordPress Hooks
+		 */
 		add_action( 'edit_attachment', array( $this, 'delete_transient_cache' ) );
 		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'add_vimeo_thumbnails' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
 		add_action( 'wp_head', array( $this, 'wp_head' ), apply_filters( 'og_wp_head_prioryty', 9 ) );
+		add_filter( 'language_attributes', array( $this, 'filter_add_html_itemscope_itemtype' ), 10, 2 );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 		/**
 		 * iWorks Rate Class
@@ -1240,4 +1244,105 @@ class iWorks_OpenGraph {
 		}
 		return $this->get_image_dimensions( $attachment, $attachment_id );
 	}
+
+	/**
+	 * Map itemtype
+	 *
+	 * @since 2.9.8
+	 */
+	private function map_itemscope_itemtype( $type ) {
+		$map = array(
+			'article' => 'https://schema.org/Article',
+			'audio'   => 'https://schema.org/AudioObject',
+			'blog'    => 'https://schema.org/Blog',
+			'contact' => 'https://schema.org/ContactPage',
+			'course'  => 'https://schema.org/Course',
+			'page'    => 'https://schema.org/WebPage',
+			'person'  => 'https://schema.org/Person',
+			'place'   => 'https://schema.org/Place',
+			'post'    => 'https://schema.org/BlogPosting',
+			'product' => 'https://schema.org/Product',
+			'search'  => 'https://schema.org/SearchAction',
+			'video'   => 'https://schema.org/VideoObject',
+		);
+		if ( isset( $map[ $type ] ) ) {
+			return $map[ $type ];
+		}
+		return 'https://schema.org/WebSite';
+	}
+
+	/**
+	 * add for itemscope itemtype to HTML using language_attributes filter
+	 *
+	 * @since 2.9.8
+	 */
+	public function filter_add_html_itemscope_itemtype( $output, $doctype ) {
+		$type    = $this->get_type();
+		$output .= sprintf(
+			' itemscope itemtype="%s"',
+			esc_attr( $this->map_itemscope_itemtype( $type ) ),
+		);
+		return $output;
+	}
+
+	/**
+	 * get type for itemscope itemtype
+	 *
+	 * @since 2.9.8
+	 */
+	private function get_type() {
+		/**
+		 * Home
+		 */
+		if ( is_home() ) {
+			return 'blog';
+		}
+		/**
+		 * Singular
+		 */
+		if ( is_singular() ) {
+			$post_type = get_post_type();
+			switch ( $post_type ) {
+				case 'page':
+				case 'post':
+					global $post;
+					if ( preg_match( '/contact-form-7/', $post->post_content ) ) {
+						return 'contact';
+					}
+					return $post_type;
+				case 'course':
+				case 'event':
+				case 'place':
+				case 'product':
+					return $post_type;
+				case 'attachment':
+					if ( wp_attachment_is_image() ) {
+						return 'image';
+					}
+					if ( wp_attachment_is( 'video' ) ) {
+						return 'video';
+					}
+					if ( wp_attachment_is( 'video' ) ) {
+						return 'video';
+					}
+			}
+		}
+		/**
+		 * Author
+		 */
+		if ( is_author() ) {
+			return 'person';
+		}
+		/**
+		 * search
+		 */
+		if ( is_search() ) {
+			return 'search';
+		}
+		/**
+		 * default
+		 */
+		return 'website';
+	}
+
 }
