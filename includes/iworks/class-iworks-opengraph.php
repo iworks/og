@@ -239,8 +239,11 @@ class iWorks_OpenGraph {
 		/**
 		 * Print version
 		 */
-		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
 		echo PHP_EOL;
+		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
+		if ( $this->debug ) {
+			echo PHP_EOL;
+		}
 		$og = array(
 			'og'      => array(
 				'image'       => apply_filters( 'og_image_init', array() ),
@@ -942,7 +945,9 @@ class iWorks_OpenGraph {
 		 */
 		$this->echo_array( $og );
 		do_action( 'iworks_og_after', $og );
+		echo PHP_EOL;
 		echo '<!-- /OG -->';
+		echo PHP_EOL;
 		echo PHP_EOL;
 		/**
 		 * Plugin: Orphans - turn off replacement
@@ -960,8 +965,11 @@ class iWorks_OpenGraph {
 	 */
 	private function echo_array( $og, $parent = array() ) {
 		foreach ( $og as $tag => $data ) {
-			if ( $this->debug && empty( $parent ) ) {
-				printf( '<!-- %s -->%s', $tag, PHP_EOL );
+			if ( empty( $parent ) ) {
+				echo PHP_EOL;
+				if ( $this->debug ) {
+					printf( '<!-- %s -->%s', $tag, PHP_EOL );
+				}
 			}
 			$tags = $parent;
 			if ( ! is_integer( $tag ) ) {
@@ -1187,28 +1195,44 @@ class iWorks_OpenGraph {
 	 * @since 2.9.4
 	 */
 	public function load_integrations() {
+		$plugins = get_option( 'active_plugins' );
+		if ( empty( $plugins ) ) {
+			return;
+		}
 		$root = dirname( __file__ ) . '/opengraph';
 		include_once $root . '/class-iworks-opengraph-integrations.php';
 		$root .= '/integrations';
-		/**
-		 * Reading Time WP
-		 * https://wordpress.org/plugins/reading-time-wp/
-		 *
-		 * @since 2.9.4
-		 */
-		if ( class_exists( 'Reading_Time_WP' ) ) {
-			include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
-			new iWorks_OpenGraph_Integrations_Reading_Time_WP;
-		}
-		/**
-		 * Categories Images
-		 * https://wordpress.org/plugins/categories-images/
-		 *
-		 * @since 2.9.7
-		 */
-		if ( class_exists( 'ZCategoriesImages' ) ) {
-			include_once $root . '/class-iworks-opengraph-integrations-categories-images.php';
-			new iWorks_OpenGraph_Integrations_Categories_Images;
+		foreach ( $plugins as $plugin ) {
+			/**
+			 * Reading Time WP
+			 * https://wordpress.org/plugins/reading-time-wp/
+			 *
+			 * @since 2.9.4
+			 */
+			if ( preg_match( '/reading-position-indicator\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
+				new iWorks_OpenGraph_Integrations_Reading_Time_WP;
+			}
+			/**
+			 * Categories Images
+			 * https://wordpress.org/plugins/categories-images/
+			 *
+			 * @since 2.9.7
+			 */
+			if ( preg_match( '/categories-images\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-categories-images.php';
+				new iWorks_OpenGraph_Integrations_Categories_Images;
+			}
+			/**
+			 * PublishPress Future: Automatically Unpublish WordPress Posts
+			 * https://wordpress.org/plugins/post-expirator/
+			 *
+			 * @since 3.0.0
+			 */
+			if ( preg_match( '/post-expirator\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-post-expirator.php';
+				new iWorks_OpenGraph_Integrations_Post_Expirator;
+			}
 		}
 	}
 

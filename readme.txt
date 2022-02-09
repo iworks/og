@@ -217,6 +217,11 @@ Use this code to change it to `0` (default is `9`).
 
 == Changelog ==
 
+= 3.0.0 (2022-02-09) =
+* Added `article:expiration_time` as integration with [PublishPress Future: Automatically Unpublish WordPress Posts](https://wordpress.org/plugins/post-expirator/).
+* Added few PHP_EOL character for non-debug output. Props for [Guido](https://profiles.wordpress.org/guido07111975/).
+* Improved checking integrations - removed usage of `class_exists` function.
+
 = 2.9.9 (2022-02-08) =
 * Fixed older PHP issues.
 
