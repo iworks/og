@@ -501,7 +501,6 @@ class iWorks_OpenGraph {
 				}
 				$og['article']['published_time'] = date( 'c', strtotime( $post->post_date_gmt ) );
 				$og['article']['modified_time']  = date( 'c', strtotime( $post->post_modified_gmt ) );
-				$og['article']['author']         = get_author_posts_url( $post->post_author );
 				/**
 				 * last update time
 				 *
@@ -530,22 +529,10 @@ class iWorks_OpenGraph {
 					}
 				}
 				/**
-				 * Filter `og:profile` values.
-				 *
-				 * @since 2.7.6
-				 *
-				 * @param array Array of `og:profile` values.
-				 * @param integer User ID.
+				 * og:profile
 				 */
-				$og['profile'] = apply_filters(
-					'og_profile',
-					array(
-						'first_name' => get_the_author_meta( 'first_name', $post->post_author ),
-						'last_name'  => get_the_author_meta( 'last_name', $post->post_author ),
-						'username'   => get_the_author_meta( 'display_name', $post->post_author ),
-					),
-					$post->post_author
-				);
+				$og['article']['author'] = $this->get_the_author_meta_array( $post->post_author );
+				$og['profile']           = $this->get_the_author_meta_array( $post->post_author );
 				/**
 				 * woocommerce product
 				 */
@@ -757,15 +744,11 @@ class iWorks_OpenGraph {
 				$og = $cache;
 			}
 		} elseif ( is_author() ) {
-			$author_id           = get_the_author_meta( 'ID' );
-			$og['og']['url']     = get_author_posts_url( $author_id );
-			$og['og']['type']    = 'profile';
-			$og['og']['profile'] = array(
-				'username'   => get_the_author(),
-				'first_name' => get_the_author_meta( 'first_name' ),
-				'last_name'  => get_the_author_meta( 'last_name' ),
-			);
-			$og['og']['image']   = get_avatar_url(
+			$author_id         = get_the_author_meta( 'ID' );
+			$og['og']['url']   = get_author_posts_url( $author_id );
+			$og['og']['type']  = 'profile';
+			$og['profile']     = $this->get_the_author_meta_array( $author_id );
+			$og['og']['image'] = get_avatar_url(
 				$author_id,
 				array(
 					'size'    => 512,
@@ -1301,6 +1284,15 @@ class iWorks_OpenGraph {
 	 * @since 2.9.8
 	 */
 	public function filter_add_html_itemscope_itemtype( $output, $doctype ) {
+		/**
+		 * Exclude WP-Sitemap stylesheet
+		 *
+		 * @since 3.0.1
+		 */
+		global $wp_query;
+		if ( isset( $wp_query->query['sitemap-stylesheet'] ) ) {
+			return $output;
+		}
 		$type    = $this->get_type();
 		$output .= sprintf(
 			' itemscope itemtype="%s"',
@@ -1367,6 +1359,31 @@ class iWorks_OpenGraph {
 		 * default
 		 */
 		return 'website';
+	}
+
+	/**
+	 * get user array
+	 *
+	 * @since 3.0.1
+	 */
+	private function get_the_author_meta_array( $author_id ) {
+		/**
+		 * Filter `og:profile` values.
+		 *
+		 * @since 2.7.6
+		 *
+		 * @param array Array of `og:profile` values.
+		 * @param integer User ID.
+		 */
+		return apply_filters(
+			'og_profile',
+			array(
+				'first_name' => get_the_author_meta( 'first_name', $author_id ),
+				'last_name'  => get_the_author_meta( 'last_name', $author_id ),
+				'username'   => get_the_author_meta( 'display_name', $author_id ),
+			),
+			$author_id
+		);
 	}
 
 }

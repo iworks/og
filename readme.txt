@@ -217,6 +217,11 @@ Use this code to change it to `0` (default is `9`).
 
 == Changelog ==
 
+= 3.0.1 (2022-02-10) =
+* Excluded `itemscope` for WP-Sitemap stylesheet. Props for [Jasper](https://wordpress.org/support/users/lucydog/)
+* Fixed `article:author` values, according to [ogp.me](https://ogp.me/)
+* Unified `article:author` and `profile` values.
+
 = 3.0.0 (2022-02-09) =
 * Added `article:expiration_time` as integration with [PublishPress Future: Automatically Unpublish WordPress Posts](https://wordpress.org/plugins/post-expirator/).
 * Added few PHP_EOL character for non-debug output. Props for [Guido](https://profiles.wordpress.org/guido07111975/).
