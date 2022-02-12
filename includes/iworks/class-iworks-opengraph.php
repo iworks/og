@@ -37,7 +37,7 @@ class iWorks_OpenGraph {
 		add_action( 'save_post', array( $this, 'add_vimeo_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
-		add_action( 'wp_head', array( $this, 'wp_head' ), apply_filters( 'og_wp_head_prioryty', 9 ) );
+		add_action( 'wp_head', array( $this, 'wp_head' ), apply_filters( 'og_wp_head_priority', 9 ) );
 		add_filter( 'language_attributes', array( $this, 'filter_add_html_itemscope_itemtype' ), 10, 2 );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 		/**
