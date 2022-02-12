@@ -1,15 +1,20 @@
 {
     "name": "og",
-    "title": "og",
+    "title": "OG — Better Share on Social Media",
     "description": "Very tiny Open Graph plugin - add featured image as facebook image. This plugin do not have any configuration - you can check how it works looking into page source.",
-    "version": "3.0.1",
-    "homepage": "https://wordpress.org/plugins/og/",
+    "version": "3.0.2",
+    "homepage": "http://iworks.pl/en/plugins/og/",
     "author": [
         {
             "name": "Marcin Pietrzak",
-            "email": "marcin@iworks.pl"
+            "email": "marcin@iworks.pl",
+            "uri": "http://iworks.pl/"
         }
     ],
+    "requires": {
+        "WordPress": "5.0",
+        "PHP": "7.2"
+    },
     "devDependencies": {
         "grunt": "^1",
         "load-grunt-tasks": "^0",

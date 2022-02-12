@@ -1,9 +1,9 @@
 === OG — Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
-Tags: OpenGraph, Open Graph, social, share, facebook
-Requires at least: 4.6
-Tested up to: 5.9
+Tags: OpenGraph, Open Graph, social, share, facebook, meta, graph api, twitter, social share, share links, meta headers, pinterest
+Requires at least: PLUGIN_REQUIRES_WORDPRESS
+Tested up to: 6.0
 Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,7 @@ The [Open Graph protocol][] enables any web page to become a rich object in a so
 
 The Open Graph plugin inserts the Open Graph metadata into page head section and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
 
-No configuration, pure power.
+***No configuration, pure power.***
 
 Plugin grabs data from content and if contains YouTube URL, then plugin try to get movie thumbnail and use it in og:image.
 
@@ -40,7 +40,7 @@ There are 3 ways to install this plugin:
 1. **Click** Install Now. After clicking the link, you’ll be asked if you’re sure you want to install the plugin.
 1. **Click** Yes, and WordPress completes the installation.
 1. **Activate** the plugin.
-1. That's all. The plugin does not have any configuration.
+1. That's all. ***The plugin does not have any configuration.***
 
 ***
 
@@ -51,7 +51,7 @@ There are 3 ways to install this plugin:
 1. Select button `Upload Plugin`
 1. Upload the .zip file you just downloaded
 1. Activate the plugin
-1. That's all. The plugin does not have any configuration.
+1. That's all. ***The plugin does not have any configuration.***
 
 ***
 
@@ -59,7 +59,7 @@ There are 3 ways to install this plugin:
 
 1. Upload `OG` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. That's all. The plugin does not have any configuration.
+1. That's all. ***The plugin does not have any configuration.***
 
 == Frequently Asked Questions ==
 
@@ -212,10 +212,13 @@ If you have similar issue you can change priority for `wp_action`.
 
 Use this code to change it to `0` (default is `9`).
 
-    add_filter( 'og_wp_head_prioryty', '__return_zero' );
+    add_filter( 'og_wp_head_priority', '__return_zero' );
 
 
 == Changelog ==
+
+= 3.0.2 (2022-02-12) =
+* Fixed misspelled filter name `og_wp_head_prioryty` into `og_wp_head_priority`. Props for [Armsportstore.com](https://wordpress.org/support/users/armbreakersweden/).
 
 = 3.0.1 (2022-02-10) =
 * Excluded `itemscope` for WP-Sitemap stylesheet. Props for [Jasper](https://wordpress.org/support/users/lucydog/)
@@ -243,7 +246,7 @@ Use this code to change it to `0` (default is `9`).
 * Updated iWorks Rate to 2.0.6.
 
 = 2.9.5 (2021-12-29) =
-* Added filter `og_wp_head_prioryty` to allow to change `wp_head` priority.
+* Added filter `og_wp_head_priority` to allow to change `wp_head` priority.
 
 = 2.9.4 (2021-11-19) =
 * Added `og_og_array` filter to a part of OpenGraph array.
@@ -377,74 +380,59 @@ Use this code to change it to `0` (default is `9`).
 * Updated Facebook locales list.
 
 = 2.5.3 (2018-05-09) =
-
 * Remove debug function, which broke whole plugin.
 
 = 2.5.2 (2018-05-08) =
-
 * Added filter `og_description_words` to allow change `og:description` length.
 * Fixed a problem with striping last word. Props for [intrex](https://wordpress.org/support/users/intrex/).
 * We are back to trim `og:description` to 55 words (it is default for `wp_trim_words()` function).
 
 = 2.5.1 (2018-04-16) =
-
 * Added og:image:width and og:image:height for first content image from site URL.
 
 = 2.5.0 (2018-04-14) =
-
 * Added og:image:width and og:image:height for featured image.
 
 = 2.4.9 (2018-02-27) =
-
 * Remove filter "the_content" to avoid incompatibility with some plugins.
 
 = 2.4.8 (2018-02-19) =
-
 * Added first content image to og:image if featured image is not set. Props for [andreyenkin](https://wordpress.org/support/users/andreyenkin/).
 
 = 2.4.7 (2017-09-26) =
-
 * Added filter "og_[og_name]_value" to change single og value.
 * Added og:type for post formats "audio" and "video".
 * Fixed og:type for WooCommerce product. Props for [shaharsol](https://wordpress.org/support/users/shaharsol/).
 
 = 2.4.6 (2017-09-13) =
-
 * Removed limit for og:description.
 
 = 2.4.5 (2017-06-13) =
-
 * Added filter "og_array" which allows to change whole OG array before print it.
 
 
 = 2.4.4 (2017-05-20) =
-
 * Fixed site crash when WooCommerce is active. Props for [JLY](https://wordpress.org/support/users/jose-luis-yanez/).
 
 = 2.4.3 (2017-05-09) =
-
 * Update "Rate" module to 1.0.1 - fixed wrong rate URL for non-English.
 
 = 2.4.2 (2017-05-03) =
-
 * Added tags "og:video" and "twitter:player" for YouTube embed movies.
 * Added WooCommerce integration for tags: "og:price:amount", "og:price:currency" and "og:availability".
 * Improved description tag, when entry content is empty, add entry title as description.
 
 = 2.4.1 (2016-10-26) =
-
 * Fixed problem for pages and another single content. At this moment OG works for all types of single entries.
 * Added ask for the rating on the plugin page.
 * Short twitter description.
 
-= 2.4 (2016-04-10) =
-
+= 2.4.0 (2016-04-10) =
 * Fixed the problem with proper preparation for localization.
 * Fixed the profile with grabbing YouTube image.
 * Implement WordPress code standard for PHP code used in the plugin.
 
-= 2.3 (2016-02-03) =
-
+= 2.3.0 (2016-02-03) =
 * Added categories as og:section.
 * Added esc_attr to headers tags.
 * Added msapplication-TileImage.
@@ -454,21 +442,18 @@ Use this code to change it to `0` (default is `9`).
 * Added twitter tags.
 * Added usage of site icon when is no icon - all cases.
 
-= 2.2 (2015-08-19) =
-
+= 2.2.0 (2015-08-19) =
 * IMPROVEMENT: added the site icon as og:image for the home page.
 
-= 2.1 (2015-05-21) =
-
+= 2.1.0 (2015-05-21) =
 * IMPROVEMENT: added checking site locale with facebook allowed locale.
 
-= 2.0 (2014-12-11) =
-
+= 2.0.0 (2014-12-11) =
 * IMPROVEMENT: added check to post_content exists for CPT without this field.
 * IMPROVEMENT: added og:author link
 * IMPROVEMENT: big refactoring
 * IMPROVEMENT: added filters, see [FAQ](https://wordpress.org/plugins/og/faq/) section
 
-= 1.0 (2014-10-02) =
-
+= 1.0.0 (2014-10-02) =
 Init.
+
