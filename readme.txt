@@ -225,7 +225,7 @@ Use this code to change it to `0` (default is `9`).
 
 Just add this code:
 
-    add_filter( 'og_is_schema_org_enabled', '__return_false' ) ;
+    add_filter( 'og_is_schema_org_enabled', '__return_false' );
 
 == Changelog ==
 

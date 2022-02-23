@@ -16,8 +16,6 @@ class iWorks_OpenGraph {
 	 * Schema.org mapping
 	 *
 	 * @since 2.9.3
-	 *
-	 * https://wordpress.org/support/topic/duplicate-schema-issue/
 	 */
 	private $schema_org_mapping = array(
 		'name'          => array( 'og', 'title' ),
@@ -32,6 +30,8 @@ class iWorks_OpenGraph {
 	 * Is schema.org enabled?
 	 *
 	 * @since 3.0.3
+	 *
+	 * https://wordpress.org/support/topic/duplicate-schema-issue/
 	 */
 	private $is_schema_org_enabled = true;
 
