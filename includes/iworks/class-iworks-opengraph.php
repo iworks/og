@@ -701,38 +701,7 @@ class iWorks_OpenGraph {
 					&& is_array( $og['og']['image'] )
 					&& ! empty( $og['og']['image'] )
 				) {
-					$img = $og['og']['image'][0];
-					if ( isset( $img['url'] ) ) {
-						/**
-						 * Twitter: change card type if image is big enought
-						 *
-						 * @since 2.7.3
-						 */
-						if ( isset( $img['width'] ) && 519 < $img['width'] ) {
-							$og['twitter']['card'] = 'summary_large_image';
-						}
-						$og['twitter']['image']['image'] = $img['url'];
-						/**
-						 * twitter:image:alt
-						 *
-						 * @since 2.9.7
-						 */
-						$og['twitter']['image']['alt'] = $img['alt'];
-					}
-				}
-				/**
-				 * Yet Another Related Posts Plugin (YARPP) + Pintrest og:see_also tag.
-				 *
-				 * @since 2.8.4
-				 */
-				if ( is_a( $yarpp, 'YARPP' ) ) {
-					$related = $yarpp->get_related();
-					if ( ! empty( $related ) ) {
-						$og['og']['see_also'] = array();
-						foreach ( $related as $one ) {
-							$og['og']['see_also'][] = get_permalink( $one->ID );
-						}
-					}
+					$og = $this->set_twitter_image( $og, $og['og']['image'][0] );
 				}
 				/**
 				 * set cache
@@ -847,7 +816,7 @@ class iWorks_OpenGraph {
 			 * @since 2.9.3
 			 */
 			if ( ! isset( $og['twitter']['image'] ) ) {
-				$og['twitter']['image'] = $tmp_src;
+				$og = $this->set_twitter_image( $og, $og['og']['image'][0] );
 			}
 			/**
 			 * Schema.org
@@ -1204,6 +1173,15 @@ class iWorks_OpenGraph {
 		$root .= '/integrations';
 		foreach ( $plugins as $plugin ) {
 			/**
+			 * YARPP – Yet Another Related Posts Plugin
+			 *
+			 * @since 2.8.4
+			 */
+			if ( preg_match( '/yarpp\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-yarpp.php';
+				new iWorks_OpenGraph_Integrations_YARPP;
+			}
+			/**
 			 * Reading Time WP
 			 * https://wordpress.org/plugins/reading-time-wp/
 			 *
@@ -1232,6 +1210,16 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/post-expirator\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-post-expirator.php';
 				new iWorks_OpenGraph_Integrations_Post_Expirator;
+			}
+			/**
+			 * Contextual Related Posts
+			 * https://wordpress.org/plugins/contextual-related-posts/
+			 *
+			 * @since 3.0.4
+			 */
+			if ( preg_match( '/contextual-related-posts\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-contextual-related-posts.php';
+				new iWorks_OpenGraph_Integrations_Contextual_Related_Posts;
 			}
 		}
 	}
@@ -1404,6 +1392,32 @@ class iWorks_OpenGraph {
 			),
 			$author_id
 		);
+	}
+
+	/**
+	 * set Twitter: image & card
+	 *
+	 * @since 3.0.4
+	 */
+	private function set_twitter_image( $og, $img ) {
+		if ( isset( $img['url'] ) ) {
+			/**
+			 * Twitter: change card type if image is big enought
+			 *
+			 * @since 2.7.3
+			 */
+			if ( isset( $img['width'] ) && 519 < $img['width'] ) {
+				$og['twitter']['card'] = 'summary_large_image';
+			}
+			$og['twitter']['image']['image'] = $img['url'];
+			/**
+			 * twitter:image:alt
+			 *
+			 * @since 2.9.7
+			 */
+			$og['twitter']['image']['alt'] = $img['alt'];
+		}
+		return $og;
 	}
 
 }

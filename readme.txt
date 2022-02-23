@@ -229,6 +229,12 @@ Just add this code:
 
 == Changelog ==
 
+= x.x.x (2022-02-23) =
+* Improved front page `twitter:image` integration with [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/).
+* Refactored adn removed code duplicate for `twitter:image`.
+* Added integration with plugin [Contextual Related Posts](https://wordpress.org/plugins/contextual-related-posts/) for Pinterest `og:see_also` tag.
+* Refactored integration with [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/).
+
 = 3.0.3 (2022-02-23) =
 * Added filter `og_is_schema_org_enabled` to disable Schema.org output.
 * Updated iWorks Rate to 2.1.0.
