@@ -27,6 +27,7 @@ Rich filters implementation to allow data change.
 [Open Graph Protocol]: http://ogp.me/
 [Like Button]: https://developers.facebook.com/docs/reference/plugins/like
 [Graph API]: https://developers.facebook.com/docs/reference/api/
+[Simple SEO Improvements]: https://wordpress.org/plugins/simple-seo-improvements/
 
 == Installation ==
 
@@ -151,7 +152,9 @@ og_og_title_meta
 
 = How to setup default image? =
 
-Use filter "og_image_init":
+You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
+
+Or use the filter "og_image_init":
 
     add_filter('og_image_init', 'my_og_image_init');
     function my_og_image_init($images)
@@ -177,9 +180,9 @@ Use filter "og_image_init":
 
 = How to add Facebook app_id? =
 
-OG plugin is super simple and we do not plan to add any "options page" which is needed if you want to have data like "fb:app_id" or "fb:pages".
+You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
 
-But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use `og_array` filter to add (or modify) OpenGraph tags.
+Or  you can use `og_array` filter to add (or modify) OpenGraph tags.
 
     add_filter( 'og_array', 'add_og_facebook_data' );
     function add_og_facebook_data( $og ) {
@@ -190,6 +193,10 @@ But, if you really wanna use OG and serve "FB" OpenGraph tags, then you can use 
         return $og;
     }
 
+
+= How to add twitter:site? =
+
+You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
 
 = How to disable author URL (article:author)? =
 
@@ -214,8 +221,17 @@ Use this code to change it to `0` (default is `9`).
 
     add_filter( 'og_wp_head_priority', '__return_zero' );
 
+= How to disable Schema.org output? =
+
+Just add this code:
+
+    add_filter( 'og_is_schema_org_enabled', '__return_false' ) ;
 
 == Changelog ==
+
+= 3.0.3 (2022-02-23) =
+* Added filter `og_is_schema_org_enabled` to disable Schema.org output.
+* Updated iWorks Rate to 2.1.0.
 
 = 3.0.2 (2022-02-12) =
 * Fixed misspelled filter name `og_wp_head_prioryty` into `og_wp_head_priority`. Props for [Armsportstore.com](https://wordpress.org/support/users/armbreakersweden/).

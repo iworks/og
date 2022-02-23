@@ -16,6 +16,8 @@ class iWorks_OpenGraph {
 	 * Schema.org mapping
 	 *
 	 * @since 2.9.3
+	 *
+	 * https://wordpress.org/support/topic/duplicate-schema-issue/
 	 */
 	private $schema_org_mapping = array(
 		'name'          => array( 'og', 'title' ),
@@ -25,6 +27,13 @@ class iWorks_OpenGraph {
 		'dateModified'  => array( 'article', 'modified_time' ),
 		'author'        => array( 'profile', 'username' ),
 	);
+
+	/**
+	 * Is schema.org enabled?
+	 *
+	 * @since 3.0.3
+	 */
+	private $is_schema_org_enabled = true;
 
 	public function __construct() {
 		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
@@ -845,8 +854,10 @@ class iWorks_OpenGraph {
 			 *
 			 * @since 2.9.3
 			 */
-			if ( ! isset( $og['schema']['image'] ) ) {
-				$og['schema']['image'] = $tmp_src;
+			if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
+				if ( ! isset( $og['schema']['image'] ) ) {
+					$og['schema']['image'] = $tmp_src;
+				}
 			}
 		}
 		/**
@@ -860,13 +871,15 @@ class iWorks_OpenGraph {
 		/**
 		 * Schema.org
 		 */
-		foreach ( $this->schema_org_mapping as $itemprop => $og_keys ) {
-			if ( isset( $og[ $og_keys[0] ] ) ) {
-				if ( isset( $og[ $og_keys[0] ][ $og_keys[1] ] ) ) {
-					$og['schema'][ $itemprop ] = apply_filters(
-						'og_schema_' . $itemprop,
-						$og[ $og_keys[0] ][ $og_keys[1] ]
-					);
+		if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
+			foreach ( $this->schema_org_mapping as $itemprop => $og_keys ) {
+				if ( isset( $og[ $og_keys[0] ] ) ) {
+					if ( isset( $og[ $og_keys[0] ][ $og_keys[1] ] ) ) {
+						$og['schema'][ $itemprop ] = apply_filters(
+							'og_schema_' . $itemprop,
+							$og[ $og_keys[0] ][ $og_keys[1] ]
+						);
+					}
 				}
 			}
 		}
@@ -894,7 +907,9 @@ class iWorks_OpenGraph {
 				 *
 				 * @since 2.9.3
 				 */
-				$og['schema']['image'] = $tmp_src;
+				if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
+					$og['schema']['image'] = $tmp_src;
+				}
 			}
 		}
 		/**
@@ -969,7 +984,9 @@ class iWorks_OpenGraph {
 				$this->echo_array( $data, $tags );
 			} else {
 				if ( 'schema' === $tags[0] ) {
-					$this->echo_one( $tags[1], $data, 'itemprop' );
+					if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
+						$this->echo_one( $tags[1], $data, 'itemprop' );
+					}
 				} elseif ( 2 < sizeof( $tags ) && $tags[1] === $tags[2] ) {
 					$this->echo_one( array( $tags[0], $tags[1] ), $data );
 				} else {
@@ -1284,6 +1301,9 @@ class iWorks_OpenGraph {
 	 * @since 2.9.8
 	 */
 	public function filter_add_html_itemscope_itemtype( $output, $doctype ) {
+		if ( ! apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
+			return $output;
+		}
 		/**
 		 * Exclude WP-Sitemap stylesheet
 		 *
