@@ -229,8 +229,9 @@ Just add this code:
 
 == Changelog ==
 
-= x.x.x (2022-02-23) =
+= 3.1.0 (2022-02-23) =
 * Added integration with plugin [Contextual Related Posts](https://wordpress.org/plugins/contextual-related-posts/) for Pinterest `og:see_also` tag.
+* Added integration with plugin [Related Posts for WordPress](https://wordpress.org/plugins/related-posts-for-wp/) for Pinterest `og:see_also` tag.
 * Improved front page `twitter:image` integration with [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/).
 * Refactored and removed code duplicate for `twitter:image`.
 * Refactored integration with [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/).

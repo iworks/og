@@ -1215,11 +1215,21 @@ class iWorks_OpenGraph {
 			 * Contextual Related Posts
 			 * https://wordpress.org/plugins/contextual-related-posts/
 			 *
-			 * @since 3.0.4
+			 * @since 3.1.0
 			 */
 			if ( preg_match( '/contextual-related-posts\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-contextual-related-posts.php';
 				new iWorks_OpenGraph_Integrations_Contextual_Related_Posts;
+			}
+			/**
+			 * Contextual Related Posts
+			 * https://wordpress.org/plugins/contextual-related-posts/
+			 *
+			 * @since 3.1.0
+			 */
+			if ( preg_match( '/related-posts-for-wp\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-related-posts-for-wp.php';
+				new iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress;
 			}
 		}
 	}
