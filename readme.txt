@@ -235,6 +235,10 @@ Just add this code:
 
 == Changelog ==
 
+= 3.1.1 (2022-02-24) =
+* Featured image for single content should be first.
+* Added limit to Pinterest `og:see_also`. It must be 6 or less.
+
 = 3.1.0 (2022-02-23) =
 * Added integration with plugin [Contextual Related Posts](https://wordpress.org/plugins/contextual-related-posts/) for Pinterest `og:see_also` tag.
 * Added integration with plugin [Related Posts for WordPress](https://wordpress.org/plugins/related-posts-for-wp/) for Pinterest `og:see_also` tag.

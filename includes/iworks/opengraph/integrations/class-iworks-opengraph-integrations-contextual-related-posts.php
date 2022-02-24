@@ -23,7 +23,11 @@ class iWorks_OpenGraph_Integrations_Contextual_Related_Posts extends iWorks_Open
 		if ( ! function_exists( 'get_crp_posts_id' ) ) {
 			return $data;
 		}
-		$related = get_crp_posts_id();
+		$args    = array(
+			'strict_limit' => true,
+			'limir'        => 6,
+		);
+		$related = get_crp_posts_id( $args );
 		if ( empty( $related ) ) {
 			return $data;
 		}

@@ -318,10 +318,15 @@ class iWorks_OpenGraph {
 					&& function_exists( 'has_post_thumbnail' )
 				) {
 					if ( has_post_thumbnail( $post->ID ) ) {
-						$post_thumbnail_id   = get_post_thumbnail_id( $post->ID );
-						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$src                 = esc_url( $thumbnail_src[0] );
-						$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
+						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
+						$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$src               = esc_url( $thumbnail_src[0] );
+						/**
+						 * Feature image should be first!
+						 *
+						 * @since 3.1.1
+						 */
+						array_unshift( $og['og']['image'], $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id ) );
 					}
 				}
 				/**

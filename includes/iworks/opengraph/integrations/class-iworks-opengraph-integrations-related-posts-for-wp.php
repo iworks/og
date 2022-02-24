@@ -24,7 +24,10 @@ class iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress extends iWorks_O
 			return $data;
 		}
 		$pl_manager = new RP4WP_Post_Link_Manager();
-		$related    = $pl_manager->get_children( get_the_ID() );
+		$args       = array(
+			'posts_per_page' => 6,
+		);
+		$related    = $pl_manager->get_children( get_the_ID(), $args );
 		if ( empty( $related ) ) {
 			return $data;
 		}

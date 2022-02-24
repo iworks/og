@@ -20,9 +20,6 @@ class iWorks_OpenGraph_Integrations_YARPP extends iWorks_OpenGraph_Integrations 
 		if ( ! is_singular() ) {
 			return $data;
 		}
-		if ( ! function_exists( 'get_crp_posts_id' ) ) {
-			return $data;
-		}
 		global $yarpp;
 		if ( ! is_object( $yarpp ) ) {
 			return $data;
@@ -30,8 +27,7 @@ class iWorks_OpenGraph_Integrations_YARPP extends iWorks_OpenGraph_Integrations 
 		if ( ! method_exists( $yarpp, 'get_related' ) ) {
 			return $data;
 		}
-
-		$related = $yarpp->get_related();
+		$related = $yarpp->get_related( get_the_ID(), array( 'limit' => 6 ) );
 		if ( empty( $related ) ) {
 			return $data;
 		}
