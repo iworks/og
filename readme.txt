@@ -227,6 +227,12 @@ Just add this code:
 
     add_filter( 'og_is_schema_org_enabled', '__return_false' );
 
+= How to remove author? =
+
+Just add this code:
+
+    add_filter( 'og_profile', '__return_false' );
+
 == Changelog ==
 
 = 3.1.0 (2022-02-23) =
