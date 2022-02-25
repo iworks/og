@@ -706,7 +706,7 @@ class iWorks_OpenGraph {
 					&& is_array( $og['og']['image'] )
 					&& ! empty( $og['og']['image'] )
 				) {
-					$og = $this->set_twitter_image( $og, $og['og']['image'][0] );
+					$og = $this->set_twitter_image( $og );
 				}
 				/**
 				 * set cache
@@ -820,8 +820,10 @@ class iWorks_OpenGraph {
 			 *
 			 * @since 2.9.3
 			 */
-			if ( ! isset( $og['twitter']['image'] ) ) {
-				$og = $this->set_twitter_image( $og, $og['og']['image'][0] );
+			if (
+				! isset( $og['twitter']['image'] )
+			) {
+				$og = $this->set_twitter_image( $og );
 			}
 			/**
 			 * Schema.org
@@ -1414,7 +1416,16 @@ class iWorks_OpenGraph {
 	 *
 	 * @since 3.0.4
 	 */
-	private function set_twitter_image( $og, $img ) {
+	private function set_twitter_image( $og ) {
+		$img = array();
+		if (
+			isset( $og['og']['image'] )
+			&& is_array( $og['og']['image'] )
+		) {
+			$img = $og['og']['image'][0];
+		} else {
+			return $og;
+		}
 		if ( isset( $img['url'] ) ) {
 			/**
 			 * Twitter: change card type if image is big enought

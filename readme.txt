@@ -235,6 +235,9 @@ Just add this code:
 
 == Changelog ==
 
+= 3.1.2 (2022-02-25) =
+* Added check is array for og:image to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
+
 = 3.1.1 (2022-02-24) =
 * Featured image for single content should be first.
 * Added limit to Pinterest `og:see_also`. It must be 6 or less.
