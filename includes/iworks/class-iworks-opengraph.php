@@ -51,6 +51,13 @@ class iWorks_OpenGraph {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 		/**
 		 * iWorks Rate Class
+		 *
+		 * Allow to change iWorks Rate logo for admin notice.
+		 *
+		 * @since 2.9.1
+		 *
+		 * @param string $logo Logo, can be empty.
+		 * @param object $plugin Plugin basic data.
 		 */
 		add_filter( 'iworks_rate_notice_logo_style', array( $this, 'filter_plugin_logo' ), 10, 2 );
 		/**

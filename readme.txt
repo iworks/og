@@ -66,9 +66,11 @@ There are 3 ways to install this plugin:
 
 = How do I configure the Open Graph plugin? =
 
-There is nothing to configure and there is no admin page. By default, it will use standard WordPress data which can to populate the Open Graph. There are very simple and powerful filters which you can use to modify or extend the metadata returned by the plugin. More information below.
+There is nothing to configure and there is no admin page. By default, it will use standard WordPress data which can populate the Open Graph. There are very simple and powerful filters that you can use to modify or extend the metadata returned by the plugin.
 
-= What plugin add for all type of content? =
+Read more about filters: [http://og.iworks.pl/](http://og.iworks.pl/)
+
+= What plugin add for all types of content? =
 
 * og:locale - site locale
 * og:site_name - blog title
@@ -79,6 +81,8 @@ There is nothing to configure and there is no admin page. By default, it will us
 * og:site_name - site name
 
 = What plugin add for single content? =
+
+All above and more:
 
 * og:image: From a specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn't exist from the first image in the post content, or if it doesn't exist from the first image on the post media gallery, or if it doesn't exist from the default image defined in the options menu. The same image chosen here will be used and enclosure/media:content on the RSS feed.
 * og:video - add links to YouTube movies.
@@ -94,149 +98,38 @@ There is nothing to configure and there is no admin page. By default, it will us
 
 = What plugin add for a single WooCommerce product? =
 
+All above and more:
+
 * og:price:amount - price amount
 * og:price:currency - price currency
 * og:availability - stock status
 
 = I installed OG and ... nothing happens! =
 
-Please be patient, sometimes you need more a day to see results. The reason of this is cache on Facebook. But check your plugins too and if you use and caching plugins, try to do "flush cache" on your site.
+Please be patient, sometimes you need more a day to see results. The reason for this is cache on Facebook. But check your plugins too and if you use caching plugins, try to do "flush cache" on your site.
 
 You can force FB to refresh OpenGraph data by using this page https://developers.facebook.com/tools/debug/sharing/. Just go to Sharing Debugger, enter your URL and hit the button "Scrap Again".
-
-= How to filter values? =
-
-Use auto filters. If you have value like this:
-
-    <meta property="og:title" content="WordPress Trunk" />
-
-Then auto filter is created like this:
-
-og_ + (word before ":") + _ + (word after ":") + _value
-
-In this case:
-
-og_og_title_value
-
-    add_filter('og_og_title_value', 'my_og_og_title_value');
-    function my_og_og_title_value($title)
-    {
-        if ( is_home() ) {
-            return __('This is extra home title!', 'translate-domain');
-        }
-        return $title;
-    }
-
-= How to filter whole meta tag? =
-
-Use auto filters. If you have value like this:
-
-    <meta property="og:title" content="WordPress Trunk" />
-
-Then auto filter is created like this:
-
-og_ + (word before ":") + _ + (word after ":") + _meta
-
-In this case:
-
-og_og_title_meta
-
-    add_filter('og_og_title_meta', 'my_og_og_title_meta');
-    function my_og_og_title_meta($title)
-    {
-        if ( is_home() ) {
-            return '<meta property="og:title" content="WordPress Title" />';
-        }
-        return $title;
-    }
 
 = How to setup default image? =
 
 You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
 
-Or use the filter "og_image_init":
-
-    add_filter('og_image_init', 'my_og_image_init');
-    function my_og_image_init($images)
-    {
-        if ( is_front_page() || is_home() ) {
-            $images[] = 'http://wordpress/wp-content/uploads/2014/11/DSCN0570.jpg';
-        }
-        return $images;
-    }
-
-= How to setup image on the front page? =
-
-Use filter "og_image_init":
-
-    add_filter('og_og_image_value', 'my_og_og_image_value');
-    function my_og_og_image_value($images)
-    {
-        if ( empty($images) ) {
-            $images[] = 'http://wordpress/wp-content/uploads/2014/11/DSCN0570.jpg';
-        }
-        return $images;
-    }
-
 = How to add Facebook app_id? =
 
 You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
-
-Or  you can use `og_array` filter to add (or modify) OpenGraph tags.
-
-    add_filter( 'og_array', 'add_og_facebook_data' );
-    function add_og_facebook_data( $og ) {
-        $og['fb'] = array(
-            'app_id' => 'my-app-id',
-            'pages' => 'foo, bar',
-        );
-        return $og;
-    }
-
 
 = How to add twitter:site? =
 
 You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
 
-= How to disable author URL (article:author)? =
+= Plugin documentation site =
 
-Use "og_article_author_value" filter, to return empty value for
-"article:author" key:
-
-    add_filter( 'og_article_author_value', '__return_empty_string' );
-
-= How to disable featured image as og:image? =
-
-Use "og_allow_to_use_thumbnail" filter and return false.
-
-add_filter( 'og_allow_to_use_thumbnail', '__return_false' );
-
-= How to avoid WhatsApp issue with og:image tag?
-
-In some cases WhatsApp doesn't show `og:image` and some times you can avoid it pushing og tags fairly close to the top of the `<head>`. 
-
-If you have similar issue you can change priority for `wp_action`.
-
-Use this code to change it to `0` (default is `9`).
-
-    add_filter( 'og_wp_head_priority', '__return_zero' );
-
-= How to disable Schema.org output? =
-
-Just add this code:
-
-    add_filter( 'og_is_schema_org_enabled', '__return_false' );
-
-= How to remove author? =
-
-Just add this code:
-
-    add_filter( 'og_profile', '__return_false' );
+[http://og.iworks.pl/](http://og.iworks.pl/)
 
 == Changelog ==
 
 = 3.1.2 (2022-02-25) =
-* Added check is array for og:image to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
+* Added check is array for `og:image` to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
 
 = 3.1.1 (2022-02-24) =
 * Featured image for single content should be first.
@@ -263,7 +156,7 @@ Just add this code:
 
 = 3.0.0 (2022-02-09) =
 * Added `article:expiration_time` as integration with [PublishPress Future: Automatically Unpublish WordPress Posts](https://wordpress.org/plugins/post-expirator/).
-* Added few PHP_EOL character for non-debug output. Props for [Guido](https://profiles.wordpress.org/guido07111975/).
+* Added a few PHP_EOL characters for non-debug output. Props for [Guido](https://profiles.wordpress.org/guido07111975/).
 * Improved checking integrations - removed usage of `class_exists` function.
 
 = 2.9.9 (2022-02-08) =
