@@ -95,6 +95,7 @@ All above and more:
 * twitter:description - the same like og:description
 * twitter:image - the same like og:image
 * twitter:player - the same like og:video
+* og:see_also - Pinterest related if you use supported "related posts" plugin
 
 = What plugin add for a single WooCommerce product? =
 
@@ -112,19 +113,15 @@ You can force FB to refresh OpenGraph data by using this page https://developers
 
 = How to setup default image? =
 
-You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
+You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG.
 
 = How to add Facebook app_id? =
 
-You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
+You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG.
 
 = How to add twitter:site? =
 
-You can use [Simple SEO Improvements][] plugin, which is integrated with OG.
-
-= Plugin documentation site =
-
-[http://og.iworks.pl/](http://og.iworks.pl/)
+You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG.
 
 == Changelog ==
 
