@@ -8,32 +8,19 @@ Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simple method to add Open Graph metadata to your entries so that they look great when shared on sites.
+The simple method to add Open Graph metadata to your entries so that they look great when shared on sites.
 
 == Description ==
 
-The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][].
-
-The Open Graph plugin inserts the Open Graph metadata into page head section and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
-
 ***No configuration, pure power.***
 
-Plugin grabs data from content and if contains YouTube URL, then plugin try to get movie thumbnail and use it in og:image.
-
-If the post contains YouTube or Vimeo links, this plugin saves as post meta video thumbnail link and add it to og:image as post thumbnail.
-
-Rich filters implementation to allow data change.
-
-[Open Graph Protocol]: http://ogp.me/
-[Like Button]: https://developers.facebook.com/docs/reference/plugins/like
-[Graph API]: https://developers.facebook.com/docs/reference/api/
-[Simple SEO Improvements]: https://wordpress.org/plugins/simple-seo-improvements/
+We believe this plugin is the best option for beginners because it has no configuration, you need only install and activate it - all magic will be done!
 
 == Installation ==
 
 There are 3 ways to install this plugin:
 
-= The super easy way =
+= The super-easy way =
 
 1. **Login** to your WordPress Admin panel.
 1. **Go to Plugins > Add New.**
@@ -49,7 +36,7 @@ There are 3 ways to install this plugin:
 
 1. Download the plugin (.zip file) on the right column of this page
 1. In your Admin, go to menu Plugins > Add
-1. Select button `Upload Plugin`
+1. Select the button `Upload Plugin`
 1. Upload the .zip file you just downloaded
 1. Activate the plugin
 1. That's all. ***The plugin does not have any configuration.***
@@ -66,9 +53,24 @@ There are 3 ways to install this plugin:
 
 = How do I configure the Open Graph plugin? =
 
-There is nothing to configure and there is no admin page. By default, it will use standard WordPress data which can populate the Open Graph. There are very simple and powerful filters that you can use to modify or extend the metadata returned by the plugin.
+There is nothing to configure and there is no admin page. By default, it will use standard WordPress data which can populate the Open Graph.
 
-Read more about filters: [http://og.iworks.pl/](http://og.iworks.pl/)
+= I installed OG and ... nothing happens! =
+
+Please be patient, sometimes you need more a day to see results. The reason for this is cache on Facebook. But check your plugins too and if you use caching plugins, try to do "flush cache" on your site.
+
+You can force FB to refresh OpenGraph data by using this page https://developers.facebook.com/tools/debug/sharing/. Just go to Sharing Debugger, enter your URL and hit the button "Scrap Again".
+
+= What is OpenGraph? =
+
+The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][].
+
+The Open Graph plugin inserts the Open Graph metadata into the page head section and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
+
+[Open Graph Protocol]: http://ogp.me/
+[Like Button]: https://developers.facebook.com/docs/reference/plugins/like
+[Graph API]: https://developers.facebook.com/docs/reference/api/
+[Simple SEO Improvements]: https://wordpress.org/plugins/simple-seo-improvements/
 
 = What plugin add for all types of content? =
 
@@ -95,7 +97,7 @@ All above and more:
 * twitter:description - the same like og:description
 * twitter:image - the same like og:image
 * twitter:player - the same like og:video
-* og:see_also - Pinterest related if you use supported "related posts" plugin
+* og:see_also - Pinterest related if you use the supported "related posts" plugin
 
 = What plugin add for a single WooCommerce product? =
 
@@ -105,28 +107,29 @@ All above and more:
 * og:price:currency - price currency
 * og:availability - stock status
 
-= I installed OG and ... nothing happens! =
+= How plugin get video data? =
 
-Please be patient, sometimes you need more a day to see results. The reason for this is cache on Facebook. But check your plugins too and if you use caching plugins, try to do "flush cache" on your site.
+Plugin grabs data from content and if contains YouTube URL, then the plugin tries to get a movie thumbnail and use it in og:image.
 
-You can force FB to refresh OpenGraph data by using this page https://developers.facebook.com/tools/debug/sharing/. Just go to Sharing Debugger, enter your URL and hit the button "Scrap Again".
+If the post contains YouTube or Vimeo links, this plugin saves it as a post meta video thumbnail link and adds it to og:image as a post thumbnail.
 
-= How to setup default image? =
+= If I need to change some values? =
 
-You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG.
+You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG to:
 
-= How to add Facebook app_id? =
+- set a default image
+- set facebook app_id
+- set twitter id
 
-You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG.
+***I need more!***
 
-= How to add twitter:site? =
-
-You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG.
+Rich filters implementation allows to change almost every output of this plugin, but this is for technicians: learn more on [OG Plugin Documentation Site](http://og.iworks.pl/).
 
 == Changelog ==
 
 = 3.1.2 (2022-02-25) =
 * Added check is array for `og:image` to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
+* Changed Plugin URI from http://iworks.pl/en/plugins/og/ to http://og.iworks.pl/.
 
 = 3.1.1 (2022-02-24) =
 * Featured image for single content should be first.
@@ -185,10 +188,10 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 
 = 2.9.3 (2021-11-08) =
 * Added author gravatar as twitter:image on author archive.
-* Added Schema.org html meta tags.
-* Fixed missing og:url on author archive page.
-* Fixed missing Twitter on single page.
-* Improved og:url for search results page.
+* Added Schema.org HTML meta tags.
+* Fixed missing og:url on an author archive page.
+* Fixed missing Twitter on a single page.
+* Improved og:url for the search results page.
 * Renamed plugin into "OG - Better Share on Social Media".
 * Updated iWorks Rate to 2.0.4.
 
@@ -221,7 +224,7 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 * Added `is_author()` page with `og:profile` values and user gravatar as `og:image`.
 
 = 2.8.7 (2020-10-05) =
-* Fixed `og:image` order issue, move thumbnail was offered first, instead entry featured image. Props for Maurício Varallo II.
+* Fixed `og:image` order issue, move thumbnail was offered first, instead of entry featured image. Props for Maurício Varallo II.
 
 = 2.8.5 (2020-06-20) =
 * Fixed minor issue with og:type.
@@ -243,10 +246,10 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 
 = 2.8.1 (2020-06-03) =
 * Added dimensions and type for YouTube images if it is possible.
-* Added filter `og_twitter_creator` to easy setup Twitter @username of creator.
+* Added filter `og_twitter_creator` for easy setup Twitter @username of a creator.
 * Added multiple `og:image` for all YouTube movies.
-* Removed post meta for YouTube images when movies was deleted from entry.
-* Use SSL for YouTube images if site is on SSL.
+* Removed post meta for YouTube images when movies were deleted from the entry.
+* Use SSL for YouTube images if a site is on SSL.
 
 = 2.8.0 (2020-06-03) =
 * Removed Facebook check for allowed locales.
@@ -254,7 +257,7 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 * Added filter `og_twitter_site` to easy setup Twitter @username for site owner.
 
 = 2.7.9 (2020-06-02) =
-* Improved cache key - now it include plugin version, to avoid get older cache.
+* Improved cache key - now it includes plugin version, to avoid getting older cache.
 
 = 2.7.8 (2020-06-02) =
 * Fixed an issue with no feature image, but wit multiple images in content. Props for [anthonykung](https://wordpress.org/support/users/anthonykung/)
@@ -281,7 +284,7 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 * Fixed `sprintf()` issue. Props for [John Glynn](https://www.linkedin.com/in/john-glynn-2a233426/)
 
 = 2.7.1 (2019-04-13) =
-* Added locale string into cache settings to be able handle languages. Props for [Oleksandr Omelchenko](https://wordpress.org/support/users/konusua/).
+* Added locale string into cache settings to be able to handle languages. Props for [Oleksandr Omelchenko](https://wordpress.org/support/users/konusua/).
 * Added cache locale value inside the class object to.
 
 = 2.7.0 (2018-10-21) =
@@ -336,7 +339,6 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 = 2.4.5 (2017-06-13) =
 * Added filter "og_array" which allows to change whole OG array before print it.
 
-
 = 2.4.4 (2017-05-20) =
 * Fixed site crash when WooCommerce is active. Props for [JLY](https://wordpress.org/support/users/jose-luis-yanez/).
 
@@ -355,7 +357,7 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 
 = 2.4.0 (2016-04-10) =
 * Fixed the problem with proper preparation for localization.
-* Fixed the profile with grabbing YouTube image.
+* Fixed the profile by grabbing the YouTube image.
 * Implement WordPress code standard for PHP code used in the plugin.
 
 = 2.3.0 (2016-02-03) =
