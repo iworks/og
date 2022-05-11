@@ -1,9 +1,9 @@
 {
     "name": "og",
     "title": "OG — Better Share on Social Media",
-    "tagline": "",
+    "tagline": "The simple method to add Open Graph metadata to your entries so that they look great when shared on sites.",
     "description": "Very tiny Open Graph plugin - add featured image as facebook image. This plugin do not have any configuration - you can check how it works looking into page source.",
-    "version": "3.1.2",
+    "version": "3.1.3",
     "homepage": "http://og.iworks.pl/",
     "author": [
         {
@@ -14,7 +14,7 @@
     ],
     "requires": {
         "WordPress": "5.0",
-        "PHP": "7.2"
+        "PHP": "7.4"
     },
     "devDependencies": {
         "grunt": "^1",

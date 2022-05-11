@@ -729,7 +729,9 @@ class iWorks_OpenGraph {
 				 *
 				 * @param integer expire time, default DAY_IN_SECONDS
 				 */
-				set_transient( $cache_key, $og, apply_filters( 'og_set_transient_expiration', DAY_IN_SECONDS ) );
+				if ( ! empty( $og ) ) {
+					set_transient( $cache_key, $og, apply_filters( 'og_set_transient_expiration', DAY_IN_SECONDS ) );
+				}
 			} else {
 				$og = $cache;
 			}
@@ -1448,7 +1450,9 @@ class iWorks_OpenGraph {
 			 *
 			 * @since 2.9.7
 			 */
-			$og['twitter']['image']['alt'] = $img['alt'];
+			if ( isset( $img['alt'] ) ) {
+				$og['twitter']['image']['alt'] = $img['alt'];
+			}
 		}
 		return $og;
 	}

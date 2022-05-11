@@ -8,7 +8,7 @@ Stable tag: PLUGIN_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The simple method to add Open Graph metadata to your entries so that they look great when shared on sites.
+PLUGIN_TAGLINE
 
 == Description ==
 
@@ -126,6 +126,10 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 Rich filters implementation allows to change almost every output of this plugin, but this is for technicians: learn more on [OG Plugin Documentation Site](http://og.iworks.pl/).
 
 == Changelog ==
+
+= 3.1.3 (2022-05-11) =
+* Fixed PHP warning when image has no alt. Props for [samoreen](https://wordpress.org/support/users/samoreen/).
+* Fixed try to set cache for empty value.
 
 = 3.1.2 (2022-02-25) =
 * Added check is array for `og:image` to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
