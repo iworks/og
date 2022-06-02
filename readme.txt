@@ -132,7 +132,7 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 = 3.1.3 (2022-05-11) =
 * Fixed PHP warning when image has no alt. Props for [samoreen](https://wordpress.org/support/users/samoreen/).
-* Fixed try to set cache for empty value.
+* Fixed try to set cache for an empty value.
 
 = 3.1.2 (2022-02-25) =
 * Added check is array for `og:image` to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
