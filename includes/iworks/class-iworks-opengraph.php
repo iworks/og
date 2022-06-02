@@ -1203,7 +1203,7 @@ class iWorks_OpenGraph {
 			 *
 			 * @since 2.9.4
 			 */
-			if ( preg_match( '/reading-position-indicator\.php$/', $plugin ) ) {
+			if ( preg_match( '/rt-reading-time\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
 				new iWorks_OpenGraph_Integrations_Reading_Time_WP;
 			}

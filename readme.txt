@@ -1,7 +1,7 @@
 === OG — Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
-Tags: OpenGraph, Open Graph, social, share, facebook, meta, graph api, twitter, social share, share links, meta headers, pinterest
+Tags: OpenGraph, Open Graph, social, share, Facebook, meta, graph API, Twitter, social share, share links, meta headers, Pinterest
 Requires at least: PLUGIN_REQUIRES_WORDPRESS
 Tested up to: 6.0
 Stable tag: PLUGIN_VERSION
@@ -127,6 +127,9 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 == Changelog ==
 
+= 3.1.4 (2022-06-02) =
+* Improved integration with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/).
+
 = 3.1.3 (2022-05-11) =
 * Fixed PHP warning when image has no alt. Props for [samoreen](https://wordpress.org/support/users/samoreen/).
 * Fixed try to set cache for empty value.
@@ -250,7 +253,7 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 = 2.8.1 (2020-06-03) =
 * Added dimensions and type for YouTube images if it is possible.
-* Added filter `og_twitter_creator` for easy setup Twitter @username of a creator.
+* Added filter `og_twitter_creator` for easy setup of Twitter @username of a creator.
 * Added multiple `og:image` for all YouTube movies.
 * Removed post meta for YouTube images when movies were deleted from the entry.
 * Use SSL for YouTube images if a site is on SSL.
