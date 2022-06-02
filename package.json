@@ -14,7 +14,7 @@
     ],
     "requires": {
         "WordPress": "5.0",
-        "PHP": "7.4"
+        "PHP": "7.0"
     },
     "devDependencies": {
         "grunt": "^1",
