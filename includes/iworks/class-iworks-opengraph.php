@@ -70,7 +70,7 @@ class iWorks_OpenGraph {
 		 *
 		 * @since 2.9.4
 		 */
-		add_action( 'plugins_loaded', array( $this, 'load_integrations' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_integrations' ), PHP_INT_MAX );
 	}
 
 	/**
@@ -276,6 +276,7 @@ class iWorks_OpenGraph {
 				'partner' => 'ogwp',
 				'site'    => apply_filters( 'og_twitter_site', '' ),
 				'creator' => apply_filters( 'og_twitter_creator', '' ),
+				'widgets' => apply_filters( 'og_twitter_widgets', array() ),
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 			'schema'  => array(),
@@ -1246,6 +1247,16 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/related-posts-for-wp\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-related-posts-for-wp.php';
 				new iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress;
+			}
+			/**
+			 * Twitter
+			 * https://wordpress.org/plugins/twitter/
+			 *
+			 * @since 3.1.5
+			 */
+			if ( preg_match( '/twitter\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-twitter.php';
+				new iWorks_OpenGraph_Integrations_Twitter;
 			}
 		}
 	}

@@ -127,6 +127,9 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 == Changelog ==
 
+= 3.1.5 (2022-06-23) =
+* Added integration with plugin [Twitter](https://wordpress.org/plugins/twitter/) to use data from this plugin: `twitter:site`, `twitter:widgets` and single content settings.
+
 = 3.1.4 (2022-06-02) =
 * Improved integration with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/).
 
