@@ -11,9 +11,11 @@ class iWorks_OpenGraph_Integrations_Twitter extends iWorks_OpenGraph_Integration
 	private $colors;
 
 	public function __construct() {
+		if ( ! class_exists( '\Twitter\WordPress\Admin\Settings\Embeds\Theme' ) ) {
+			return;
+		}
 		add_filter( 'og_twitter_array', array( $this, 'change' ) );
 		add_filter( 'twitter_card', '__return_null', PHP_INT_MAX );
-
 		$option_name  = \Twitter\WordPress\Admin\Settings\Embeds\Theme::OPTION_NAME;
 		$this->colors = get_option( $option_name );
 		if ( ! is_admin() ) {
