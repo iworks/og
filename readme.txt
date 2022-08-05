@@ -127,6 +127,9 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 == Changelog ==
 
+= 3.1.6 (2022-08-05) =
+* Removed post data if it is password protected entry (content, taxonomies). Props for cm. v. geel.
+
 = 3.1.5 (2022-06-23) =
 * Added integration with plugin [Twitter](https://wordpress.org/plugins/twitter/) to use data from this plugin: `twitter:site`, `twitter:widgets` and single content settings.
 

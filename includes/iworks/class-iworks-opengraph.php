@@ -494,67 +494,77 @@ class iWorks_OpenGraph {
 				 * get title
 				 */
 				$og['og']['title'] = $this->strip_white_chars( get_the_title() );
-				$og['og']['url']   = get_permalink();
-				if ( has_excerpt( $post->ID ) ) {
-					$og['og']['description'] = get_the_excerpt();
-				} else {
-					/**
-					 * Allow to change default number of words to change content
-					 * trim.
-					 *
-					 * @since 2.5.1
-					 *
-					 */
-					$number_of_words         = apply_filters( 'og_description_words', 55 );
-					$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
-				}
-				$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
-				if ( empty( $og['og']['description'] ) ) {
-					$og['og']['description'] = $og['og']['title'];
-				}
 				/**
-				 * add tags
+				 * get permalink
 				 */
-				$tags = get_the_tags();
-				if ( is_array( $tags ) && count( $tags ) > 0 ) {
-					foreach ( $tags as $tag ) {
-						$og['article']['tag'][] = esc_attr( $tag->name );
-					}
-				}
-				$og['article']['published_time'] = date( 'c', strtotime( $post->post_date_gmt ) );
-				$og['article']['modified_time']  = date( 'c', strtotime( $post->post_modified_gmt ) );
+				$og['og']['url'] = get_permalink();
 				/**
-				 * last update time
+				 * get post content
 				 *
-				 * @since 2.6.0
+				 * @since 3.1.6 check is post password required
 				 */
-				$og['og']['updated_time'] = get_the_modified_date( 'c' );
-				/**
-				 * article: categories
-				 */
-				$og['article']['section'] = array();
-				$post_categories          = wp_get_post_categories( $post->ID );
-				if ( ! empty( $post_categories ) ) {
-					foreach ( $post_categories as $category_id ) {
-						$category                   = get_category( $category_id );
-						$og['article']['section'][] = $category->name;
+				if ( ! post_password_required( $post->ID ) ) {
+					if ( has_excerpt( $post->ID ) ) {
+						$og['og']['description'] = get_the_excerpt();
+					} else {
+						/**
+						 * Allow to change default number of words to change content
+						 * trim.
+						 *
+						 * @since 2.5.1
+						 *
+						 */
+						$number_of_words         = apply_filters( 'og_description_words', 55 );
+						$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
 					}
-				}
-				/**
-				 * article: categories
-				 */
-				$og['article']['tag'] = array();
-				$post_tags            = wp_get_post_tags( $post->ID );
-				if ( ! empty( $post_tags ) ) {
-					foreach ( $post_tags as $tag ) {
-						$og['article']['tag'][] = $tag->name;
+					$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
+					if ( empty( $og['og']['description'] ) ) {
+						$og['og']['description'] = $og['og']['title'];
 					}
+					/**
+					 * add tags
+					 */
+					$tags = get_the_tags();
+					if ( is_array( $tags ) && count( $tags ) > 0 ) {
+						foreach ( $tags as $tag ) {
+							$og['article']['tag'][] = esc_attr( $tag->name );
+						}
+					}
+					$og['article']['published_time'] = date( 'c', strtotime( $post->post_date_gmt ) );
+					$og['article']['modified_time']  = date( 'c', strtotime( $post->post_modified_gmt ) );
+					/**
+					 * last update time
+					 *
+					 * @since 2.6.0
+					 */
+					$og['og']['updated_time'] = get_the_modified_date( 'c' );
+					/**
+					 * article: categories
+					 */
+					$og['article']['section'] = array();
+					$post_categories          = wp_get_post_categories( $post->ID );
+					if ( ! empty( $post_categories ) ) {
+						foreach ( $post_categories as $category_id ) {
+							$category                   = get_category( $category_id );
+							$og['article']['section'][] = $category->name;
+						}
+					}
+					/**
+					 * article: categories
+					 */
+					$og['article']['tag'] = array();
+					$post_tags            = wp_get_post_tags( $post->ID );
+					if ( ! empty( $post_tags ) ) {
+						foreach ( $post_tags as $tag ) {
+							$og['article']['tag'][] = $tag->name;
+						}
+					}
+					/**
+					 * og:profile
+					 */
+					$og['article']['author'] = $this->get_the_author_meta_array( $post->post_author );
+					$og['profile']           = $this->get_the_author_meta_array( $post->post_author );
 				}
-				/**
-				 * og:profile
-				 */
-				$og['article']['author'] = $this->get_the_author_meta_array( $post->post_author );
-				$og['profile']           = $this->get_the_author_meta_array( $post->post_author );
 				/**
 				 * woocommerce product
 				 */
