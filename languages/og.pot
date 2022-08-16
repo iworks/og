@@ -1,14 +1,14 @@
-# Copyright (C) 2021 Marcin Pietrzak
-# This file is distributed under the GNU GPL.
+# Copyright (C) 2022 AUTHOR_NAME
+# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: OG - Better Share on Social Media 2.9.2\n"
+"Project-Id-Version: OG — Better Share on Social Media PLUGIN_VERSION\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/og\n"
-"POT-Creation-Date: 2021-11-19 08:19:52+00:00\n"
+"POT-Creation-Date: 2022-08-16 06:31:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -24,30 +24,58 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/iworks/class-iworks-opengraph.php:110
+#: includes/iworks/class-iworks-opengraph.php:131
 msgid ""
 "If you like <strong>OG</strong> please leave us a "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in "
 "advance!"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:237
+#: includes/iworks/class-iworks-opengraph.php:259
 msgid "<!-- OG: %s -->"
 msgstr ""
 
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:28
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
+msgid "Reading time"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:36
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iworks/rate/rate.php:111
+#: includes/iworks/rate/rate.php:124
 msgid "Settings"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:117
+#: includes/iworks/rate/rate.php:130
 #: includes/iworks/rate/templates/thanks.php:28
 msgid "Provide us a coffee"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:474
+msgid "OpenGraph"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "OG — Better Share on Social Media"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:491
+msgid "https://wordpress.org/plugins/og/"
+msgstr ""
+
+#: includes/iworks/rate/templates/plugins/og.php:2
+msgid "Would you like to boost your website sharing abilities?"
+msgstr ""
+
+#: includes/iworks/rate/templates/plugins/og.php:7
+msgid "Don't wait, install plugin %s!"
+msgstr ""
+
+#: includes/iworks/rate/templates/plugins/og.php:17
+msgid "Install"
 msgstr ""
 
 #: includes/iworks/rate/templates/thanks.php:17
@@ -117,35 +145,32 @@ msgid ""
 "Thank you for all the ratings, reviews and donates."
 msgstr ""
 
-#: og.php:17
+#: og.php:28
 msgid "OG"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "OG - Better Share on Social Media"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://iworks.pl/"
+#. Plugin URI of the plugin/theme
+msgid "PLUGIN_URI"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid ""
-"Very tiny Open Graph plugin - add featured image as facebook image. This "
-"plugin do not have any configuration - you can check how it works looking "
-"into page source."
+msgid "PLUGIN_DESCRIPTION"
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Marcin Pietrzak"
+msgid "AUTHOR_NAME"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:365
+#. Author URI of the plugin/theme
+msgid "AUTHOR_URI"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:405
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:371
+#: includes/iworks/rate/rate.php:411
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr ""

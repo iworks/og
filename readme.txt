@@ -127,6 +127,9 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 == Changelog ==
 
+= 3.1.7 (2022-08-16) =
+* Fixed issue with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/) it returns string instead number for reading time less than 1 minute. Props for Radosław Serba.
+
 = 3.1.6 (2022-08-05) =
 * Removed post data if it is password protected entry (content, taxonomies). Props for [cris](http://og.iworks.pl/2022/06/23/3-1-5/#comment-3].
 
