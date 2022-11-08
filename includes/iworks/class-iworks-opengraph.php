@@ -830,7 +830,7 @@ class iWorks_OpenGraph {
 				is_array( $og['og']['image'] )
 				&& ! empty( $og['og']['image'] )
 			) {
-				$img = $og['og']['image'][0];
+				$img = reset( $og['og']['image'] );
 				if ( isset( $img['url'] ) ) {
 					$tmp_src = $img['url'];
 				}
@@ -1451,8 +1451,9 @@ class iWorks_OpenGraph {
 		if (
 			isset( $og['og']['image'] )
 			&& is_array( $og['og']['image'] )
+			&& ! empty( $og['og']['image'] )
 		) {
-			$img = $og['og']['image'][0];
+			$img = reset( $og['og']['image'] );
 		} else {
 			return $og;
 		}
