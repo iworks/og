@@ -128,6 +128,10 @@ Rich filters implementation allows to change almost every output of this plugin,
 == Changelog ==
 
 
+= 3.1.9 (2022-11-21) =
+* Added `og_head_link_rel_image_src_enabled` filter to disable head link output.
+* Added `og_head_meta_title_image_enabled` filter to disable head meta output.
+
 = 3.1.8 (2022-11-08) =
 * Fixed two PHP warnings due to lack of array index. Props for [Leonidas](https://wordpress.org/support/users/visionoptika/).
 
