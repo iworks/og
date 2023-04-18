@@ -205,7 +205,7 @@ Rich filter implementation allows you to change almost every output of this plug
 * Updated iWorks Rate to 2.0.6.
 
 = 2.9.5 (2021-12-29) =
-* Added the filter `og_wp_head_priority` to allow changing wp_head` priority.
+* Added the filter `og_wp_head_priority` to allow changing `wp_head` priority.
 
 = 2.9.4 (2021-11-19) =
 * Added `og_og_array` filter to a part of the OpenGraph array.
