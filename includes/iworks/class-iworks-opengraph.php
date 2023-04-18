@@ -35,8 +35,25 @@ class iWorks_OpenGraph {
 	 */
 	private $is_schema_org_enabled = true;
 
+	/**
+	 * set default image size
+	 *
+	 * @since 3.2.1
+	 */
+	private $image_size = 'full';
+
 	public function __construct() {
+		/**
+		 * debug settings
+		 */
 		$this->debug = apply_filters( 'og_debug', defined( 'WP_DEBUG' ) && WP_DEBUG );
+		/**
+		 * set image size filter
+		 *
+		 * @since 3.2.1
+		 */
+		$this->image_size = apply_filters( 'og_image_size', $this->image_size );
+
 		/**
 		 * WordPress Hooks
 		 */
@@ -281,7 +298,7 @@ class iWorks_OpenGraph {
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 			'schema'  => array(),
-        );
+		);
 		/**
 		 *  plugin: Facebook Page Publish
 		 */
@@ -328,7 +345,7 @@ class iWorks_OpenGraph {
 				) {
 					if ( has_post_thumbnail( $post->ID ) ) {
 						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
-						$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, $this->image_size );
 						/**
 						 * check response
 						 *
@@ -418,7 +435,7 @@ class iWorks_OpenGraph {
 				if ( is_attachment() ) {
 					if ( wp_attachment_is_image( $post->ID ) ) {
 						$post_thumbnail_id   = $post->ID;
-						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+						$thumbnail_src       = wp_get_attachment_image_src( $post_thumbnail_id, $this->image_size );
 						$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id );
 						$src                 = esc_url( wp_get_attachment_url( $post->ID ) );
 					} elseif ( wp_attachment_is( 'video', $post->ID ) ) {
@@ -468,7 +485,7 @@ class iWorks_OpenGraph {
 								$classes = $matches_image_class[1];
 								if ( preg_match( '/wp\-image\-(\d+)/', $classes, $matches_image_id ) ) {
 									$attachment_id = $matches_image_id[1];
-									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, $this->image_size );
 									if ( is_array( $thumbnail_src ) ) {
 										$src[]               = esc_url( $thumbnail_src[0] );
 										$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
@@ -486,7 +503,7 @@ class iWorks_OpenGraph {
 								}
 								$attachment_id = $this->get_attachment_id( $temp_src );
 								if ( 0 < $attachment_id ) {
-									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, 'full' );
+									$thumbnail_src = wp_get_attachment_image_src( $attachment_id, $this->image_size );
 									if ( is_array( $thumbnail_src ) ) {
 										$src[]               = esc_url( $thumbnail_src[0] );
 										$og['og']['image'][] = $this->get_image_dimensions( $thumbnail_src, $attachment_id );
@@ -781,7 +798,7 @@ class iWorks_OpenGraph {
 				$og['og']['description'] = $this->strip_white_chars( term_description( $obj->term_id, $obj->taxonomy ) );
 				$image_id                = intval( get_term_meta( $obj->term_id, 'image', true ) );
 				if ( 0 < $image_id ) {
-					$thumbnail_src     = wp_get_attachment_image_src( $image_id, 'full' );
+					$thumbnail_src     = wp_get_attachment_image_src( $image_id, $this->image_size );
 					$src               = $thumbnail_src[0];
 					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $image_id );
 				}
@@ -949,7 +966,7 @@ class iWorks_OpenGraph {
 		 *
 		 * @since 2.9.3
 		 */
-        foreach ( $og as $key => $data ) {
+		foreach ( $og as $key => $data ) {
 			$og[ $key ] = apply_filters( 'og_' . $key . '_array', $data );
 		}
 		/**
@@ -1241,15 +1258,15 @@ class iWorks_OpenGraph {
 	 *
 	 * @since 2.6.0
 	 */
-    private function get_transient_key( $post_id ) {
-        if ( $this->debug ) {
-            return false;
-        }
+	private function get_transient_key( $post_id ) {
+		if ( $this->debug ) {
+			return false;
+		}
 		$key    = sprintf( 'og_%d_%s', $post_id, $this->version );
 		$locale = $this->get_locale();
 		if ( ! empty( $locale ) ) {
 			$key .= '_' . $locale;
-        }
+		}
 		return $key;
 	}
 
@@ -1293,8 +1310,8 @@ class iWorks_OpenGraph {
 			 */
 			if ( preg_match( '/yarpp\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-yarpp.php';
-                new iWorks_OpenGraph_Integrations_YARPP;
-                continue;
+				new iWorks_OpenGraph_Integrations_YARPP;
+				continue;
 			}
 			/**
 			 * Reading Time WP
@@ -1305,7 +1322,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/rt-reading-time\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
 				new iWorks_OpenGraph_Integrations_Reading_Time_WP;
-                continue;
+				continue;
 			}
 			/**
 			 * Categories Images
@@ -1316,7 +1333,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/categories-images\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-categories-images.php';
 				new iWorks_OpenGraph_Integrations_Categories_Images;
-                continue;
+				continue;
 			}
 			/**
 			 * PublishPress Future: Automatically Unpublish WordPress Posts
@@ -1327,7 +1344,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/post-expirator\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-post-expirator.php';
 				new iWorks_OpenGraph_Integrations_Post_Expirator;
-                continue;
+				continue;
 			}
 			/**
 			 * Contextual Related Posts
@@ -1338,7 +1355,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/contextual-related-posts\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-contextual-related-posts.php';
 				new iWorks_OpenGraph_Integrations_Contextual_Related_Posts;
-                continue;
+				continue;
 			}
 			/**
 			 * Contextual Related Posts
@@ -1349,7 +1366,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/related-posts-for-wp\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-related-posts-for-wp.php';
 				new iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress;
-                continue;
+				continue;
 			}
 			/**
 			 * Twitter
@@ -1360,18 +1377,18 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/twitter\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-twitter.php';
 				new iWorks_OpenGraph_Integrations_Twitter;
-                continue;
+				continue;
 			}
-            /**
-             * The WordPress Multilingual Plugin (WPML)
-             * https://wpml.org/
-             *
-             * @since 3.2.0
-             */
-            if ( preg_match( '/sitepress\.php$/', $plugin ) ) {
+			/**
+			 * The WordPress Multilingual Plugin (WPML)
+			 * https://wpml.org/
+			 *
+			 * @since 3.2.0
+			 */
+			if ( preg_match( '/sitepress\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-sitepress-multilingual-cms.php';
 				new iWorks_OpenGraph_Integrations_Sitepress_Multilingual_CMS;
-                continue;
+				continue;
 			}
 		}
 	}
@@ -1402,7 +1419,7 @@ class iWorks_OpenGraph {
 	 * @since 2.9.7
 	 */
 	public function filter_og_get_image_dimensions_by_id( $image, $attachment_id ) {
-		$attachment = wp_get_attachment_image_src( $attachment_id, 'full' );
+		$attachment = wp_get_attachment_image_src( $attachment_id, $this->image_size );
 		if ( empty( $attachment ) ) {
 			return $image;
 		}

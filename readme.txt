@@ -128,10 +128,13 @@ Rich filter implementation allows you to change almost every output of this plug
 == Changelog ==
 
 
+= 3.2.1 (2023-04-18) =
+* Added `og_image_size` filter to allow changing default image size in OpenGraph data. Props for [uk03](https://wordpress.org/support/users/uk03/).
+
 = 3.2.0 (2023-04-18) =
 * The transient cache has been disabled if site is in WP_DEBUG mode.
 * The property `og:logo` has been added.
-* An additional check for the `wp_get_attachment_image_src()` function has been added. Props for [mauroaddari](https://wordpress.org/support/users/mauroaddari/)
+* An additional check for the `wp_get_attachment_image_src()` function has been added. Props for [mauroaddari](https://wordpress.org/support/users/mauroaddari/).
 * Added integration with WPML to set `og:locale:alternate` for single entries.
 
 = 3.1.9 (2022-11-21) =
