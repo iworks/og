@@ -35,7 +35,7 @@ There are 3 ways to install this plugin:
 = The easy way =
 
 1. Download the plugin (.zip file) on the right column of this page
-1. In your Admin, go to menu Plugins > Add
+1. In your Admin, go to the menu Plugins > Add
 1. Select the button `Upload Plugin`
 1. Upload the .zip file you just downloaded
 1. Activate the plugin
@@ -57,13 +57,13 @@ There is nothing to configure and there is no admin page. By default, it will us
 
 = I installed OG and ... nothing happens! =
 
-Please be patient, sometimes you need more a day to see results. The reason for this is cache on Facebook. But check your plugins too and if you use caching plugins, try to do "flush cache" on your site.
+Please be patient, sometimes you need more a day to see results. The reason for this is the cache on Facebook. But check your plugins too and if you use caching plugins, try to do "flush cache" on your site.
 
 You can force FB to refresh OpenGraph data by using this page https://developers.facebook.com/tools/debug/sharing/. Just go to Sharing Debugger, enter your URL and hit the button "Scrap Again".
 
 = What is OpenGraph? =
 
-The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][].
+The [Open Graph protocol][] enables any web page to become a rich object in a social graph.  Most notably, this allows for these pages to be used with Facebook's [Like Button][] and [Graph API][].
 
 The Open Graph plugin inserts the Open Graph metadata into the page head section and provides filters for other plugins and themes to override this data, or to provide additional Open Graph data.
 
@@ -86,20 +86,20 @@ The Open Graph plugin inserts the Open Graph metadata into the page head section
 
 All above and more:
 
-* og:image: From a specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn't exist from the first image in the post content, or if it doesn't exist from the first image on the post media gallery, or if it doesn't exist from the default image defined in the options menu. The same image chosen here will be used and enclosure/media:content on the RSS feed.
+* og:image: From a specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn't exist from the first image in the post content, or if it doesn't exist from the first image on the post media gallery, or if it doesn't exist from the default image defined in the options menu. The same image chosen here will be used in the enclosure and media:content of the RSS feed.
 * og:video - add links to YouTube movies.
 * article:author - author of post link
 * article:published_time - date of first article publication
 * article:modified_time - date of last article modification
-* article:tag - tags used in post
+* article:tag - tags used in the post
 * twitter:card - summary
-* twitter:title - the same line og:title
-* twitter:description - the same like og:description
-* twitter:image - the same like og:image
-* twitter:player - the same like og:video
-* og:see_also - Pinterest related if you use the supported "related posts" plugin
+* twitter:title - the same line as og:title
+* twitter:description - the same as og:description
+* twitter:image - the same as og:image
+* twitter:player - the same as og:video
+* og:see_also - Pinterest related if you use the supported "related posts" plugin.
 
-= What plugin add for a single WooCommerce product? =
+= What plugin should I add for a single WooCommerce product? =
 
 All above and more:
 
@@ -109,13 +109,13 @@ All above and more:
 
 = How plugin get video data? =
 
-Plugin grabs data from content and if contains YouTube URL, then the plugin tries to get a movie thumbnail and use it in og:image.
+The plugin grabs data from the content, and if it contains a YouTube URL, it tries to get a movie thumbnail and use it in og:image.
 
 If the post contains YouTube or Vimeo links, this plugin saves it as a post meta video thumbnail link and adds it to og:image as a post thumbnail.
 
 = If I need to change some values? =
 
-You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG to:
+You can use the [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG, to:
 
 - set a default image
 - set facebook app_id
@@ -123,26 +123,32 @@ You can use [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-i
 
 ***I need more!***
 
-Rich filters implementation allows to change almost every output of this plugin, but this is for technicians: learn more on [OG Plugin Documentation Site](http://og.iworks.pl/).
+Rich filter implementation allows you to change almost every output of this plugin, but this is for technicians: Learn more on the [OG Plugin Documentation Site](http://og.iworks.pl/).
 
 == Changelog ==
 
+
+= 3.2.0 (2023-04-18) =
+* The transient cache has been disabled if site is in WP_DEBUG mode.
+* The property 'og:logo' has been added.
+* An additional check for the `wp_get_attachment_image_src()` function has been added. Props for [mauroaddari](https://wordpress.org/support/users/mauroaddari/)
+* Added integration with WPML to set `og:locale:alternate` for single entries.
 
 = 3.1.9 (2022-11-21) =
 * Added `og_head_link_rel_image_src_enabled` filter to disable head link output.
 * Added `og_head_meta_title_image_enabled` filter to disable head meta output.
 
 = 3.1.8 (2022-11-08) =
-* Fixed two PHP warnings due to lack of array index. Props for [Leonidas](https://wordpress.org/support/users/visionoptika/).
+* Fixed two PHP warnings due to a lack of an array index. Props for [Leonidas](https://wordpress.org/support/users/visionoptika/).
 
 = 3.1.7 (2022-08-16) =
-* Fixed issue with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/) it returns string instead number for reading time less than 1 minute. Props for Radosław Serba.
+* Fixed issue with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/) it returns a string instead of a number if the reading time is less than 1 minute. Props for Radosław Serba.
 
 = 3.1.6 (2022-08-05) =
-* Removed post data if it is password protected entry (content, taxonomies). Props for [cris](http://og.iworks.pl/2022/06/23/3-1-5/#comment-3].
+* Removed post data if it is a password protected entry (content, taxonomies). Props for [cris](http://og.iworks.pl/2022/06/23/3-1-5/#comment-3].
 
 = 3.1.5 (2022-06-23) =
-* Added integration with plugin [Twitter](https://wordpress.org/plugins/twitter/) to use data from this plugin: `twitter:site`, `twitter:widgets` and single content settings.
+* Added integration with  [the Twitter plugin](https://wordpress.org/plugins/twitter/) to use data from this plugin: `twitter:site`, `twitter:widgets` and single content settings.
 
 = 3.1.4 (2022-06-02) =
 * Improved integration with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/).
@@ -152,36 +158,36 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Fixed try to set cache for an empty value.
 
 = 3.1.2 (2022-02-25) =
-* Added check is array for `og:image` to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
+* Added check is an array for `og:image` to avoid warning. Props for [Charles Smith](https://wordpress.org/support/users/bradlux/).
 * Changed Plugin URI from http://iworks.pl/en/plugins/og/ to http://og.iworks.pl/.
 
 = 3.1.1 (2022-02-24) =
 * Featured image for single content should be first.
-* Added limit to Pinterest `og:see_also`. It must be 6 or less.
+* Added limit to Pinterest `og:see_also`. It must be 6 or fewer.
 
 = 3.1.0 (2022-02-23) =
-* Added integration with plugin [Contextual Related Posts](https://wordpress.org/plugins/contextual-related-posts/) for Pinterest `og:see_also` tag.
-* Added integration with plugin [Related Posts for WordPress](https://wordpress.org/plugins/related-posts-for-wp/) for Pinterest `og:see_also` tag.
+* Added integration with the plugin [Contextual Related Posts](https://wordpress.org/plugins/contextual-related-posts/) for Pinterest `og:see_also` tag.
+* Added integration with the plugin [Related Posts for WordPress](https://wordpress.org/plugins/related-posts-for-wp/) for Pinterest `og:see_also` tag.
 * Improved front page `twitter:image` integration with [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/).
-* Refactored and removed code duplicate for `twitter:image`.
+* Refactored and removed code duplication for `twitter:image`.
 * Refactored integration with [YARPP](https://wordpress.org/plugins/yet-another-related-posts-plugin/).
 
 = 3.0.3 (2022-02-23) =
-* Added filter `og_is_schema_org_enabled` to disable Schema.org output.
+* Added the filter `og_is_schema_org_enabled` to disable Schema.org output.
 * Updated iWorks Rate to 2.1.0.
 
 = 3.0.2 (2022-02-12) =
-* Fixed misspelled filter name `og_wp_head_prioryty` into `og_wp_head_priority`. Props for [Armsportstore.com](https://wordpress.org/support/users/armbreakersweden/).
+* Fixed the misspelled filter name `og_wp_head_prioryty` into `og_wp_head_priority`. Props for [Armsportstore.com](https://wordpress.org/support/users/armbreakersweden/).
 
 = 3.0.1 (2022-02-10) =
-* Excluded `itemscope` for WP-Sitemap stylesheet. Props for [Jasper](https://wordpress.org/support/users/lucydog/)
+* Excludes `itemscope` for the WP-Sitemap stylesheet. Props for [Jasper](https://wordpress.org/support/users/lucydog/)
 * Fixed `article:author` values, according to [ogp.me](https://ogp.me/)
 * Unified `article:author` and `profile` values.
 
 = 3.0.0 (2022-02-09) =
-* Added `article:expiration_time` as integration with [PublishPress Future: Automatically Unpublish WordPress Posts](https://wordpress.org/plugins/post-expirator/).
+* Added `article:expiration_time` as an integration with [PublishPress Future: Automatically Unpublish WordPress Posts](https://wordpress.org/plugins/post-expirator/).
 * Added a few PHP_EOL characters for non-debug output. Props for [Guido](https://profiles.wordpress.org/guido07111975/).
-* Improved checking integrations - removed usage of `class_exists` function.
+* Improved checking of integrations - removed usage of `class_exists` function.
 
 = 2.9.9 (2022-02-08) =
 * Fixed older PHP issues.
@@ -190,37 +196,37 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Added for itemscope itemtype to HTML using `language_attributes` filter. Props for [Michał Ruszczyk](https://profiles.wordpress.org/mruszczyk/).
 
 = 2.9.7 (2022-02-03) =
-* Added integration with plugin [Categories Images](https://wordpress.org/plugins/categories-images/).
-* Added filter `filter_og_get_image_dimensions_by_id` to allow get image data by attachment_ID.
+* Added integration with the plugin [Categories Images](https://wordpress.org/plugins/categories-images/).
+* Added the filter `filter_og_get_image_dimensions_by_id` to allow getting image data by attachment_ID.
 * Added `twitter:image:alt`.
-* Shorted `twitter:description` length into 200 characters. More: [Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/markup).
+* Shortened `twitter:description` length to 200 characters. More: [Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/markup).
 
 = 2.9.6 (2022-01-20) =
 * Updated iWorks Rate to 2.0.6.
 
 = 2.9.5 (2021-12-29) =
-* Added filter `og_wp_head_priority` to allow to change `wp_head` priority.
+* Added the filter `og_wp_head_priority` to allow changing wp_head` priority.
 
 = 2.9.4 (2021-11-19) =
-* Added `og_og_array` filter to a part of OpenGraph array.
-* Added `og_article_array` filter to a part of OpenGraph array.
-* Added `og_twitter_array` filter to a part of OpenGraph array.
-* Added `og_schema_array` filter to a part of OpenGraph array.
-* Added `og_profile_array` filter to a part of OpenGraph array.
+* Added `og_og_array` filter to a part of the OpenGraph array.
+* Added `og_article_array` filter to a part of the OpenGraph array.
+* Added `og_twitter_array` filter to a part of the OpenGraph array.
+* Added `og_schema_array` filter to a part of the OpenGraph array.
+* Added `og_profile_array` filter to a part of the OpenGraph array.
 * Added integration with [Reading Time WP](https://wordpress.org/plugins/reading-time-wp/) for Twitter.
 * Added support for `twitter:label` and `twitter:data`.
 
 = 2.9.3 (2021-11-08) =
 * Added author gravatar as twitter:image on author archive.
 * Added Schema.org HTML meta tags.
-* Fixed missing og:url on an author archive page.
-* Fixed missing Twitter on a single page.
+* Fixed a missing og:url on an author archive page.
+* Fixed a missing Twitter on a single page.
 * Improved og:url for the search results page.
 * Renamed plugin into "OG - Better Share on Social Media".
 * Updated iWorks Rate to 2.0.4.
 
 = 2.9.2 (2021-06-30) =
-* Added og:brand as integration with few plugins.
+* Added og:brand as integration with a few plugins.
 * Added og:description into author page (from user bio).
 * Added product:category for WooCommerce product categories.
 * Added product:retailer_item_id for WooCommerce SKU.
@@ -228,7 +234,7 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Updated iWorks Rate to 2.0.3.
 
 = 2.9.1 (2021-06-23) =
-* Added check image exists instead just processing.
+* Added check that the image exists instead of just processing.
 * Renamed directory `vendor` into `includes`.
 * Updated iWorks Rate to 2.0.0.
 
@@ -236,7 +242,7 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Added `og_allow_to_use_thumbnail` filter to disable feature image as og:image.
 * Added `og_allow_to_use_vimeo` filter to disable Vimeo movie thumbnail as og:image.
 * Added `og_allow_to_use_youtube` filter to disable YouTube movie thumbnail as og:image.
-* Added `og_check_add_video_thumbnails_by_post` to disable video from post, by post (second parameter is $post).
+* Added `og_check_add_video_thumbnails_by_post` to disable the video from a post, by post (second parameter is $post).
 * Added `og_get_locale` to filter locale.
 * Added `og_set_transient_expiration` filter, default is DAY_IN_SECONDS.
 
@@ -284,10 +290,10 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Improved cache key - now it includes plugin version, to avoid getting older cache.
 
 = 2.7.8 (2020-06-02) =
-* Fixed an issue with no feature image, but wit multiple images in content. Props for [anthonykung](https://wordpress.org/support/users/anthonykung/)
+* Fixed an issue with no featured image, but with multiple images in the content. Props for [anthonykung](https://wordpress.org/support/users/anthonykung/)
 
 = 2.7.7 (2020-06-01) =
-* Added `og:image:secure_url` for images with https url. Props for [mociofiletto](https://wordpress.org/support/users/mociofiletto/)
+* Added `og:image:secure_url` for images with HTTPS URL. Props for [mociofiletto](https://wordpress.org/support/users/mociofiletto/)
 * Improved attachment page OpenGraph tags.
 * For entry without thumbnail get all content images into og:image.
 
@@ -298,10 +304,10 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Fixed missing `og:image:alt` for featured image.
 
 = 2.7.4 (2019-04-25) =
-* Fixed a problem with `og:image` content for document with featured image and images in the content. Props for [sudoranger](https://wordpress.org/support/users/sudoranger/)
+* Fixed a problem with `og:image` content for a document with featured image and images in the content. Props for [sudoranger](https://wordpress.org/support/users/sudoranger/)
 
 = 2.7.3 (2019-04-23) =
-* Added "summary_large_image" for twitter:card if attached image has width bigger then 520px. Props for [Bobby Eberle](https://www.facebook.com/bobby.eberle).
+* Added "summary_large_image" for twitter:card if attached image has a width bigger than 520px. Props for [Bobby Eberle](https://www.facebook.com/bobby.eberle).
 
 
 = 2.7.2 (2019-04-13) =
@@ -309,14 +315,14 @@ Rich filters implementation allows to change almost every output of this plugin,
 
 = 2.7.1 (2019-04-13) =
 * Added locale string into cache settings to be able to handle languages. Props for [Oleksandr Omelchenko](https://wordpress.org/support/users/konusua/).
-* Added cache locale value inside the class object to.
+* Added cache locale value inside the class object.
 
 = 2.7.0 (2018-10-21) =
 * Added proper og:url for custom post archive page. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/).
 * Added proper og:url for a day, month and year archive page.
 * Added proper og:url for a search result.
 * Added proper og:url for taxonomy archive page.
-* Removed OpenGraph from 404 page.
+* Removed OpenGraph from the 404 page.
 
 = 2.6.2 (2018-10-11) =
 * Fixed blog posts page og:url. Props for [cabaltc](https://wordpress.org/support/users/cabaltc/).
@@ -333,15 +339,15 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Updated Facebook locales list.
 
 = 2.5.3 (2018-05-09) =
-* Remove debug function, which broke whole plugin.
+* Remove debug function, which broke the whole plugin.
 
 = 2.5.2 (2018-05-08) =
 * Added filter `og_description_words` to allow change `og:description` length.
-* Fixed a problem with striping last word. Props for [intrex](https://wordpress.org/support/users/intrex/).
-* We are back to trim `og:description` to 55 words (it is default for `wp_trim_words()` function).
+* Fixed a problem with striping the last word. Props for [intrex](https://wordpress.org/support/users/intrex/).
+* We are back to trim `og:description` to 55 words (it is the default for `wp_trim_words()` function).
 
 = 2.5.1 (2018-04-16) =
-* Added og:image:width and og:image:height for first content image from site URL.
+* Added og:image:width and og:image:height for first content image from the site URL.
 
 = 2.5.0 (2018-04-14) =
 * Added og:image:width and og:image:height for featured image.
@@ -361,7 +367,7 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Removed limit for og:description.
 
 = 2.4.5 (2017-06-13) =
-* Added filter "og_array" which allows to change whole OG array before print it.
+* Added filter "og_array" which allows to change the whole OG array before printing it.
 
 = 2.4.4 (2017-05-20) =
 * Fixed site crash when WooCommerce is active. Props for [JLY](https://wordpress.org/support/users/jose-luis-yanez/).
@@ -377,7 +383,7 @@ Rich filters implementation allows to change almost every output of this plugin,
 = 2.4.1 (2016-10-26) =
 * Fixed problem for pages and another single content. At this moment OG works for all types of single entries.
 * Added ask for the rating on the plugin page.
-* Short twitter description.
+* Short Twitter description.
 
 = 2.4.0 (2016-04-10) =
 * Fixed the problem with proper preparation for localization.
@@ -391,14 +397,14 @@ Rich filters implementation allows to change almost every output of this plugin,
 * Added og:site_name.
 * Added profile:first_name, profile:last_name & profile:username props for [Arek](http://arek.bibliotekarz.com/).
 * Added tags.
-* Added twitter tags.
+* Added Twitter tags.
 * Added usage of site icon when is no icon - all cases.
 
 = 2.2.0 (2015-08-19) =
 * IMPROVEMENT: added the site icon as og:image for the home page.
 
 = 2.1.0 (2015-05-21) =
-* IMPROVEMENT: added checking site locale with facebook allowed locale.
+* IMPROVEMENT: added checking site locale with Facebook allowed locale.
 
 = 2.0.0 (2014-12-11) =
 * IMPROVEMENT: added check to post_content exists for CPT without this field.

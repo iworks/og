@@ -36,7 +36,7 @@ class iWorks_OpenGraph {
 	private $is_schema_org_enabled = true;
 
 	public function __construct() {
-		$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
+		$this->debug = apply_filters( 'og_debug', defined( 'WP_DEBUG' ) && WP_DEBUG );
 		/**
 		 * WordPress Hooks
 		 */
@@ -268,6 +268,7 @@ class iWorks_OpenGraph {
 				'type'        => 'website',
 				'locale'      => $this->get_locale(),
 				'site_name'   => get_bloginfo( 'name' ),
+				'logo'        => $this->get_site_logo(),
 			),
 			'article' => array(
 				'tag' => array(),
@@ -280,7 +281,7 @@ class iWorks_OpenGraph {
 				'player'  => apply_filters( 'og_video_init', array() ),
 			),
 			'schema'  => array(),
-		);
+        );
 		/**
 		 *  plugin: Facebook Page Publish
 		 */
@@ -328,13 +329,20 @@ class iWorks_OpenGraph {
 					if ( has_post_thumbnail( $post->ID ) ) {
 						$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
 						$thumbnail_src     = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
-						$src               = esc_url( $thumbnail_src[0] );
 						/**
-						 * Feature image should be first!
+						 * check response
 						 *
-						 * @since 3.1.1
+						 * @since 3.2.0
 						 */
-						array_unshift( $og['og']['image'], $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id ) );
+						if ( false !== $thumbnail_src ) {
+							$src = esc_url( $thumbnail_src[0] );
+							/**
+							 * Feature image should be first!
+							 *
+							 * @since 3.1.1
+							 */
+							array_unshift( $og['og']['image'], $this->get_image_dimensions( $thumbnail_src, $post_thumbnail_id ) );
+						}
 					}
 				}
 				/**
@@ -941,7 +949,7 @@ class iWorks_OpenGraph {
 		 *
 		 * @since 2.9.3
 		 */
-		foreach ( $og as $key => $data ) {
+        foreach ( $og as $key => $data ) {
 			$og[ $key ] = apply_filters( 'og_' . $key . '_array', $data );
 		}
 		/**
@@ -995,7 +1003,20 @@ class iWorks_OpenGraph {
 			if ( 'labels' === $tag && count( $parent ) && 'twitter' === $parent[0] ) {
 				$this->echo_twiter_labels( $data );
 			} elseif ( is_array( $data ) ) {
-				$this->echo_array( $data, $tags );
+				/**
+				 * og:logo exception
+				 *
+				 * @since 3.2.0
+				 */
+				if (
+					2 === count( $parent )
+					&& 'og' === $parent[0]
+					&& 'logo' === $parent[1]
+				) {
+					$this->echo_one_with_array_of_params( $parent, $data );
+				} else {
+					$this->echo_array( $data, $tags );
+				}
 			} else {
 				if ( 'schema' === $tags[0] ) {
 					if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
@@ -1008,6 +1029,51 @@ class iWorks_OpenGraph {
 				}
 			}
 		}
+	}
+
+	/**
+	 * print with params
+	 *
+	 * @since 3.2.0
+	 */
+	private function echo_one_with_array_of_params( $property, $params ) {
+		$meta_property = $property;
+		if ( is_array( $property ) ) {
+			$meta_property = implode( ':', $property );
+		}
+		if ( ! is_array( $params ) ) {
+			$this->echo_one( $property, $params );
+			return;
+		}
+		$attrs = array();
+		foreach ( $params as $key => $value ) {
+			$attrs[] = sprintf(
+				'%s="%s"',
+				esc_attr( $key ),
+				esc_attr( $value )
+			);
+		}
+		if ( empty( $attrs ) ) {
+			return;
+		}
+		/**
+		 * Property filter string
+		 * @since 2.7.7
+		 */
+		$property_filter_string = preg_replace( '/:/', '_', $meta_property );
+		/**
+		 * Filter to change whole meta
+		 */
+		$filter_name = sprintf( 'og_%s_meta', $property_filter_string );
+		echo apply_filters(
+			$filter_name,
+			sprintf(
+				'<meta property="%s" %s />%s',
+				esc_attr( $meta_property ),
+				implode( ' ', $attrs ),
+				$this->debug ? PHP_EOL : ''
+			)
+		);
 	}
 
 	/**
@@ -1175,12 +1241,15 @@ class iWorks_OpenGraph {
 	 *
 	 * @since 2.6.0
 	 */
-	private function get_transient_key( $post_id ) {
+    private function get_transient_key( $post_id ) {
+        if ( $this->debug ) {
+            return false;
+        }
 		$key    = sprintf( 'og_%d_%s', $post_id, $this->version );
 		$locale = $this->get_locale();
 		if ( ! empty( $locale ) ) {
 			$key .= '_' . $locale;
-		}
+        }
 		return $key;
 	}
 
@@ -1224,7 +1293,8 @@ class iWorks_OpenGraph {
 			 */
 			if ( preg_match( '/yarpp\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-yarpp.php';
-				new iWorks_OpenGraph_Integrations_YARPP;
+                new iWorks_OpenGraph_Integrations_YARPP;
+                continue;
 			}
 			/**
 			 * Reading Time WP
@@ -1235,6 +1305,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/rt-reading-time\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-reading-time-wp.php';
 				new iWorks_OpenGraph_Integrations_Reading_Time_WP;
+                continue;
 			}
 			/**
 			 * Categories Images
@@ -1245,6 +1316,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/categories-images\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-categories-images.php';
 				new iWorks_OpenGraph_Integrations_Categories_Images;
+                continue;
 			}
 			/**
 			 * PublishPress Future: Automatically Unpublish WordPress Posts
@@ -1255,6 +1327,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/post-expirator\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-post-expirator.php';
 				new iWorks_OpenGraph_Integrations_Post_Expirator;
+                continue;
 			}
 			/**
 			 * Contextual Related Posts
@@ -1265,6 +1338,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/contextual-related-posts\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-contextual-related-posts.php';
 				new iWorks_OpenGraph_Integrations_Contextual_Related_Posts;
+                continue;
 			}
 			/**
 			 * Contextual Related Posts
@@ -1275,6 +1349,7 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/related-posts-for-wp\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-related-posts-for-wp.php';
 				new iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress;
+                continue;
 			}
 			/**
 			 * Twitter
@@ -1285,6 +1360,18 @@ class iWorks_OpenGraph {
 			if ( preg_match( '/twitter\.php$/', $plugin ) ) {
 				include_once $root . '/class-iworks-opengraph-integrations-twitter.php';
 				new iWorks_OpenGraph_Integrations_Twitter;
+                continue;
+			}
+            /**
+             * The WordPress Multilingual Plugin (WPML)
+             * https://wpml.org/
+             *
+             * @since 3.2.0
+             */
+            if ( preg_match( '/sitepress\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integrations-sitepress-multilingual-cms.php';
+				new iWorks_OpenGraph_Integrations_Sitepress_Multilingual_CMS;
+                continue;
 			}
 		}
 	}
@@ -1495,6 +1582,37 @@ class iWorks_OpenGraph {
 			}
 		}
 		return $og;
+	}
+
+	/**
+	 * OG:logo
+	 *
+	 * @since 3.2.0
+	 */
+	public function get_site_logo() {
+		$logos = array();
+		$sizes = apply_filters(
+			'og_logo_sizes',
+			array(
+				128,
+				236,
+				512,
+				1024,
+			)
+		);
+		$last  = null;
+		foreach ( $sizes as $size ) {
+			$url = get_site_icon_url( $size );
+			if ( $last === $url ) {
+				continue;
+			}
+			$logos[] = array(
+				'content' => $url,
+				'size'    => sprintf( '%1$dx%1$d', $size ),
+			);
+			$last    = $url;
+		}
+		return $logos;
 	}
 
 }
