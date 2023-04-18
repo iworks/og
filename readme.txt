@@ -130,7 +130,7 @@ Rich filter implementation allows you to change almost every output of this plug
 
 = 3.2.0 (2023-04-18) =
 * The transient cache has been disabled if site is in WP_DEBUG mode.
-* The property 'og:logo' has been added.
+* The property `og:logo` has been added.
 * An additional check for the `wp_get_attachment_image_src()` function has been added. Props for [mauroaddari](https://wordpress.org/support/users/mauroaddari/)
 * Added integration with WPML to set `og:locale:alternate` for single entries.
 
