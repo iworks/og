@@ -128,6 +128,9 @@ Rich filter implementation allows you to change almost every output of this plug
 == Changelog ==
 
 
+= 3.2.2 (2023-05-xx) =
+* Unnecessary trailing slashes has been removed. Props for [Oliver](https://wordpress.org/support/users/oliverraduner/)
+
 = 3.2.1 (2023-04-18) =
 * Added `og_image_size` filter to allow changing default image size in OpenGraph data. Props for [uk03](https://wordpress.org/support/users/uk03/).
 
