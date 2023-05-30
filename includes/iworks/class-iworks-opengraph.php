@@ -1023,15 +1023,11 @@ class iWorks_OpenGraph {
 				/**
 				 * og:logo exception
 				 *
-				 * @since 3.2.0
+				 * @since 3.2.2
 				 */
-				if (
-					2 === count( $parent )
-					&& 'og' === $parent[0]
-					&& 'logo' === $parent[1]
-				) {
+				if ( 'logo' === $tag ) {
 					if ( ! empty( $data['content'] ) ) {
-						$this->echo_one_with_array_of_params( $parent, $data );
+						$this->echo_one_with_array_of_params( array( 'og', $tag ), $data );
 					}
 				} else {
 					$this->echo_array( $data, $tags );
@@ -1609,24 +1605,22 @@ class iWorks_OpenGraph {
 	 * @since 3.2.0
 	 */
 	public function get_site_logo() {
-		$logos = array();
-		if ( ! apply_filters( 'allow_og_logo', true ) ) {
-			return $logos;
+		if ( ! apply_filters( 'allow_og_logo', false ) ) {
+			return;
 		}
 		$logo_id = get_theme_mod( 'custom_logo' );
 		if ( empty( $logo_id ) ) {
-			return $logos;
+			return;
 		}
 		$logo     = wp_get_attachment_metadata( $logo_id );
-		$logo_src = wp_get_attachment_image_src( $logo_id );
+		$logo_src = wp_get_attachment_image_src( $logo_id, apply_filters( 'og_logo_size', 'full' ) );
 		if ( empty( $logo_src ) ) {
-			return $logos;
+			return;
 		}
-		$logos[] = array(
+		return array(
 			'content' => $logo_src[0],
 			'size'    => sprintf( '%dx%d', $logo['width'], $logo['height'] ),
 		);
-		return $logos;
 	}
 
 }
