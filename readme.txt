@@ -133,6 +133,8 @@ Rich filter implementation allows you to change almost every output of this plug
 
 == Changelog ==
 
+= 3.2.3 (2023-06-09) =
+* Schema "tagline" has been set as the site slogan.
 
 = 3.2.2 (2023-05-30) =
 * The `og:logo` has been removed; it can be used with the filter `allow_og_logo`. See the FAQ for more details.

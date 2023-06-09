@@ -19,7 +19,7 @@ class iWorks_OpenGraph {
 	 */
 	private $schema_org_mapping = array(
 		'name'          => array( 'og', 'title' ),
-		'headline'      => array( 'og', 'title' ),
+		'headline'      => array( 'og', 'blogdescription' ),
 		'description'   => array( 'og', 'description' ),
 		'datePublished' => array( 'article', 'published_time' ),
 		'dateModified'  => array( 'article', 'modified_time' ),
@@ -903,6 +903,15 @@ class iWorks_OpenGraph {
 					}
 				}
 			}
+			/**
+			 * site slogan
+			 *
+			 * @since 3.2.3
+			 */
+			$og['schema']['tagline'] = apply_filters(
+				'og_schema_tagline',
+				get_option( 'blogdescription' )
+			);
 		}
 		/**
 		 * Produce image extra tags
