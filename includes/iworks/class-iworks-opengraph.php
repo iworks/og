@@ -1546,7 +1546,7 @@ class iWorks_OpenGraph {
 	}
 
 	/**
-	 * get user array
+	 * get user profile array
 	 *
 	 * @since 3.0.1
 	 */
@@ -1554,17 +1554,30 @@ class iWorks_OpenGraph {
 		/**
 		 * Filter `og:profile` values.
 		 *
+		 * @version 2.8.0
 		 * @since 2.7.6
+		 * @since 2.8.0 Prevents leaking protected personal data (related to iworks/og#9)
 		 *
-		 * @param array Array of `og:profile` values.
+		 * @link https://developer.wordpress.org/reference/functions/get_the_author_meta/
+		 *
 		 * @param integer User ID.
+		 * @return array For `og:profile` and `og:article:author:` values.
 		 */
+		$author_display_name = get_the_author_meta( 'display_name', $author_id );
+		$author_first_name = get_the_author_meta( 'first_name', $author_id );
+		$author_last_name = get_the_author_meta( 'last_name', $author_id );
+		$author_nicename_is_fullname = ($author_display_name === $author_first_name.' '.$author_last_name ? true : false);
+
 		return apply_filters(
 			'og_profile',
-			array(
-				'first_name' => get_the_author_meta( 'first_name', $author_id ),
-				'last_name'  => get_the_author_meta( 'last_name', $author_id ),
-				'username'   => get_the_author_meta( 'display_name', $author_id ),
+			( $author_nicename_is_fullname ?
+				array(
+					'first_name' => get_the_author_meta( 'first_name', $author_id ),
+					'last_name'  => get_the_author_meta( 'last_name', $author_id ),
+					'username'   => get_the_author_meta( 'display_name', $author_id ),
+				) : array(
+					'username'   => get_the_author_meta( 'display_name', $author_id ),
+				)
 			),
 			$author_id
 		);
