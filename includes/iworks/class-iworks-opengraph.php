@@ -587,7 +587,7 @@ class iWorks_OpenGraph {
 					/**
 					 * og:profile
 					 */
-					$og['article']['author'] = $this->get_the_author_meta_array( $post->post_author );
+					$og['article']['author'] = $this->get_the_author_meta_array( $post->post_author )['username'];
 					$og['profile']           = $this->get_the_author_meta_array( $post->post_author );
 				}
 				/**
@@ -1558,6 +1558,7 @@ class iWorks_OpenGraph {
 		 * @since 2.7.6
 		 * @since 2.8.0 Prevents leaking protected personal data (related to iworks/og#9)
 		 *
+		 * @link https://ogp.me/#type_profile
 		 * @link https://developer.wordpress.org/reference/functions/get_the_author_meta/
 		 *
 		 * @param integer User ID.
