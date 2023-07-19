@@ -15,15 +15,16 @@ class iWorks_OpenGraph {
 	/**
 	 * Schema.org mapping
 	 *
+	 * @version 2.9.4
 	 * @since 2.9.3
+	 * @since 2.9.4 Removes invalid `<meta itemprop="author">` (fixes iworks/og#9)
 	 */
 	private $schema_org_mapping = array(
 		'name'          => array( 'og', 'title' ),
 		'headline'      => array( 'og', 'blogdescription' ),
 		'description'   => array( 'og', 'description' ),
 		'datePublished' => array( 'article', 'published_time' ),
-		'dateModified'  => array( 'article', 'modified_time' ),
-		'author'        => array( 'profile', 'username' ),
+		'dateModified'  => array( 'article', 'modified_time' )
 	);
 
 	/**
