@@ -904,15 +904,6 @@ class iWorks_OpenGraph {
 					}
 				}
 			}
-			/**
-			 * site slogan
-			 *
-			 * @since 3.2.3
-			 */
-			$og['schema']['tagline'] = apply_filters(
-				'og_schema_tagline',
-				get_option( 'blogdescription' )
-			);
 		}
 		/**
 		 * Produce image extra tags
