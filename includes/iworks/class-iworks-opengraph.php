@@ -1565,11 +1565,11 @@ class iWorks_OpenGraph {
 			'og_profile',
 			( $author_nicename_is_fullname ?
 				array(
-					'first_name' => get_the_author_meta( 'first_name', $author_id ),
-					'last_name'  => get_the_author_meta( 'last_name', $author_id ),
-					'username'   => get_the_author_meta( 'display_name', $author_id ),
+					 'first_name' => $author_first_name
+					,'last_name'  => $author_last_name
+					,'username'   => $author_display_name
 				) : array(
-					'username'   => get_the_author_meta( 'display_name', $author_id ),
+					'username'   => $author_display_name
 				)
 			),
 			$author_id
