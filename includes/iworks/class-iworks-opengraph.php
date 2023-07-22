@@ -292,7 +292,6 @@ class iWorks_OpenGraph {
 				'tag' => array(),
 			),
 			'twitter' => array(
-				'partner' => 'ogwp',
 				'site'    => apply_filters( 'og_twitter_site', '' ),
 				'creator' => apply_filters( 'og_twitter_creator', '' ),
 				'widgets' => apply_filters( 'og_twitter_widgets', array() ),
@@ -885,7 +884,7 @@ class iWorks_OpenGraph {
 		/**
 		 * Twitter
 		 */
-		foreach ( array( 'title', 'description', 'url' ) as $key ) {
+		foreach ( array( 'title', 'description' ) as $key ) {
 			if ( isset( $og['og'][ $key ] ) ) {
 				$og['twitter'][ $key ] = $og['og'][ $key ];
 			}
