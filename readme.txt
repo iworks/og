@@ -3,10 +3,11 @@ Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
 Tags: OpenGraph, Open Graph, social, share, Facebook, meta, graph API, Twitter, social share, share links, meta headers, Pinterest
 Requires at least: PLUGIN_REQUIRES_WORDPRESS
-Tested up to: 6.2
+Tested up to: PLUGIN_TESTED_WORDPRESS
 Stable tag: PLUGIN_VERSION
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: PLUGIN_REQUIRES_PHP
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 PLUGIN_TAGLINE
 
@@ -132,6 +133,9 @@ You can use not supported meta tags:
 Rich filter implementation allows you to change almost every output of this plugin, but this is for technicians: Learn more on the [OG Plugin Documentation Site](http://og.iworks.pl/).
 
 == Changelog ==
+
+= 3.2.4 (2023-11-02) =
+* Schema "tagline" has been removed by default. Use the `og_allow_to_use_schema_tagline` filter to turn it on (not recommended).
 
 = 3.2.3 (2023-06-09) =
 * Schema "tagline" has been set as the site slogan.

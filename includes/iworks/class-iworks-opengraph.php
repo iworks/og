@@ -907,11 +907,15 @@ class iWorks_OpenGraph {
 			 * site slogan
 			 *
 			 * @since 3.2.3
+			 *
+			 * @since 3.2.4 - removed by default
 			 */
-			$og['schema']['tagline'] = apply_filters(
-				'og_schema_tagline',
-				get_option( 'blogdescription' )
-			);
+			if ( apply_filters( 'og_allow_to_use_schema_tagline', false ) ) {
+				$og['schema']['tagline'] = apply_filters(
+					'og_schema_tagline',
+					get_option( 'blogdescription' )
+				);
+			}
 		}
 		/**
 		 * Produce image extra tags
@@ -1465,6 +1469,22 @@ class iWorks_OpenGraph {
 	 * @since 2.9.8
 	 */
 	public function filter_add_html_itemscope_itemtype( $output, $doctype ) {
+		/**
+		 * Avoid changes in admin
+		 *
+		 * @since 3.2.4
+		 */
+		if ( is_admin() ) {
+			return $output;
+		}
+		/**
+		 * Avoid changes by doctype
+		 *
+		 * @since 3.2.4
+		 */
+		if ( 'html' !== $doctype ) {
+			return $output;
+		}
 		if ( ! apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
 			return $output;
 		}

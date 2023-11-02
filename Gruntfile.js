@@ -98,7 +98,7 @@ module.exports = function(grunt) {
                     banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                         ' * <%= pkg.homepage %>\n' +
                         ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                        ' * Licensed GPLv2+' +
+                        ' * Licensed GPLv3+' +
                         ' */\n',
                     mangle: {
                         reserved: ['jQuery']
@@ -143,7 +143,7 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                     ' * <%= pkg.homepage %>\n' +
                     ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                    ' * Licensed GPLv2+' +
+                    ' * Licensed GPLv3+' +
                     ' */\n',
                 mergeIntoShorthands: false
             },
@@ -260,66 +260,23 @@ module.exports = function(grunt) {
         // BUILD: Replace conditional tags in code.
         replace: {
             options: {
-                patterns: [{
-                        match: /AUTHOR_NAME/g,
-                        replace: '<%= pkg.author[0].name %>'
-                    },
-                    {
-                        match: /AUTHOR_URI/g,
-                        replace: '<%= pkg.author[0].uri %>'
-                    },
-                    {
-                        match: /BUILDTIME/g,
-                        replace: buildtime
-                    },
-                    {
-                        match: /IWORKS_RATE_TEXTDOMAIN/g,
-                        replace: '<%= pkg.name %>'
-                    },
-                    {
-                        match: /IWORKS_OPTIONS_TEXTDOMAIN/g,
-                        replace: '<%= pkg.name %>'
-                    },
-                    {
-                        match: /PLUGIN_DESCRIPTION/g,
-                        replace: '<%= pkg.description %>'
-                    },
-                    {
-                        match: /PLUGIN_NAME/g,
-                        replace: '<%= pkg.name %>'
-                    },
-                    {
-                        match: /PLUGIN_REQUIRES_PHP/g,
-                        replace: '<%= pkg.requires.PHP %>'
-                    },
-                    {
-                        match: /PLUGIN_REQUIRES_WORDPRESS/g,
-                        replace: '<%= pkg.requires.WordPress %>'
-                    },
-                    {
-                        match: /PLUGIN_TAGLINE/g,
-                        replace: '<%= pkg.tagline %>'
-                    },
-                    {
-                        match: /PLUGIN_TILL_YEAR/g,
-                        replace: buildyear
-                    },
-                    {
-                        match: /PLUGIN_TITLE/g,
-                        replace: '<%= pkg.title %>'
-                    },
-                    {
-                        match: /PLUGIN_URI/g,
-                        replace: '<%= pkg.homepage %>'
-                    },
-                    {
-                        match: /PLUGIN_VERSION/g,
-                        replace: '<%= pkg.version %>'
-                    },
-                    {
-                        match: /^Version: .+$/g,
-                        replace: 'Version: <%= pkg.version %>'
-                    },
+                patterns: [
+                    { match: /AUTHOR_NAME/g, replace: '<%= pkg.author[0].name %>' },
+                    { match: /AUTHOR_URI/g, replace: '<%= pkg.author[0].uri %>' },
+                    { match: /BUILDTIME/g, replace: buildtime },
+                    { match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
+                    { match: /IWORKS_OPTIONS_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
+                    { match: /PLUGIN_DESCRIPTION/g, replace: '<%= pkg.description %>' },
+                    { match: /PLUGIN_NAME/g, replace: '<%= pkg.name %>' },
+                    { match: /PLUGIN_REQUIRES_PHP/g, replace: '<%= pkg.requires.PHP %>' },
+                    { match: /PLUGIN_REQUIRES_WORDPRESS/g, replace: '<%= pkg.requires.WordPress %>' },
+                    { match: /PLUGIN_TESTED_WORDPRESS/g, replace: '<%= pkg.tested.WordPress %>' },
+                    { match: /PLUGIN_TAGLINE/g, replace: '<%= pkg.tagline %>' },
+                    { match: /PLUGIN_TITLE/g, replace: '<%= pkg.title %>' },
+                    { match: /PLUGIN_TILL_YEAR/g, replace: buildyear },
+                    { match: /PLUGIN_URI/g, replace: '<%= pkg.homepage %>' },
+                    { match: /PLUGIN_VERSION/g, replace: '<%= pkg.version %>' },
+                    { match: /^Version: .+$/g, replace: 'Version: <%= pkg.version %>' },
                 ]
             },
             files: {
