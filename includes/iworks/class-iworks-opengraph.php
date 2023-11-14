@@ -979,7 +979,7 @@ class iWorks_OpenGraph {
 		 *
 		 * @since 2.9.3
 		 */
-		foreach ( $og as $key => $data ) {
+        foreach ( $og as $key => $data ) {
 			$og[ $key ] = apply_filters( 'og_' . $key . '_array', $data );
 		}
 		/**
@@ -1128,7 +1128,7 @@ class iWorks_OpenGraph {
 		/**
 		 * filter name
 		 */
-		$filter_name = sprintf( 'og_%s_value', $property_filter_string );
+        $filter_name = sprintf( 'og_%s_value', $property_filter_string );
 		/**
 		 * Filter value of single meta
 		 *

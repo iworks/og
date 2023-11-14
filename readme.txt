@@ -114,6 +114,10 @@ The plugin grabs data from the content, and if it contains a YouTube URL, it tri
 
 If the post contains YouTube or Vimeo links, this plugin saves it as a post meta video thumbnail link and adds it to og:image as a post thumbnail.
 
+= I want to set og:image manually =
+
+Please install small add-on: [OG — Addon: og:image](https://github.com/iworks/og-plugin-addon-image/releases). The new meta box on the side should allow you to choose the og:image manually.
+
 = If I need to change some values? =
 
 You can use the [Simple SEO Improvements](https://wordpress.org/plugins/simple-seo-improvements/) plugin, which is integrated with OG, to:
