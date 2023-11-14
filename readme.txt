@@ -138,6 +138,8 @@ Rich filter implementation allows you to change almost every output of this plug
 
 == Changelog ==
 
+Project maintained on github at [iworks/og](https://github.com/iworks/og).
+
 = 3.2.4 (2023-11-02) =
 * Schema "tagline" has been removed by default. Use the `og_allow_to_use_schema_tagline` filter to turn it on (not recommended).
 
