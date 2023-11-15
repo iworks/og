@@ -136,6 +136,16 @@ You can use not supported meta tags:
 
 Rich filter implementation allows you to change almost every output of this plugin, but this is for technicians: Learn more on the [OG Plugin Documentation Site](http://og.iworks.pl/).
 
+= See room for improvement? =
+
+Great! There are several ways you can get involved to help make OG better:
+
+1. **Report Bugs:** If you find a bug, error or other problem, please report it! You can do this by [creating a new topic](https://wordpress.org/support/plugin/og/) in the plugin forum. Once a developer can verify the bug by reproducing it, they will create an official bug report in GitHub where the bug will be worked on.
+2. **Suggest New Features:** Have an awesome idea? Please share it! Simply [create a new topic](https://wordpress.org/support/plugin/og/) in the plugin forum to express your thoughts on why the feature should be included and get a discussion going around your idea.
+3. **Issue Pull Requests:** If you're a developer, the easiest way to get involved is to help out on [issues already reported](https://github.com/iworks/og/issues) in GitHub. Be sure to check out the [contributing guide](https://github.com/iworks/og/blob/master/contributing.md) for developers.
+
+Thank you for wanting to make OG better for everyone!
+
 == Changelog ==
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
