@@ -237,7 +237,7 @@ module.exports = function(grunt) {
                     '!package-lock.json',
                     '!postcss.config.js',
                     '!README.md',
-                    '!LICENSE'
+                    '!LICENSE',
                     '!contributing.md',
                     '!**/README.md',
                     '!**/*.map',
