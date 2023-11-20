@@ -765,7 +765,10 @@ class iWorks_OpenGraph {
 				 *
 				 * @param integer expire time, default DAY_IN_SECONDS
 				 */
-				if ( ! empty( $og ) ) {
+				if (
+					! empty( $og )
+					&& ! $this->debug
+				) {
 					set_transient( $cache_key, $og, apply_filters( 'og_set_transient_expiration', DAY_IN_SECONDS ) );
 				}
 			} else {
@@ -979,7 +982,7 @@ class iWorks_OpenGraph {
 		 *
 		 * @since 2.9.3
 		 */
-        foreach ( $og as $key => $data ) {
+		foreach ( $og as $key => $data ) {
 			$og[ $key ] = apply_filters( 'og_' . $key . '_array', $data );
 		}
 		/**
@@ -1128,7 +1131,7 @@ class iWorks_OpenGraph {
 		/**
 		 * filter name
 		 */
-        $filter_name = sprintf( 'og_%s_value', $property_filter_string );
+		$filter_name = sprintf( 'og_%s_value', $property_filter_string );
 		/**
 		 * Filter value of single meta
 		 *
@@ -1270,9 +1273,6 @@ class iWorks_OpenGraph {
 	 * @since 2.6.0
 	 */
 	private function get_transient_key( $post_id ) {
-		if ( $this->debug ) {
-			return false;
-		}
 		$key    = sprintf( 'og_%d_%s', $post_id, $this->version );
 		$locale = $this->get_locale();
 		if ( ! empty( $locale ) ) {

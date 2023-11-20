@@ -150,6 +150,9 @@ Thank you for wanting to make OG better for everyone!
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.2.5 (2023-11-20) =
+* When a site was in debug mode, the `set_transient()` function was called improperly. It has been fixed. Props for [X-Raym](https://wordpress.org/support/users/x-raym/) & [John Blackbourn](https://wordpress.org/support/users/johnbillion/).
+
 = 3.2.4 (2023-11-02) =
 * Schema "tagline" has been removed by default. Use the `og_allow_to_use_schema_tagline` filter to turn it on (not recommended).
 
