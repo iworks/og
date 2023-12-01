@@ -154,7 +154,7 @@ Project maintained on github at [iworks/og](https://github.com/iworks/og).
 * Quotations have been removed from `$wpdb->prepare()`.
 * The function `date()` has been replaced by the function `gmdate()`.
 * The function `strip_tags()` has been replaced by the function `wp_strip_all_tags()`.
-* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.4.
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.4. [#13](https://github.com/iworks/og/issues/13)
 * The usage of WPDB objects has been improved.
 
 = 3.2.5 (2023-11-20) =
