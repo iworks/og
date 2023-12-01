@@ -15,7 +15,7 @@ class iWorks_OpenGraph_Integrations_Post_Expirator extends iWorks_OpenGraph_Inte
 		if ( $this->is_singular_on_front() ) {
 			$ts = get_post_meta( get_the_ID(), '_expiration-date', true );
 			if ( ! empty( $ts ) ) {
-				$data['expiration_time'] = date( 'c', $ts );
+				$data['expiration_time'] = gmdate( 'c', $ts );
 			}
 		}
 		return $data;

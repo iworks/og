@@ -150,6 +150,13 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.2.6 (2023-12-01) =
+* Quotations have been removed from `$wpdb->prepare()`.
+* The function `date()` has been replaced by the function `gmdate()`.
+* The function `strip_tags()` has been replaced by the function `wp_strip_all_tags()`.
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.4.
+* The usage of WPDB objects has been improved.
+
 = 3.2.5 (2023-11-20) =
 * When a site was in debug mode, the `set_transient()` function was called improperly. It has been fixed. Props for [X-Raym](https://wordpress.org/support/users/x-raym/) & [John Blackbourn](https://wordpress.org/support/users/johnbillion/).
 

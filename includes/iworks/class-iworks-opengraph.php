@@ -258,7 +258,7 @@ class iWorks_OpenGraph {
 	 */
 	private function strip_white_chars( $content ) {
 		if ( $content ) {
-			$content = strip_tags( $content );
+			$content = wp_strip_all_tags( $content );
 			$content = preg_replace( '/\s+/', ' ', $content );
 			$content = trim( $content );
 		}
@@ -540,7 +540,7 @@ class iWorks_OpenGraph {
 						 *
 						 */
 						$number_of_words         = apply_filters( 'og_description_words', 55 );
-						$og['og']['description'] = wp_trim_words( strip_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
+						$og['og']['description'] = wp_trim_words( wp_strip_all_tags( strip_shortcodes( $post->post_content ) ), $number_of_words, '...' );
 					}
 					$og['og']['description'] = $this->strip_white_chars( $og['og']['description'] );
 					if ( empty( $og['og']['description'] ) ) {
@@ -555,8 +555,8 @@ class iWorks_OpenGraph {
 							$og['article']['tag'][] = esc_attr( $tag->name );
 						}
 					}
-					$og['article']['published_time'] = date( 'c', strtotime( $post->post_date_gmt ) );
-					$og['article']['modified_time']  = date( 'c', strtotime( $post->post_modified_gmt ) );
+					$og['article']['published_time'] = gmdate( 'c', strtotime( $post->post_date_gmt ) );
+					$og['article']['modified_time']  = gmdate( 'c', strtotime( $post->post_modified_gmt ) );
 					/**
 					 * last update time
 					 *
@@ -791,7 +791,7 @@ class iWorks_OpenGraph {
 			 *
 			 * @since 2.9.2
 			 */
-			$og['og']['description'] = $this->strip_white_chars( strip_tags( get_the_author_meta( 'description' ) ) );
+			$og['og']['description'] = $this->strip_white_chars( wp_strip_all_tags( get_the_author_meta( 'description' ) ) );
 		} elseif ( is_search() ) {
 			$og['og']['url'] = get_search_link();
 		} elseif ( is_archive() ) {
@@ -1151,7 +1151,7 @@ class iWorks_OpenGraph {
 				'<meta %s="%s" content="%s">%s',
 				esc_attr( $name ),
 				esc_attr( $meta_property ),
-				esc_attr( strip_tags( $value ) ),
+				esc_attr( wp_strip_all_tags( $value ) ),
 				$this->debug ? PHP_EOL : ''
 			)
 		);
@@ -1253,8 +1253,12 @@ class iWorks_OpenGraph {
 			return 0;
 		}
 		global $wpdb;
-		$query      = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url );
-		$attachment = $wpdb->get_col( $query );
+		$attachment = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT ID FROM $wpdb->posts WHERE guid=%s",
+				$url
+			)
+		);
 		if ( empty( $attachment ) ) {
 			$url2 = preg_replace( '/\-\d+x\d+(.[egjnp]+)$/', '$1', $url );
 			if ( $url != $url2 ) {
@@ -1297,7 +1301,7 @@ class iWorks_OpenGraph {
 	 * @since 2.9.3
 	 */
 	public function filter_og_schema_datepublished( $date ) {
-		return date( 'Y-m-d', strtotime( $date ) );
+		return gmdate( 'Y-m-d', strtotime( $date ) );
 	}
 
 	/**
