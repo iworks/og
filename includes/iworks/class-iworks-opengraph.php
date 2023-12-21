@@ -799,11 +799,36 @@ class iWorks_OpenGraph {
 			if ( is_a( $obj, 'WP_Term' ) ) {
 				$og['og']['url']         = get_term_link( $obj->term_id );
 				$og['og']['description'] = $this->strip_white_chars( term_description( $obj->term_id, $obj->taxonomy ) );
-				$image_id                = intval( get_term_meta( $obj->term_id, 'image', true ) );
+				/**
+				 * allow to change term meta name for term thumbnail_id
+				 *
+				 * https://github.com/iworks/og/issues/14
+				 *
+				 * @since 3.2.7
+				 */
+				$term_meta_name = apply_filters(
+					'og/term/meta/thumbnail_id_name',
+					'image'
+				);
+				$image_id       = intval( get_term_meta( $obj->term_id, $term_meta_name, true ) );
 				if ( 0 < $image_id ) {
 					$thumbnail_src     = wp_get_attachment_image_src( $image_id, $this->image_size );
 					$src               = $thumbnail_src[0];
 					$og['og']['image'] = $this->get_image_dimensions( $thumbnail_src, $image_id );
+				} else {
+					/**
+					 * allow to change term meta name for term image url
+					 *
+					 * @since 3.2.7
+					 */
+					$term_meta_name = apply_filters(
+						'og/term/meta/thumbnail_url',
+						'image_url'
+					);
+					$image_url      = get_term_meta( $obj->term_id, $term_meta_name, true );
+					if ( wp_http_validate_url( $image_url ) ) {
+						$og['og']['image'] = $image_url;
+					}
 				}
 			} elseif ( is_a( $obj, 'WP_Post_Type' ) ) {
 				$og['og']['url'] = get_post_type_archive_link( $obj->name );
