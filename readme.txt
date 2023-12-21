@@ -151,7 +151,7 @@ Rich filter implementation allows you to change almost every output of this plug
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
 = 3.2.7 (2023-12-21) =
-* The filter `og/term/meta/thumbnail_id_name` has been added. It allows you to change the term meta name with a thumbnail ID (the default is `image`). Props for [John] (https://wordpress.org/support/users/thesun2012/). [#14](https://github.com/iworks/og/issues/14)
+* The filter `og/term/meta/thumbnail_id_name` has been added. It allows you to change the term meta name with a thumbnail ID (the default is `image`). Props for [John](https://wordpress.org/support/users/thesun2012/). [#14](https://github.com/iworks/og/issues/14)
 * The filter `og/term/meta/thumbnail_url` has been added. It allows you to change the term meta name with a thumbnail src (the default is `image_url`).
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.6.
 
