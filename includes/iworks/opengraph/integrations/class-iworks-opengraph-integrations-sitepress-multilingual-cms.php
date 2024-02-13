@@ -48,7 +48,7 @@ class iWorks_OpenGraph_Integrations_Sitepress_Multilingual_CMS extends iWorks_Op
 			}
 			if (
 				isset( $result[ $translation->language_code ] )
-				& $data['locale'][0] !== $result[ $translation->language_code ]
+				&& $data['locale'][0] !== $result[ $translation->language_code ]
 			) {
 				$data['locale']['alternate'][] = $result[ $translation->language_code ];
 			}
