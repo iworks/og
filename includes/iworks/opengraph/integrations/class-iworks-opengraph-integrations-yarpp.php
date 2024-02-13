@@ -5,6 +5,12 @@
  *
  * @since 3.1.0
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_YARPP' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_YARPP extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {

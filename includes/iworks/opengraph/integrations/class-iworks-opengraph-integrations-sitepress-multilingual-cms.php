@@ -5,6 +5,12 @@
  *
  * @since 3.2.0
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Sitepress_Multilingual_CMS' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Sitepress_Multilingual_CMS extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {

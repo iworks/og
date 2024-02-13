@@ -5,6 +5,12 @@
  *
  * @since 3.1.0
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Contextual_Related_Posts' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Contextual_Related_Posts extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {

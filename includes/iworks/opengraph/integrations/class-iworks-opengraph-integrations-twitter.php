@@ -5,6 +5,12 @@
  *
  * @since 3.1.5
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Twitter' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Twitter extends iWorks_OpenGraph_Integrations {
 
 	private $option_name;

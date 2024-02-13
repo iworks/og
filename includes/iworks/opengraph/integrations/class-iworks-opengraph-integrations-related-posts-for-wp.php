@@ -5,6 +5,12 @@
  *
  * @since 3.1.0
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Related_Posts_for_WordPress extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {

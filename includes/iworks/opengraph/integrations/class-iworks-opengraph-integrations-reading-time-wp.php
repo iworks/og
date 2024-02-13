@@ -5,6 +5,12 @@
  *
  * @since 2.9.4
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Reading_Time_WP' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Reading_Time_WP extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {

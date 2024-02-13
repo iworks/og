@@ -5,6 +5,12 @@
  *
  * @since 2.9.7
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Categories_Images' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Categories_Images extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {

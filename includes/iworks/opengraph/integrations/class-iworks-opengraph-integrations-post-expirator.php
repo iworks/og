@@ -5,6 +5,12 @@
  *
  * @since 3.0.0
  */
+defined( 'ABSPATH' ) || exit;
+
+if ( class_exists( 'iWorks_OpenGraph_Integrations_Post_Expirator' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph_Integrations_Post_Expirator extends iWorks_OpenGraph_Integrations {
 
 	public function __construct() {
