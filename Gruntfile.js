@@ -52,7 +52,7 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                     ' * <%= pkg.homepage %>\n' +
                     ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                    ' * Licensed GPLv2+' +
+                    ' * Licensed GPLv3+' +
                     ' */\n'
             },
             scripts: {
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
                     banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                         ' * <%= pkg.homepage %>\n' +
                         ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                        ' * Licensed GPLv3+' +
+                        ' * Licensed <%= pkg.license %>' +
                         ' */\n',
                     mangle: {
                         reserved: ['jQuery']
@@ -143,7 +143,7 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                     ' * <%= pkg.homepage %>\n' +
                     ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                    ' * Licensed GPLv3+' +
+                    ' * Licensed <%= pkg.license %>' +
                     ' */\n',
                 mergeIntoShorthands: false
             },
@@ -265,16 +265,17 @@ module.exports = function(grunt) {
                     { match: /AUTHOR_NAME/g, replace: '<%= pkg.author[0].name %>' },
                     { match: /AUTHOR_URI/g, replace: '<%= pkg.author[0].uri %>' },
                     { match: /BUILDTIME/g, replace: buildtime },
-                    { match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
                     { match: /IWORKS_OPTIONS_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
+                    { match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
                     { match: /PLUGIN_DESCRIPTION/g, replace: '<%= pkg.description %>' },
+                    { match: /PLUGIN_GITHUB_WEBSITE/g, replace: '<%= pkg.repository.url %>' },
                     { match: /PLUGIN_NAME/g, replace: '<%= pkg.name %>' },
                     { match: /PLUGIN_REQUIRES_PHP/g, replace: '<%= pkg.requires.PHP %>' },
                     { match: /PLUGIN_REQUIRES_WORDPRESS/g, replace: '<%= pkg.requires.WordPress %>' },
-                    { match: /PLUGIN_TESTED_WORDPRESS/g, replace: '<%= pkg.tested.WordPress %>' },
                     { match: /PLUGIN_TAGLINE/g, replace: '<%= pkg.tagline %>' },
-                    { match: /PLUGIN_TITLE/g, replace: '<%= pkg.title %>' },
+                    { match: /PLUGIN_TESTED_WORDPRESS/g, replace: '<%= pkg.tested.WordPress %>' },
                     { match: /PLUGIN_TILL_YEAR/g, replace: buildyear },
+                    { match: /PLUGIN_TITLE/g, replace: '<%= pkg.title %>' },
                     { match: /PLUGIN_URI/g, replace: '<%= pkg.homepage %>' },
                     { match: /PLUGIN_VERSION/g, replace: '<%= pkg.version %>' },
                     { match: /^Version: .+$/g, replace: 'Version: <%= pkg.version %>' },
@@ -305,7 +306,7 @@ module.exports = function(grunt) {
 
         checktextdomain: {
             options: {
-                text_domain: ['og', 'IWORKS_RATE_TEXTDOMAIN'],
+                text_domain: ['<%= pkg.name %>', 'IWORKS_RATE_TEXTDOMAIN'],
                 keywords: [ //List keyword specifications
                     '__:1,2d',
                     '_e:1,2d',
@@ -324,7 +325,7 @@ module.exports = function(grunt) {
                 ]
             },
             files: {
-                src: ['og.php', 'vendor/**/*.php'], //all php 
+                src: ['<%= pkg.name %>.php', 'includes/**/*.php'], //all php 
                 expand: true,
             },
         },
@@ -333,16 +334,15 @@ module.exports = function(grunt) {
 
     grunt.registerTask('notes', 'Show release notes', function() {
         grunt.log.subhead('Release notes');
-        grunt.log.writeln('  1. Check BITBUCKET for pull-requests');
-        grunt.log.writeln('  2. Check ASANA for high-priority bugs');
-        grunt.log.writeln('  3. Check EMAILS for high-priority bugs');
-        grunt.log.writeln('  4. Check FORUM for open threads');
-        grunt.log.writeln('  5. REPLY to forum threads + unsubscribe');
-        grunt.log.writeln('  6. Update the TRANSLATION files');
-        grunt.log.writeln('  7. Generate ARCHIVE');
-        grunt.log.writeln('  8. Check ARCHIVE structure - it should be a folder with plugin name');
-        grunt.log.writeln('  9. INSTALL on a clean WordPress installation');
-        grunt.log.writeln(' 10. RELEASE the plugin!');
+        grunt.log.writeln('  1. Check FORUM for open threads');
+        grunt.log.writeln('  2. REPLY to forum threads + unsubscribe');
+        grunt.log.writeln('  3. Update the TRANSLATION files');
+        grunt.log.writeln('  4. Generate ARCHIVE');
+        grunt.log.writeln('  5. Check ARCHIVE structure - it should be a folder with plugin name');
+        grunt.log.writeln('  6. INSTALL on a clean WordPress installation');
+        grunt.log.writeln('  7. RELEASE the plugin on WordPress.org!');
+        grunt.log.writeln('  8. Add git tag!');
+        grunt.log.writeln('  9. RELEASE the plugin on GitHub!');
     });
 
     // Default task.
