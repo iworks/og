@@ -82,6 +82,8 @@ The Open Graph plugin inserts the Open Graph metadata into the page head section
 [Like Button]: https://developers.facebook.com/docs/reference/plugins/like
 [Graph API]: https://developers.facebook.com/docs/reference/api/
 [Simple SEO Improvements]: https://wordpress.org/plugins/simple-seo-improvements/
+[WooCommerce]: https://wordpress.org/plugins/woocommerce/
+[Debug Bar]: https://wordpress.org/plugins/debug-bar/
 
 = What plugin add for all types of content? =
 
@@ -149,6 +151,13 @@ Rich filter implementation allows you to change almost every output of this plug
 == Changelog ==
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
+
+= 3.3.0 (2024-02-14) =
+* An issue with the WPML plugin has been fixed. [#15](https://github.com/iworks/og/issues/15). Props for [Armsportstore.com](https://wordpress.org/support/users/armbreakersweden/).
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.6.
+* Same files has been hardened.
+* Integration with the [WooCommerce] plugin has been improved.
+* Integration with the [Debug Bar] plugin has been added.
 
 = 3.2.7 (2023-12-21) =
 * The filter `og/term/meta/thumbnail_id_name` has been added. It allows you to change the term meta name with a thumbnail ID (the default is `image`). Props for [John](https://wordpress.org/support/users/thesun2012/). [#14](https://github.com/iworks/og/issues/14)

@@ -42,6 +42,13 @@ class iWorks_OpenGraph {
 	 */
 	private $image_size = 'full';
 
+	/**
+	 * generated data
+	 *
+	 * @since 3.3.0
+	 */
+	private $og = array();
+
 	public function __construct() {
 		/**
 		 * debug settings
@@ -88,6 +95,12 @@ class iWorks_OpenGraph {
 		 * @since 2.9.4
 		 */
 		add_action( 'plugins_loaded', array( $this, 'load_integrations' ), PHP_INT_MAX );
+		/**
+		 * filter to get og_array
+		 *
+		 * @since 3.3.0
+		 */
+		add_filter( 'og_get_og_array', array( $this, 'filter_og_get_og_array' ) );
 	}
 
 	/**
@@ -276,6 +289,37 @@ class iWorks_OpenGraph {
 		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
 		if ( $this->debug ) {
 			echo PHP_EOL;
+		}
+		do_action( 'iworks_og_before' );
+		/**
+		 * get
+		 *
+		 * @since 3.3.0
+		 */
+		$og = $this->get_og_array();
+		/**
+		 * print
+		 */
+		$this->echo_array( $og );
+		do_action( 'iworks_og_after', $og );
+		echo PHP_EOL;
+		echo '<!-- /OG -->';
+		echo PHP_EOL;
+		echo PHP_EOL;
+		/**
+		 * Plugin: Orphans - turn off replacement
+		 */
+		remove_filter( 'orphan_skip_replacement', '__return_true' );
+	}
+
+	/**
+	 * get OG array
+	 *
+	 * @since 3.3.0
+	 */
+	private function get_og_array() {
+		if ( ! empty( $this->og ) ) {
+			return $this->og;
 		}
 		$og = array(
 			'og'      => array(
@@ -589,103 +633,6 @@ class iWorks_OpenGraph {
 					 */
 					$og['article']['author'] = $this->get_the_author_meta_array( $post->post_author );
 					$og['profile']           = $this->get_the_author_meta_array( $post->post_author );
-				}
-				/**
-				 * woocommerce product
-				 */
-				if ( 'product' == $post->post_type ) {
-					global $woocommerce;
-					if ( is_object( $woocommerce ) && version_compare( $woocommerce->version, '3.0', '>=' ) ) {
-						$_product = wc_get_product( $post->ID );
-						if (
-							is_object( $_product )
-							&& method_exists( $_product, 'get_regular_price' )
-							&& function_exists( 'get_woocommerce_currency' )
-						) {
-							if ( isset( $og['article'] ) ) {
-								unset( $og['article'] );
-							}
-							$og['og']['type']  = 'product';
-							$og['og']['brand'] = '';
-							$og['product']     = array(
-								'retailer_item_id' => $_product->get_sku(),
-								'availability'     => $_product->get_stock_status(),
-								'weight'           => $_product->get_weight(),
-								'price'            => array(
-									'amount'   => $_product->get_regular_price(),
-									'currency' => get_woocommerce_currency(),
-								),
-								'category'         => array(),
-							);
-							if ( $_product->is_on_sale() ) {
-								$og['product']['sale_price'] = array(
-									'amount'   => $_product->get_sale_price(),
-									'currency' => get_woocommerce_currency(),
-								);
-								$from                        = $_product->get_date_on_sale_from();
-								$to                          = $_product->get_date_on_sale_to();
-								if ( ! empty( $from ) || ! empty( $to ) ) {
-									$og['product']['sale_price_dates'] = array();
-									if ( ! empty( $from ) ) {
-										$og['product']['sale_price_dates']['start'] = $from;
-									}
-									if ( ! empty( $to ) ) {
-										$og['product']['sale_price_dates']['end'] = $to;
-									}
-								}
-							}
-							/**
-							 * Product Categories
-							 *
-							 * @since 2.9.2
-							 */
-							$terms = get_the_terms( $post->ID, 'product_cat' );
-							if ( is_array( $terms ) ) {
-								foreach ( $terms as $term ) {
-									$og['product']['category'][] = $term->name;
-								}
-							}
-							/**
-							 * Product Tags
-							 *
-							 * @since 2.9.2
-							 */
-							$terms = get_the_terms( $post->ID, 'product_tag' );
-							if ( is_array( $terms ) ) {
-								foreach ( $terms as $term ) {
-									$og['product']['tag'][] = $term->name;
-								}
-							}
-							/**
-							 * Product Brand by:
-							 * - YITH WooCommerce Brands Add-On
-							 *
-							 * @since 2.9.2
-							 */
-							$brand_taxonomies = array(
-								'product_brand',
-								'berocket_brand',
-								'gswcbr_brand',
-								'pwb-brand',
-								'yith_product_brand',
-							);
-							foreach ( $brand_taxonomies as $taxonomy ) {
-								if ( ! empty( $og['brand'] ) ) {
-									continue;
-								}
-								if ( ! taxonomy_exists( $taxonomy ) ) {
-									continue;
-								}
-								$terms = get_the_terms( $post->ID, $taxonomy );
-								if ( is_array( $terms ) ) {
-									foreach ( $terms as $term ) {
-										$og['og']['brand']      = $term->name;
-										$og['product']['brand'] = $term->name;
-									}
-								}
-							}
-						}
-					}
 				}
 				/**
 				 * post format
@@ -1017,20 +964,8 @@ class iWorks_OpenGraph {
 		 *
 		 * @param array $og Array of all OG tags.
 		 */
-		$og = apply_filters( 'og_array', $og );
-		/**
-		 * print
-		 */
-		$this->echo_array( $og );
-		do_action( 'iworks_og_after', $og );
-		echo PHP_EOL;
-		echo '<!-- /OG -->';
-		echo PHP_EOL;
-		echo PHP_EOL;
-		/**
-		 * Plugin: Orphans - turn off replacement
-		 */
-		remove_filter( 'orphan_skip_replacement', '__return_true' );
+		$this->og = apply_filters( 'og_array', $og );
+		return $this->og;
 	}
 
 	/**
@@ -1078,6 +1013,8 @@ class iWorks_OpenGraph {
 					if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
 						$this->echo_one( $tags[1], $data, 'itemprop' );
 					}
+				} elseif ( 'offers' === $tags[0] ) {
+					$this->echo_one( $tags, $data, 'itemprop' );
 				} elseif ( 2 < sizeof( $tags ) && $tags[1] === $tags[2] ) {
 					$this->echo_one( array( $tags[0], $tags[1] ), $data );
 				} else {
@@ -1430,6 +1367,28 @@ class iWorks_OpenGraph {
 				new iWorks_OpenGraph_Integrations_Sitepress_Multilingual_CMS;
 				continue;
 			}
+			/**
+			 * WooCommerce
+			 * https://wordpress.org/plugins/woocommerce/
+			 *
+			 * @since 3.3.0
+			 */
+			if ( preg_match( '/woocommerce\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integration-woocommerce.php';
+				new iWorks_OpenGraph_Integration_WooCommerce;
+				continue;
+			}
+			/**
+			 * Debug Bar
+			 * https://wordpress.org/plugins/debug-bar/
+			 *
+			 * @since 3.3.0
+			 */
+			if ( preg_match( '/debug-bar\.php$/', $plugin ) ) {
+				include_once $root . '/class-iworks-opengraph-integration-debug-bar.php';
+				new iWorks_OpenGraph_Integration_Debug_Bar;
+				continue;
+			}
 		}
 	}
 
@@ -1679,6 +1638,15 @@ class iWorks_OpenGraph {
 			'content' => $logo_src[0],
 			'size'    => sprintf( '%dx%d', $logo['width'], $logo['height'] ),
 		);
+	}
+
+	/**
+	 * get og array filter
+	 *
+	 * @since 3.0.0
+	 */
+	public function filter_og_get_og_array( $og ) {
+		return $this->get_og_array();
 	}
 
 }
