@@ -1,3 +1,6 @@
+<div align="center"><img height="100" src=".github/logo.svg"></div>
+
+
 # OG — Better Share on Social Media
 
 The simple method to add Open Graph metadata to your entries so that they look great when shared on sites.
