@@ -1,4 +1,4 @@
-<img src=".github/logo.svg" width="100" style="margin: 0 auto" alt="OpenGraph Logo"/>
+<img src=".github/logo.svg" width="100" alt="OpenGraph Logo"/>
 
 # OG — Better Share on Social Media
 
