@@ -1,7 +1,7 @@
 === OG — Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
-Tags: OpenGraph, Open Graph, social, share, Facebook, meta, graph API, Twitter, social share, share links, meta headers, Pinterest
+Tags: OpenGraph, Open Graph, Facebook, Twitter, social media
 Requires at least: PLUGIN_REQUIRES_WORDPRESS
 Tested up to: PLUGIN_TESTED_WORDPRESS
 Stable tag: PLUGIN_VERSION
