@@ -19,12 +19,14 @@ module.exports = function(grunt) {
     var buildyear = 1900 + new Date().getYear();
 
     var conf = {
+
+        // Concatenate those JS files into a single file (target: [source, source, ...]).
         js_files_concat: {},
 
         css_files_compile: {},
 
-        plugin_dir: '',
-        plugin_file: 'og.php',
+        plugin_dir: '<%= pkg.name %>/'
+        plugin_file: '<%= pkg.name %>.php',
 
         // Regex patterns to exclude from transation.
         translation: {
@@ -37,7 +39,7 @@ module.exports = function(grunt) {
                 'tests/.*', // Unit testing.
             ],
             pot_dir: 'languages/', // With trailing slash.
-            textdomain: 'og',
+            textdomain: '<%= pkg.name %>',
         }
     };
 
@@ -46,13 +48,14 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        // JS - Concat .js source files into a single .js file.
         concat: {
             options: {
                 stripBanners: true,
                 banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                     ' * <%= pkg.homepage %>\n' +
                     ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                    ' * Licensed GPLv3+' +
+                    ' * Licensed <%= pkg.license %>' +
                     ' */\n'
             },
             scripts: {
@@ -84,6 +87,7 @@ module.exports = function(grunt) {
             }
         },
 
+        // JS - Uglyfies the source code of .js files (to make files smaller).
         uglify: {
             all: {
                 files: [{
@@ -138,6 +142,7 @@ module.exports = function(grunt) {
             }
         },
 
+        // CSS - Minify all .css files.
         cssmin: {
             options: {
                 banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -231,6 +236,7 @@ module.exports = function(grunt) {
                     '**',
                     '!.git/**',
                     '!.git*',
+                    '!.editorconfig',
                     '!assets/sass/**',
                     '!assets/scss/**',
                     '!node_modules/**',
@@ -325,7 +331,7 @@ module.exports = function(grunt) {
                 ]
             },
             files: {
-                src: ['<%= pkg.name %>.php', 'includes/**/*.php'], //all php 
+                src: ['<%= pkg.name %>.php', 'includes/**/*.php'], //all php
                 expand: true,
             },
         },

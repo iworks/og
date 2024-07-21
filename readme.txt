@@ -152,6 +152,9 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.3.1 (2024-07-21) =
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.9.
+
 = 3.3.0 (2024-02-14) =
 * An issue with the WPML plugin has been fixed. [#15](https://github.com/iworks/og/issues/15). Props for [Armsportstore.com](https://wordpress.org/support/users/armbreakersweden/).
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.1.6.
