@@ -24,6 +24,4 @@
 require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-opengraph.php';
 new iWorks_OpenGraph();
 
-include_once dirname( __FILE__ ) . '/includes/iworks/rate/rate.php';
-do_action( 'iworks-register-plugin', plugin_basename( __FILE__ ), __( 'OG', 'og' ), 'og' );
 

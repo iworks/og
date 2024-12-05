@@ -49,24 +49,51 @@ class iWorks_OpenGraph {
 	 */
 	private $og = array();
 
+	/**
+	 * plugin root
+	 *
+	 * @since 3.3.2
+	 */
+	private $root;
+
+	/**
+	 * plugin file
+	 *
+	 * @since 3.3.2
+	 */
+	private $plugin_file;
+
 	public function __construct() {
 		/**
 		 * debug settings
 		 */
 		$this->debug = apply_filters( 'og_debug', defined( 'WP_DEBUG' ) && WP_DEBUG );
 		/**
+		 * basic settings
+	 *
+	 * @since 3.3.2
+		 */
+		$file       = dirname( dirname( dirname( __FILE__ ) ) ) . '/og.php';
+		$this->root = dirname( $file );
+		/**
+		 * plugin ID
+		 *
+		 * @since 3.3.2
+		 */
+		$this->plugin_file = plugin_basename( $file );
+		/**
 		 * set image size filter
 		 *
 		 * @since 3.2.1
 		 */
 		$this->image_size = apply_filters( 'og_image_size', $this->image_size );
-
 		/**
 		 * WordPress Hooks
 		 */
 		add_action( 'edit_attachment', array( $this, 'delete_transient_cache' ) );
+		add_action( 'init', array( $this, 'load_textdomain' ) );
+		add_action( 'init', array( $this, 'action_init_register_iworks_rate' ), PHP_INT_MAX );
 		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_action( 'save_post', array( $this, 'add_vimeo_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'add_youtube_thumbnails' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'delete_transient_cache' ) );
@@ -1136,7 +1163,11 @@ class iWorks_OpenGraph {
 	 * @since 2.4.0
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'og' );
+		load_plugin_textdomain(
+			'og',
+			false,
+			plugin_basename( $this->root ) . '/languages'
+		);
 	}
 
 	/**
@@ -1649,4 +1680,15 @@ class iWorks_OpenGraph {
 		return $this->get_og_array();
 	}
 
+	/**
+	 * register plugin to iWorks Rate Helper
+	 *
+	 * @since 3.3.2
+	 */
+	public function action_init_register_iworks_rate() {
+		 if ( ! class_exists( 'iworks_rate' ) ) {
+			 include_once dirname( __FILE__ ) . '/rate/rate.php';
+		 }
+		do_action( 'iworks-register-plugin', plugin_basename( __FILE__ ), __( 'OG', 'og' ), 'og' );
+	}
 }
