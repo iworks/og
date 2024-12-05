@@ -234,31 +234,33 @@ module.exports = function(grunt) {
 			main: {
 				src: [
 					'**',
-					'!.git/**',
-					'!.git*',
-					'!.editorconfig',
 					'!assets/sass/**',
 					'!assets/scss/**',
-					'!node_modules/**',
-					'!package-lock.json',
-					'!postcss.config.js',
-					'!README.md',
-					'!LICENSE',
-					'!contributing.md',
-					'!**/README.md',
-					'!**/*.map',
-					'!release/**',
-					'!.sass-cache/**',
-					'!webpack.config.js',
 					'!**/bitbucket-pipelines.yml',
+					'!contributing.md',
 					'!**/css/less/**',
 					'!**/css/sass/**',
 					'!**/css/src/**',
+					'!.editorconfig',
+					'!.git*',
+					'!.git/**',
 					'!**/Gruntfile.js',
 					'!**/img/src/**',
 					'!**/js/src/**',
+					'!languages/*.json',
+					'!languages/*.[pm]o',
+					'!LICENSE',
+					'!**/*.map',
+					'!node_modules/**',
 					'!**/package.json',
-					'!**/tests/**'
+					'!package-lock.json',
+					'!postcss.config.js',
+					'!**/README.md',
+					'!README.md',
+					'!release/**',
+					'!.sass-cache/**',
+					'!**/tests/**',
+					'!webpack.config.js',
 				],
 				dest: 'release/<%= pkg.version %>/<%= pkg.name %>/'
 			}
@@ -312,7 +314,7 @@ module.exports = function(grunt) {
 
 		checktextdomain: {
 			options: {
-				text_domain: ['<%= pkg.name %>', 'IWORKS_RATE_TEXTDOMAIN'],
+				text_domain: ['<%= pkg.name %>', 'IWORKS_RATE_TEXTDOMAIN', 'IWORKS_OPTIONS_TEXTDOMAIN'],
 				keywords: [ //List keyword specifications
 					'__:1,2d',
 					'_e:1,2d',
