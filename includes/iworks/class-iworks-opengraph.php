@@ -121,7 +121,7 @@ class iWorks_OpenGraph {
 		 *
 		 * @since 2.9.4
 		 */
-		add_action( 'plugins_loaded', array( $this, 'load_integrations' ), PHP_INT_MAX );
+		add_action( 'init', array( $this, 'load_integrations' ), 117 );
 		/**
 		 * filter to get og_array
 		 *
@@ -1686,9 +1686,14 @@ class iWorks_OpenGraph {
 	 * @since 3.3.2
 	 */
 	public function action_init_register_iworks_rate() {
-		 if ( ! class_exists( 'iworks_rate' ) ) {
-			 include_once dirname( __FILE__ ) . '/rate/rate.php';
-		 }
-		do_action( 'iworks-register-plugin', plugin_basename( __FILE__ ), __( 'OG', 'og' ), 'og' );
+		if ( ! class_exists( 'iworks_rate' ) ) {
+			include_once dirname( __FILE__ ) . '/rate/rate.php';
+		}
+		do_action(
+			'iworks-register-plugin',
+			plugin_basename( $this->plugin_file ),
+			__( 'OG', 'og' ),
+			'og'
+		);
 	}
 }
