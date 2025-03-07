@@ -2,7 +2,7 @@
 
 # OG — Better Share on Social Media
 
-The simple method to add Open Graph metadata to your entries so that they look great when shared on sites.
+The simple method to add [Open Graph](https://ogp.me/) metadata to your entries so that they look great when shared on sites.
 
 Very tiny Open Graph plugin - add featured image as facebook image. This plugin do not have any configuration - you can check how it works looking into page source.
 
@@ -14,4 +14,4 @@ We believe this plugin is the best option for beginners because it has no config
 
 ## Check on WordPress.org
 
-https://wordpress.org/plugins/og/
+[OG — Better Share on Social Media](https://wordpress.org/plugins/og/)
