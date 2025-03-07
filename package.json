@@ -5,6 +5,13 @@
     "description": "Very tiny Open Graph plugin - add featured image as facebook image. This plugin do not have any configuration - you can check how it works looking into page source.",
     "version": "3.3.3",
     "homepage": "https://github.com/iworks/og/",
+    "tags": [
+        "Facebook",
+        "Open Graph",
+        "LinkedIn",
+        "Social Media",
+        "X"
+    ],
     "author": [
         {
             "name": "Marcin Pietrzak",
@@ -12,6 +19,10 @@
             "uri": "http://iworks.pl/"
         }
     ],
+    "translator": {
+        "name": "Marcin Pietrzak",
+        "email": "marcin@iworks.pl"
+    },
     "requires": {
         "WordPress": "6.0",
         "PHP": "8.0"
@@ -34,37 +45,17 @@
         "grunt-contrib-sass": "^1",
         "grunt-contrib-uglify": "^1",
         "grunt-contrib-watch": "^1",
+        "grunt-concat-css": "^0",
         "grunt-phpunit": "^0",
         "grunt-potomo": "^3",
         "grunt-replace": "^1",
-        "grunt-wp-i18n": "^1",
-        "webpack": "^4.16.3",
-        "webpack-cli": "^3.1.0",
-        "es6-promise": "^4.2.4",
-        "extract-text-webpack-plugin": "^4.0.0-beta.0",
-        "system-bell-webpack-plugin": "^1.0.0",
-        "path": "^0.12.7",
-        "mocha": "^2.3.3",
-        "jquery": "^3.3.1",
-        "lodash": "^4.17.10",
-        "node-sass": "^4.9.0",
-        "babel-core": "^6.26.3",
-        "css-loader": "^0.28.11",
-        "file-loader": "^1.1.11",
-        "sass-loader": "^6.0.7",
-        "ajv-keywords": "^3.2.0",
-        "autoprefixer": "^7.2.6",
-        "babel-loader": "^7.1.5",
-        "style-loader": "^0.20.3",
-        "whatwg-fetch": "^2.0.4",
-        "postcss-loader": "^2.1.6",
-        "babel-preset-env": "^1.7.0",
-        "resolve-url-loader": "^2.3.0"
+        "grunt-wp-i18n": "^1"
     },
     "keywords": [],
     "repository": {
         "type": "git",
-        "url": "git@github.com:iworks/og.git"
+        "url": "git@github.com:iworks/og.git",
+        "website": "https://github.com/iworks/og"
     },
     "license": "GPL-3.0"
 }

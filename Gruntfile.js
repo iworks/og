@@ -18,31 +18,138 @@ module.exports = function(grunt) {
 	var buildtime = new Date().toISOString();
 	var buildyear = 1900 + new Date().getYear();
 
-	var conf = {
+	/**
+	 * excludes
+	 */
+	var excludeCopyFiles = [
+		'**',
+		'!**/bitbucket-pipelines.yml',
+		'!contributing.md',
+		'!**/css/less/**',
+		'!**/css/sass/**',
+		'!**/css/src/**',
+		'!.editorconfig',
+		'!.git*',
+		'!.git/**',
+		'!**/Gruntfile.js',
+		'!**/img/src/**',
+		'!**/js/src/**',
+		'!**/LICENSE',
+		'!LICENSE',
+		'!**/*.map',
+		'!node_modules/**',
+		'!**/package.json',
+		'!package-lock.json',
+		'!postcss.config.js',
+		'!**/README.md',
+		'!README.md',
+		'!release/**',
+		'!.sass-cache/**',
+		'!**/tests/**',
+		'!webpack.config.js',
+	];
 
+	var excludeCopyFilesGIT = excludeCopyFiles.slice(0).concat(
+		[
+			'!includes/pro/**',
+			'!readme.txt',
+		]
+	);
+
+	var excludeCopyFilesWPorg = excludeCopyFiles.slice(0).concat(
+		[
+			'!assets/sass/**',
+			'!assets/scripts/src/**',
+			'!assets/scss/**',
+			'!assets/styles/frontend/**',
+			'!includes/iworks/og/class-og-github.php',
+			'!includes/pro/**',
+			'!languages/*.mo',
+			'!languages/*.po',
+		]
+	);
+
+	var conf = {
 		// Concatenate those JS files into a single file (target: [source, source, ...]).
 		js_files_concat: {},
 
 		css_files_compile: {},
 
-		plugin_dir: '<%= pkg.name %>/',
+		replace_patterns: [{
+			match: /AUTHOR_NAME/g,
+			replace: '<%= pkg.author[0].name %>'
+		}, {
+			match: /AUTHOR_URI/g,
+			replace: '<%= pkg.author[0].uri %>'
+		}, {
+			match: /BUILDTIME/g,
+			replace: buildtime
+		}, {
+			match: /IWORKS_RATE_TEXTDOMAIN/g,
+			replace: '<%= pkg.name %>'
+		}, {
+			match: /IWORKS_OPTIONS_TEXTDOMAIN/g,
+			replace: '<%= pkg.name %>'
+		}, {
+			match: /PLUGIN_DESCRIPTION/g,
+			replace: '<%= pkg.description %>'
+		}, {
+			match: /PLUGIN_GITHUB_WEBSITE/g,
+			replace: '<%= pkg.repository.website %>'
+		}, {
+			match: /PLUGIN_NAME/g,
+			replace: '<%= pkg.name %>'
+		}, {
+			match: /PLUGIN_REQUIRES_PHP/g,
+			replace: '<%= pkg.requires.PHP %>'
+		}, {
+			match: /PLUGIN_REQUIRES_WORDPRESS/g,
+			replace: '<%= pkg.requires.WordPress %>'
+		}, {
+			match: /PLUGIN_TESTED_WORDPRESS/g,
+			replace: '<%= pkg.tested.WordPress %>'
+		}, {
+			match: /PLUGIN_TAGLINE/g,
+			replace: '<%= pkg.tagline %>'
+		}, {
+			match: /PLUGIN_TAGS/g,
+			replace: '<%= pkg.tags.join(", ") %>'
+		}, {
+			match: /PLUGIN_TILL_YEAR/g,
+			replace: buildyear
+		}, {
+			match: /PLUGIN_TITLE/g,
+			replace: '<%= pkg.title %>'
+		}, {
+			match: /PLUGIN_URI/g,
+			replace: '<%= pkg.homepage %>'
+		}, {
+			match: /PLUGIN_VERSION/g,
+			replace: '<%= pkg.version %>'
+		}, {
+			match: /^Version: .+$/g,
+			replace: 'Version: <%= pkg.version %>'
+		}],
+
+		plugin_dir: '',
 		plugin_file: '<%= pkg.name %>.php',
 
 		// Regex patterns to exclude from transation.
 		translation: {
 			ignore_files: [
 				'.git*',
+				'includes/external/.*', // External libraries.
 				'node_modules/.*',
 				'(^.php)', // Ignore non-php files.
 				'release/.*', // Temp release files.
 				'.sass-cache/.*',
 				'tests/.*', // Unit testing.
+				'.editorconfig', // editor configuration
 			],
 			pot_dir: 'languages/', // With trailing slash.
 			textdomain: '<%= pkg.name %>',
-		}
+		},
 	};
-
 
 	// Project configuration
 	grunt.initConfig({
@@ -52,7 +159,7 @@ module.exports = function(grunt) {
 		concat: {
 			options: {
 				stripBanners: true,
-				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
+				banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 				' * <%= pkg.homepage %>\n' +
 				' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
 				' * Licensed <%= pkg.license %>' +
@@ -63,11 +170,12 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// JS - Validate .js source code.
 		jshint: {
 			all: [
 				'Gruntfile.js',
-				'assets/js/src/**/*.js',
-				'assets/js/test/**/*.js'
+				'assets/scripts/src/**/*.js',
+				'assets/scripts/test/**/*.js'
 			],
 			options: {
 				curly: true,
@@ -92,29 +200,33 @@ module.exports = function(grunt) {
 			all: {
 				files: [{
 					expand: true,
-					src: ['*.js', '!*.min.js', '!shared*'],
-					cwd: 'assets/js/',
-					dest: 'assets/js/',
+					src: ['*.js', '!**/*.min.js', '!shared*'],
+					cwd: 'assets/scripts/',
+					dest: 'assets/scripts/',
 					ext: '.min.js',
 					extDot: 'last'
 				}],
 				options: {
-					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
+					banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
+					' * Copyright (c) <%= grunt.template.today("yyyy") %>;\n' +
 					' * Licensed <%= pkg.license %>' +
 					' */\n',
 					mangle: {
-						reserved: ['jQuery']
+						except: ['jQuery']
 					}
 				}
 			}
 		},
 
 		test: {
-			files: ['assets/js/test/**/*.js']
+			files: ['assets/scripts/test/**/*.js']
 		},
 
+		/**
+		 * TEST - Run the PHPUnit tests.
+		 * -- Not used right now...
+		 */
 		phpunit: {
 			classes: {
 				dir: ''
@@ -131,6 +243,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// CSS - Compile a .scss file into a normal .css file.
 		sass: {
 			all: {
 				options: {
@@ -145,29 +258,30 @@ module.exports = function(grunt) {
 		// CSS - Minify all .css files.
 		cssmin: {
 			options: {
-				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
+				banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 				' * <%= pkg.homepage %>\n' +
-				' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
+				' * Copyright (c) <%= grunt.template.today("yyyy") %>;\n' +
 				' * Licensed <%= pkg.license %>' +
 				' */\n',
 				mergeIntoShorthands: false
 			},
-			target: {
-				sourceMap: true,
+			minify: {
 				expand: true,
-				files: {
-					// 'assets/css/ultimate-branding-admin.min.css': [
-					// 'assets/css/admin/*.css'
-					// ]
-				},
-			},
+				src: ['*.css', '!*.min.css'],
+				cwd: 'assets/styles/',
+				dest: 'assets/styles/',
+				ext: '.min.css',
+				extDot: 'last'
+			}
 		},
 
+		// WATCH - Watch filesystem for changes during development.
 		watch: {
 			sass: {
 				files: [
+					'assets/sass/*.scss',
 					'assets/sass/**/*.scss',
-					'inc/modules/**/*.scss'
+					'include/modules/**/*.scss'
 				],
 				tasks: ['sass', 'cssmin'],
 				options: {
@@ -175,7 +289,10 @@ module.exports = function(grunt) {
 				}
 			},
 			scripts: {
-				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
+				files: [
+					'assets/scripts/src/**/*.js',
+					'assets/scripts/admin/src/**/*.js',
+				],
 				tasks: ['jshint', 'concat', 'uglify'],
 				options: {
 					debounceDelay: 500
@@ -183,9 +300,19 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// BUILD - Remove previous build version and temp files.
 		clean: {
-			main: {
-				src: ['release/<%= pkg.version %>']
+			wporg: {
+				src: [
+					'release/wporg/<%= pkg.version %>',
+					'release/wporg/<%= pkg.name %>.zip'
+				]
+			},
+			github: {
+				src: [
+					'release/github/<%= pkg.version %>',
+					'release/github/<%= pkg.name %>.zip'
+				]
 			},
 			temp: {
 				src: ['**/*.tmp', '**/.afpDeleted*', '**/.DS_Store'],
@@ -204,8 +331,13 @@ module.exports = function(grunt) {
 					potFilename: conf.translation.textdomain + '.pot',
 					potHeaders: {
 						poedit: true, // Includes common Poedit headers.
+						'project-id-version': '<%= pkg.version %>',
+						'language-team': 'iWorks <support@iworks.pl>',
+						'last-translator': '<%= pkg.translator.name %> <<%= pkg.translator.email %>>',
+						'report-msgid-bugs-to': 'http://iworks.pl',
 						'x-poedit-keywordslist': true // Include a list of all possible gettext functions.
 					},
+					exclude: ['node_modules', '.git', '.sass-cache', 'release'],
 					type: 'wp-plugin',
 					updateTimestamp: true,
 					updatePoFiles: true
@@ -231,84 +363,56 @@ module.exports = function(grunt) {
 
 		copy: {
 			// Copy the plugin to a versioned release directory
-			main: {
-				src: [
-					'**',
-					'!assets/sass/**',
-					'!assets/scss/**',
-					'!**/bitbucket-pipelines.yml',
-					'!contributing.md',
-					'!**/css/less/**',
-					'!**/css/sass/**',
-					'!**/css/src/**',
-					'!.editorconfig',
-					'!.git*',
-					'!.git/**',
-					'!**/Gruntfile.js',
-					'!**/img/src/**',
-					'!**/js/src/**',
-					'!languages/*.json',
-					'!languages/*.[pm]o',
-					'!LICENSE',
-					'!**/*.map',
-					'!node_modules/**',
-					'!**/package.json',
-					'!package-lock.json',
-					'!postcss.config.js',
-					'!**/README.md',
-					'!README.md',
-					'!release/**',
-					'!.sass-cache/**',
-					'!**/tests/**',
-					'!webpack.config.js',
-				],
-				dest: 'release/<%= pkg.version %>/<%= pkg.name %>/'
+			wporg: {
+				src: excludeCopyFilesWPorg,
+				dest: 'release/wporg/<%= pkg.version %>/<%= pkg.name %>/'
+			},
+			github: {
+				src: excludeCopyFilesGIT,
+				dest: 'release/github/<%= pkg.version %>/<%= pkg.name %>/'
 			}
 		},
 
 		// BUILD: Replace conditional tags in code.
 		replace: {
 			options: {
-				patterns: [
-					{ match: /AUTHOR_NAME/g, replace: '<%= pkg.author[0].name %>' },
-					{ match: /AUTHOR_URI/g, replace: '<%= pkg.author[0].uri %>' },
-					{ match: /BUILDTIME/g, replace: buildtime },
-					{ match: /IWORKS_OPTIONS_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
-					{ match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
-					{ match: /PLUGIN_DESCRIPTION/g, replace: '<%= pkg.description %>' },
-					{ match: /PLUGIN_GITHUB_WEBSITE/g, replace: '<%= pkg.repository.url %>' },
-					{ match: /PLUGIN_NAME/g, replace: '<%= pkg.name %>' },
-					{ match: /PLUGIN_REQUIRES_PHP/g, replace: '<%= pkg.requires.PHP %>' },
-					{ match: /PLUGIN_REQUIRES_WORDPRESS/g, replace: '<%= pkg.requires.WordPress %>' },
-					{ match: /PLUGIN_TAGLINE/g, replace: '<%= pkg.tagline %>' },
-					{ match: /PLUGIN_TESTED_WORDPRESS/g, replace: '<%= pkg.tested.WordPress %>' },
-					{ match: /PLUGIN_TILL_YEAR/g, replace: buildyear },
-					{ match: /PLUGIN_TITLE/g, replace: '<%= pkg.title %>' },
-					{ match: /PLUGIN_URI/g, replace: '<%= pkg.homepage %>' },
-					{ match: /PLUGIN_VERSION/g, replace: '<%= pkg.version %>' },
-					{ match: /^Version: .+$/g, replace: 'Version: <%= pkg.version %>' },
-				]
+				patterns: conf.replace_patterns
 			},
 			files: {
 				expand: true,
 				src: [
-					'release/**',
-					'!release/**/images/**'
+					'release/*/<%= pkg.version %>/<%= pkg.name %>/**',
+					'!release/*/**/*.gif',
+					'!release/*/**/images/**',
+					'!release/*/**/*.jpg',
+					'!release/*/**/languages/*.mo',
+					'!release/*/**/*.png',
+					'!release/*/**/*.webp',
 				],
 				dest: '.'
 			}
 		},
 
 		compress: {
-			main: {
+			wporg: {
 				options: {
 					mode: 'zip',
-					archive: './release/<%= pkg.name %>.zip'
+					archive: './release/wporg/<%= pkg.name %>.zip'
 				},
 				expand: true,
-				cwd: 'release/<%= pkg.version %>/',
+				cwd: 'release/wporg/<%= pkg.version %>/',
 				src: ['**/*'],
-				dest: conf.plugin_dir
+				dest: '.'
+			},
+			github: {
+				options: {
+					mode: 'zip',
+					archive: './release/github/<%= pkg.name %>.zip'
+				},
+				expand: true,
+				cwd: 'release/github/<%= pkg.version %>/',
+				src: ['**/*'],
+				dest: '.'
 			}
 		},
 
@@ -333,11 +437,10 @@ module.exports = function(grunt) {
 				]
 			},
 			files: {
-				src: ['<%= pkg.name %>.php', 'includes/**/*.php'], //all php
+				src: ['<%= pkg.name %>.php', 'includes/**/*.php'],
 				expand: true,
 			},
 		},
-
 	});
 
 	grunt.registerTask('notes', 'Show release notes', function() {
@@ -351,6 +454,7 @@ module.exports = function(grunt) {
 		grunt.log.writeln('  7. RELEASE the plugin on WordPress.org!');
 		grunt.log.writeln('  8. Add git tag!');
 		grunt.log.writeln('  9. RELEASE the plugin on GitHub!');
+		grunt.log.writeln(' 10. RELEASE the plugin!');
 	});
 
 	// Default task.
@@ -358,11 +462,32 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['clean:temp', 'concat', 'uglify', 'sass', 'cssmin']);
 	grunt.registerTask('js', ['concat', 'uglify']);
 	grunt.registerTask('css', ['sass', 'cssmin']);
-	grunt.registerTask('i18n', ['checktextdomain', 'makepot', 'potomo']);
+	grunt.registerTask('i18n', ['checktextdomain', 'makepot']);
 
-	// grunt.registerTask( 'build', [ 'default', 'i18n', 'clean', 'copy', 'compress', 'notes'] );
-	grunt.registerTask('build', ['default', 'clean', 'copy', 'replace', 'compress', 'notes']);
+	grunt.registerTask(
+		'build',
+		[
+			'default',
+			'i18n',
+			'clean:wporg',
+			'copy:wporg',
+			'replace',
+			'compress:wporg'
+		],
+	);
+	grunt.registerTask(
+		'build:github',
+		[
+			'default',
+			'i18n',
+			'potomo',
+			'clean:github',
+			'copy:github',
+			'replace',
+			'compress:github'
+		]
+	);
+	grunt.registerTask('release', ['build:wporg', 'build:github', 'notes' ]);
 	grunt.registerTask('test', ['phpunit', 'jshint', 'notes']);
-
 	grunt.util.linefeed = '\n';
 };
