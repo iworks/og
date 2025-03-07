@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 			'!assets/scripts/src/**',
 			'!assets/scss/**',
 			'!assets/styles/frontend/**',
-			'!includes/iworks/og/class-og-github.php',
+			'!includes/iworks/opengraph/class-iworks-opengraph-github.php',
 			'!includes/pro/**',
 			'!languages/*.mo',
 			'!languages/*.po',
