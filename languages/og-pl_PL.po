@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
 "(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 19:27:51+00:00\n"
+"POT-Creation-Date: 2025-03-07 19:44:13+00:00\n"
 "PO-Revision-Date: 2025-03-07 20:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -43,7 +43,7 @@ msgstr "OpenGraph"
 msgid "OG Tag"
 msgstr "Tag OG"
 
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:48
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:45
 msgid "OG Value"
 msgstr "Wartość tagu"
 
