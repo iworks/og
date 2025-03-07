@@ -38,7 +38,16 @@ class iWorks_OpenGraph_Integration_Debug_Bar_Panel extends Debug_Bar_Panel {
 		);
 		$og = apply_filters( 'og_get_og_array', array() );
 		echo '<table>';
+		echo '<thead>';
+		printf(
+			'<tr><th style="width:10em;text-align:right">%s</th><th style="width:1em;text-align:center">⇒</th><th>%s</th></tr>',
+			esc_html__( 'OG Tag', 'og' ),
+			esc_html_e( 'OG Value', 'og' )
+		);
+		echo '</thead>';
+		echo '<tbody>';
 		$this->echo_array( $og );
+		echo '</tbody>';
 		echo '</table>';
 		echo '</div>';
 	}

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.3.3\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 06:15:16+00:00\n"
+"POT-Creation-Date: 2025-03-07 19:27:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,18 +24,18 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/iworks/class-iworks-opengraph.php:223
+#: includes/iworks/class-iworks-opengraph.php:222
 msgid ""
 "If you like <strong>OG</strong> please leave us a "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in "
 "advance!"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:351
+#: includes/iworks/class-iworks-opengraph.php:350
 msgid "<!-- OG: %s -->"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1730
+#: includes/iworks/class-iworks-opengraph.php:1729
 msgid "OG"
 msgstr ""
 
@@ -43,6 +43,14 @@ msgstr ""
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
 #: includes/iworks/rate/rate.php:563
 msgid "OpenGraph"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:44
+msgid "OG Tag"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:48
+msgid "OG Value"
 msgstr ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40

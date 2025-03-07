@@ -30,7 +30,6 @@ class iworks_opengraph_github  {
 	private $github_response;
 
 	public function __construct() {
-		$this->version = 'PLUGIN_VERSION';
 		/**
 		 * WordPress Hooks
 		 */
@@ -46,11 +45,8 @@ class iworks_opengraph_github  {
 	 * @since 1.0.0
 	 */
 	public function action_init_load_plugin_textdomain() {
-		load_plugin_textdomain(
-			'og',
-			false,
-			plugin_basename( $this->dir ) . '/languages'
-		);
+		$dir = plugin_basename( dirname( dirname( dirname( __DIR__) ) ) ) . '/languages';
+		load_plugin_textdomain( 'og', false, $dir);
 	}
 
 	/**

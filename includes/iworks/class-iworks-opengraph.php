@@ -153,10 +153,10 @@ class iWorks_OpenGraph {
 		/**
 		 * load github class
 		 */
-		$filename = $this->includes_directory . '/class-iworks-opengraph-github.php';
+		$filename = __DIR__ . '/opengraph/class-iworks-opengraph-github.php';
 		if ( is_file( $filename ) ) {
 			include_once $filename;
-			new iworks_og_github();
+			new iworks_opengraph_github();
 		}
 		/**
 		 * is active?

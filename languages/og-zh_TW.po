@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
 "(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 06:15:16+00:00\n"
+"POT-Creation-Date: 2025-03-07 19:27:51+00:00\n"
 "PO-Revision-Date: 2024-12-05 17:27:55+0000\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: GlotPress/4.0.1\n"
 
-#: includes/iworks/class-iworks-opengraph.php:223
+#: includes/iworks/class-iworks-opengraph.php:222
 msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
@@ -22,11 +22,11 @@ msgstr ""
 "如果 <strong>OG</strong> 為這個網站帶來助益，請給我們 %1$s5 星%2$s評價，開發"
 "團隊在此先行致謝。"
 
-#: includes/iworks/class-iworks-opengraph.php:351
+#: includes/iworks/class-iworks-opengraph.php:350
 msgid "<!-- OG: %s -->"
 msgstr "<!-- OG: %s -->"
 
-#: includes/iworks/class-iworks-opengraph.php:1730
+#: includes/iworks/class-iworks-opengraph.php:1729
 msgid "OG"
 msgstr "OG"
 
@@ -35,6 +35,14 @@ msgstr "OG"
 #: includes/iworks/rate/rate.php:563
 msgid "OpenGraph"
 msgstr "開放社交關係圖"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:44
+msgid "OG Tag"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:48
+msgid "OG Value"
+msgstr ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
 msgid "Reading time"

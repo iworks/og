@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
 "(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 06:15:16+00:00\n"
+"POT-Creation-Date: 2025-03-07 19:27:51+00:00\n"
 "PO-Revision-Date: 2022-09-10 09:40:49+0000\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
 "X-Generator: GlotPress/4.0.1\n"
 
-#: includes/iworks/class-iworks-opengraph.php:223
+#: includes/iworks/class-iworks-opengraph.php:222
 msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
@@ -23,11 +23,11 @@ msgstr ""
 "Якщо вам подобається плагін <strong>OpenGraph</strong> — залиште відгук "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s та рейтинг. Дякуємо!"
 
-#: includes/iworks/class-iworks-opengraph.php:351
+#: includes/iworks/class-iworks-opengraph.php:350
 msgid "<!-- OG: %s -->"
 msgstr "<!-- OG: %s -->"
 
-#: includes/iworks/class-iworks-opengraph.php:1730
+#: includes/iworks/class-iworks-opengraph.php:1729
 msgid "OG"
 msgstr "OpenGraph"
 
@@ -36,6 +36,14 @@ msgstr "OpenGraph"
 #: includes/iworks/rate/rate.php:563
 msgid "OpenGraph"
 msgstr "OpenGraph"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:44
+msgid "OG Tag"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:48
+msgid "OG Value"
+msgstr ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
 msgid "Reading time"

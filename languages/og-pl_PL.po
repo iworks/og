@@ -5,17 +5,19 @@ msgstr ""
 "Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
 "(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 06:15:16+00:00\n"
-"PO-Revision-Date: 2024-12-05 17:30:34+0000\n"
+"POT-Creation-Date: 2025-03-07 19:27:51+00:00\n"
+"PO-Revision-Date: 2025-03-07 20:29+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 "
 "&& (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: Poedit 3.5\n"
 
-#: includes/iworks/class-iworks-opengraph.php:223
+#: includes/iworks/class-iworks-opengraph.php:222
 msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
@@ -23,11 +25,11 @@ msgstr ""
 "Jeżeli lubisz wtyczkę <strong>OG</strong>, proszę daj jej ocenę %1$s&#9733;"
 "&#9733;&#9733;&#9733;&#9733;%2$s. Z góry bardzo dziękuję!"
 
-#: includes/iworks/class-iworks-opengraph.php:351
+#: includes/iworks/class-iworks-opengraph.php:350
 msgid "<!-- OG: %s -->"
 msgstr "<!-- OG: %s -->"
 
-#: includes/iworks/class-iworks-opengraph.php:1730
+#: includes/iworks/class-iworks-opengraph.php:1729
 msgid "OG"
 msgstr "OG"
 
@@ -36,6 +38,14 @@ msgstr "OG"
 #: includes/iworks/rate/rate.php:563
 msgid "OpenGraph"
 msgstr "OpenGraph"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:44
+msgid "OG Tag"
+msgstr "Tag OG"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:48
+msgid "OG Value"
+msgstr "Wartość tagu"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
 msgid "Reading time"
@@ -173,19 +183,19 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "PLUGIN_URI"
-msgstr ""
+msgstr "PLUGIN_URI"
 
 #. Description of the plugin/theme
 msgid "PLUGIN_DESCRIPTION"
-msgstr ""
+msgstr "PLUGIN_DESCRIPTION"
 
 #. Author of the plugin/theme
 msgid "AUTHOR_NAME"
-msgstr ""
+msgstr "AUTHOR_NAME"
 
 #. Author URI of the plugin/theme
 msgid "AUTHOR_URI"
-msgstr ""
+msgstr "AUTHOR_URI"
 
 #. translators: %s: plugin slug
 #: includes/iworks/rate/rate.php:469
