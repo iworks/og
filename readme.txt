@@ -1,7 +1,7 @@
 === OG — Better Share on Social Media ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=og&utm_medium=readme-donate
-Tags: OpenGraph, Open Graph, Facebook, Twitter, social media
+Tags: PLUGIN_TAGS
 Requires at least: PLUGIN_REQUIRES_WORDPRESS
 Tested up to: PLUGIN_TESTED_WORDPRESS
 Stable tag: PLUGIN_VERSION
@@ -151,6 +151,11 @@ Rich filter implementation allows you to change almost every output of this plug
 == Changelog ==
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
+
+= 3.3.4 (2025-03-xx) =
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.2.3.
+* The build process has been improved.
+* The `_load_textdomain_just_in_time()` notice has been fixed.
 
 = 3.3.3 (2024-12-09) =
 * The loading integrations action has been fixed.
