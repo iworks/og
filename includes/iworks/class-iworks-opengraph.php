@@ -1,4 +1,27 @@
 <?php
+/*
+
+Copyright 2014-PLUGIN_TILL_YEAR Marcin Pietrzak (marcin@iworks.pl)
+
+this program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License, version 2, as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+ */
+defined( 'ABSPATH' ) || exit;
+if ( class_exists( 'iWorks_OpenGraph' ) ) {
+	return;
+}
+
 class iWorks_OpenGraph {
 	private $youtube_meta_name = 'iworks_yt_thumbnails';
 	private $version           = 'PLUGIN_VERSION';
@@ -128,6 +151,18 @@ class iWorks_OpenGraph {
 		 * @since 3.3.0
 		 */
 		add_filter( 'og_get_og_array', array( $this, 'filter_og_get_og_array' ) );
+		/**
+		 * load github class
+		 */
+		$filename = $this->includes_directory . '/class-iworks-opengraph-github.php';
+		if ( is_file( $filename ) ) {
+			include_once $filename;
+			new iworks_og_github();
+		}
+		/**
+		 * is active?
+		 */
+		add_filter( 'og/is_active', '__return_true' );
 	}
 
 	/**

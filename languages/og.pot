@@ -1,16 +1,16 @@
-# Copyright (C) 2022 AUTHOR_NAME
+# Copyright (C) 2025 AUTHOR_NAME
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: OG — Better Share on Social Media PLUGIN_VERSION\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/og\n"
-"POT-Creation-Date: 2022-08-16 06:31:09+00:00\n"
+"Project-Id-Version: 3.3.3\n"
+"Report-Msgid-Bugs-To: http://iworks.pl\n"
+"POT-Creation-Date: 2025-03-07 06:15:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Marcin Pietrzak <marcin@iworks.pl>\n"
+"Language-Team: iWorks <support@iworks.pl>\n"
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: United States\n"
@@ -24,65 +24,79 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/iworks/class-iworks-opengraph.php:131
+#: includes/iworks/class-iworks-opengraph.php:223
 msgid ""
 "If you like <strong>OG</strong> please leave us a "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in "
 "advance!"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:259
+#: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
 msgstr ""
 
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
+#: includes/iworks/class-iworks-opengraph.php:1730
+msgid "OG"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
+#: includes/iworks/rate/rate.php:563
+msgid "OpenGraph"
+msgstr ""
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
 msgid "Reading time"
 msgstr ""
 
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:36
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:42
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iworks/rate/rate.php:124
+#: includes/iworks/rate/rate.php:133
 msgid "Settings"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:130
-#: includes/iworks/rate/templates/thanks.php:28
+#: includes/iworks/rate/rate.php:147
+#: includes/iworks/rate/templates/thanks.php:39
 msgid "Provide us a coffee"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:474
-msgid "OpenGraph"
+#: includes/iworks/rate/rate.php:446
+#. translators: %s: plugin id
+msgid "There is no plugin with id: %s."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "OG — Better Share on Social Media"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:491
+#: includes/iworks/rate/rate.php:580
 msgid "https://wordpress.org/plugins/og/"
 msgstr ""
 
-#: includes/iworks/rate/templates/plugins/og.php:2
+#: includes/iworks/rate/templates/plugins/og.php:4
 msgid "Would you like to boost your website sharing abilities?"
 msgstr ""
 
-#: includes/iworks/rate/templates/plugins/og.php:7
+#: includes/iworks/rate/templates/plugins/og.php:9
+#. translators: %s is a plugin name with url
 msgid "Don't wait, install plugin %s!"
 msgstr ""
 
-#: includes/iworks/rate/templates/plugins/og.php:17
+#: includes/iworks/rate/templates/plugins/og.php:20
+#. translators: %s is a plugin wp home name, %s plugin name
 msgid "Install"
 msgstr ""
 
-#: includes/iworks/rate/templates/thanks.php:17
+#: includes/iworks/rate/templates/thanks.php:23
+#. translators: %s is a plugin name wrapped by strong html tag
 msgid "Thank you for using our plugin %s!"
 msgstr ""
 
-#: includes/iworks/rate/templates/thanks.php:20
+#: includes/iworks/rate/templates/thanks.php:31
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag
 msgid ""
 "Please let us know what you think about our plugin. It is important that we "
@@ -92,33 +106,33 @@ msgid ""
 "help you!"
 msgstr ""
 
-#: includes/iworks/rate/templates/thanks.php:24
-#: includes/iworks/rate/templates/widgets/support.php:23
+#: includes/iworks/rate/templates/thanks.php:35
+#: includes/iworks/rate/templates/widgets/support.php:21
 msgid "Get help"
 msgstr ""
 
-#: includes/iworks/rate/templates/thanks.php:26
-#: includes/iworks/rate/templates/widgets/support.php:33
+#: includes/iworks/rate/templates/thanks.php:37
+#: includes/iworks/rate/templates/widgets/support.php:31
 msgid "Add review"
 msgstr ""
 
-#: includes/iworks/rate/templates/thanks.php:30
+#: includes/iworks/rate/templates/thanks.php:41
 msgid "I added review, do not show again"
 msgstr ""
 
-#: includes/iworks/rate/templates/widgets/donate.php:1
+#: includes/iworks/rate/templates/widgets/donate.php:2
 msgid ""
 "However, working on plugins and technical support requires many hours of "
 "work. If you want to appreciate it, you can provide me a coffee."
 msgstr ""
 
-#: includes/iworks/rate/templates/widgets/donate.php:2
+#: includes/iworks/rate/templates/widgets/donate.php:3
 msgid ""
 "If every plugin user did it, I could devote myself fully to working on this "
 "plugin. Thanks everyone!"
 msgstr ""
 
-#: includes/iworks/rate/templates/widgets/donate.php:3
+#: includes/iworks/rate/templates/widgets/donate.php:4
 msgid "Provide me a coffee"
 msgstr ""
 
@@ -129,7 +143,7 @@ msgid ""
 "about it by filling the support form. We will try to add it!"
 msgstr ""
 
-#: includes/iworks/rate/templates/widgets/support.php:13
+#: includes/iworks/rate/templates/widgets/support.php:11
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag, %3$s: open
 #. anchor tag, %4$s: close anchor tag
 msgid ""
@@ -138,15 +152,11 @@ msgid ""
 "problems."
 msgstr ""
 
-#: includes/iworks/rate/templates/widgets/support.php:28
+#: includes/iworks/rate/templates/widgets/support.php:26
 msgid ""
 "Do you like our plugin? Could you rate him? Please let us know what you "
 "think about our plugin. It is important that we can develop this tool. "
 "Thank you for all the ratings, reviews and donates."
-msgstr ""
-
-#: og.php:28
-msgid "OG"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -165,12 +175,14 @@ msgstr ""
 msgid "AUTHOR_URI"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:405
+#: includes/iworks/rate/rate.php:469
+#. translators: %s: plugin slug
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:411
+#: includes/iworks/rate/rate.php:476
+#. translators: %s: plugin slug
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr ""

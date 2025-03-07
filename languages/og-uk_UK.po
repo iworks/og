@@ -1,0 +1,208 @@
+# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Ukrainian
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
+"(latest release)\n"
+"Report-Msgid-Bugs-To: http://iworks.pl\n"
+"POT-Creation-Date: 2025-03-07 06:15:16+00:00\n"
+"PO-Revision-Date: 2022-09-10 09:40:49+0000\n"
+"Language: uk_UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % "
+"10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Generator: GlotPress/4.0.1\n"
+
+#: includes/iworks/class-iworks-opengraph.php:223
+msgid ""
+"If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
+"&#9733;&#9733;%2$s rating. A huge thanks in advance!"
+msgstr ""
+"Якщо вам подобається плагін <strong>OpenGraph</strong> — залиште відгук "
+"%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s та рейтинг. Дякуємо!"
+
+#: includes/iworks/class-iworks-opengraph.php:351
+msgid "<!-- OG: %s -->"
+msgstr "<!-- OG: %s -->"
+
+#: includes/iworks/class-iworks-opengraph.php:1730
+msgid "OG"
+msgstr "OpenGraph"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
+#: includes/iworks/rate/rate.php:563
+msgid "OpenGraph"
+msgstr "OpenGraph"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
+msgid "Reading time"
+msgstr "Час читання"
+
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:42
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d хвилина"
+msgstr[1] "%d хвилини"
+msgstr[2] "%d хвилин"
+
+#: includes/iworks/rate/rate.php:133
+msgid "Settings"
+msgstr "Налаштування"
+
+#: includes/iworks/rate/rate.php:147
+#: includes/iworks/rate/templates/thanks.php:39
+msgid "Provide us a coffee"
+msgstr "Пригостіть нас кавою."
+
+#. translators: %s: plugin id
+#: includes/iworks/rate/rate.php:446
+msgid "There is no plugin with id: %s."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "OG — Better Share on Social Media"
+msgstr "OG — Better Share on Social Media"
+
+#: includes/iworks/rate/rate.php:580
+msgid "https://wordpress.org/plugins/og/"
+msgstr "https://wordpress.org/plugins/og/"
+
+#: includes/iworks/rate/templates/plugins/og.php:4
+msgid "Would you like to boost your website sharing abilities?"
+msgstr "Чи бажаєте ви розширити можливості спільного використання веб-сайтів?"
+
+#. translators: %s is a plugin name with url
+#: includes/iworks/rate/templates/plugins/og.php:9
+msgid "Don't wait, install plugin %s!"
+msgstr "Не чекайте, встановіть плагін %s!"
+
+#. translators: %s is a plugin wp home name, %s plugin name
+#: includes/iworks/rate/templates/plugins/og.php:20
+msgid "Install"
+msgstr "Встановити"
+
+#. translators: %s is a plugin name wrapped by strong html tag
+#: includes/iworks/rate/templates/thanks.php:23
+msgid "Thank you for using our plugin %s!"
+msgstr "Дякуємо за використання нашого плагіну %s!"
+
+#. translators: %1$s: open anchor tag, %2$s: close anchor tag
+#: includes/iworks/rate/templates/thanks.php:31
+msgid ""
+"Please let us know what you think about our plugin. It is important that we "
+"can develop this tool. Thank you for all the ratings, reviews and donates. "
+"If you have a technical problem, please before you add a review %1$scheck "
+"our FAQ%2$s or contact us if you did not find help there. We will try to "
+"help you!"
+msgstr ""
+"Будь ласка, дайте нам знати, що ви думаєте про наш плагін. Важливо, що ми "
+"можемо розробити цей інструмент. Дякуємо за всі оцінки, відгуки та пожертви. "
+"Якщо у вас виникла технічна проблема, перш ніж додати відгук, "
+"%1$sперегляньте наші FAQ%2$s або зв’яжіться з нами, якщо ви не знайшли там "
+"допомоги. Ми постараємося вам допомогти!"
+
+#: includes/iworks/rate/templates/thanks.php:35
+#: includes/iworks/rate/templates/widgets/support.php:21
+msgid "Get help"
+msgstr "Потрібна допомога"
+
+#: includes/iworks/rate/templates/thanks.php:37
+#: includes/iworks/rate/templates/widgets/support.php:31
+msgid "Add review"
+msgstr "Додати відгук"
+
+#: includes/iworks/rate/templates/thanks.php:41
+msgid "I added review, do not show again"
+msgstr "Я вже додав відгук."
+
+#: includes/iworks/rate/templates/widgets/donate.php:2
+msgid ""
+"However, working on plugins and technical support requires many hours of "
+"work. If you want to appreciate it, you can provide me a coffee."
+msgstr ""
+"Однак робота над плагінами та технічною підтримкою вимагає багатогодинної "
+"праці. Якщо ви хочете оцінити це, можете дати мені кави."
+
+#: includes/iworks/rate/templates/widgets/donate.php:3
+msgid ""
+"If every plugin user did it, I could devote myself fully to working on this "
+"plugin. Thanks everyone!"
+msgstr ""
+"Якби це робив кожен користувач плагіна, я міг би повністю присвятити себе "
+"роботі над цим плагіном. Дякую всім!"
+
+#: includes/iworks/rate/templates/widgets/donate.php:4
+msgid "Provide me a coffee"
+msgstr "Пригостіть мене кавою."
+
+#: includes/iworks/rate/templates/widgets/support.php:4
+msgid ""
+"Do you have a technical problem? Please contact us. We will be happy to help "
+"you. Or maybe you have an idea for a new feature? Please let us know about "
+"it by filling the support form. We will try to add it!"
+msgstr ""
+"У вас технічна проблема? Будь ласка, зв'яжіться з нами. Ми будемо раді Вам "
+"допомогти. Або, можливо, у вас є ідея щодо нової функції? Будь ласка, "
+"повідомте нам про це, заповнивши форму підтримки. Спробуємо додати!"
+
+#. translators: %1$s: open anchor tag, %2$s: close anchor tag, %3$s: open
+#. anchor tag, %4$s: close anchor tag
+#: includes/iworks/rate/templates/widgets/support.php:11
+msgid ""
+"Please %1$scheck our FAQ%2$s before adding a thread with technical problem. "
+"If you do not find help there, %3$scheck support forum%4$s for similar "
+"problems."
+msgstr ""
+
+#: includes/iworks/rate/templates/widgets/support.php:26
+msgid ""
+"Do you like our plugin? Could you rate him? Please let us know what you "
+"think about our plugin. It is important that we can develop this tool. Thank "
+"you for all the ratings, reviews and donates."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "PLUGIN_URI"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "PLUGIN_DESCRIPTION"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "AUTHOR_NAME"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "AUTHOR_URI"
+msgstr ""
+
+#. translators: %s: plugin slug
+#: includes/iworks/rate/rate.php:469
+msgctxt "plugins home"
+msgid "https://wordpress.org/plugins/%s"
+msgstr "https://wordpress.org/plugins/%s"
+
+#. translators: %s: plugin slug
+#: includes/iworks/rate/rate.php:476
+msgctxt "plugins support home"
+msgid "https://wordpress.org/support/plugin/%s"
+msgstr "https://wordpress.org/support/plugin/%s"
+
+#~ msgid "Marcin Pietrzak"
+#~ msgstr "Marcin Pietrzak"
+
+#~ msgid ""
+#~ "Very tiny Open Graph plugin - add featured image as facebook image. This "
+#~ "plugin do not have any configuration - you can check how it works looking "
+#~ "into page source."
+#~ msgstr ""
+#~ "Дуже легкий плагін інтеграції тегів OpenGraph. Зображення сторінки "
+#~ "використовується як фото для facebook. Плагін не має сторінки налаштувань "
+#~ "— для перевірки відкрийте код будь-якої сторінки сайту."
+
+#~ msgid "http://iworks.pl/"
+#~ msgstr "http://iworks.pl/"
