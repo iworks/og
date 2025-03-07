@@ -156,6 +156,7 @@ Project maintained on github at [iworks/og](https://github.com/iworks/og).
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.2.3.
 * The build process has been improved.
 * The `_load_textdomain_just_in_time()` notice has been fixed.
+* The itemprop `author` has been removed. Props for [Oliver](https://github.com/oliveratgithub). [#9](https://github.com/iworks/og/issues/9)
 
 = 3.3.3 (2024-12-09) =
 * The loading integrations action has been fixed.

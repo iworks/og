@@ -46,7 +46,6 @@ class iWorks_OpenGraph {
 		'description'   => array( 'og', 'description' ),
 		'datePublished' => array( 'article', 'published_time' ),
 		'dateModified'  => array( 'article', 'modified_time' ),
-		'author'        => array( 'profile', 'username' ),
 	);
 
 	/**
