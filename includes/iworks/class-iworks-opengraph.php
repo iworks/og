@@ -138,6 +138,7 @@ class iWorks_OpenGraph {
 		 */
 		add_filter( 'og_schema_datePublished', array( $this, 'filter_og_schema_datepublished' ) );
 		add_filter( 'og_get_image_dimensions', array( $this, 'filter_og_get_image_dimensions_by_id' ), 10, 2 );
+		add_filter( 'og_twitter_array', array( $this, 'add_reading_time' ), 99 );
 		/**
 		 * integrations wiith external plugins
 		 *
@@ -1730,4 +1731,45 @@ class iWorks_OpenGraph {
 			'og'
 		);
 	}
+
+	/**
+	 * Add Reading Time
+	 *
+	 * @since 3.3.5
+	 */
+	public function add_reading_time( $twitter ) {
+		if ( isset( $twitter['labels'] ) ) {
+			foreach ( $twitter['labels'] as $one ) {
+				if ( __( 'Reading time', 'og' ) === $one['label'] ) {
+					return $twitter;
+				}
+			}
+		}
+		if ( ! isset( $twitter['labels'] ) ) {
+			$twitter['labels'] = array();
+		}
+		if ( ! is_singular() ) {
+			return $twitter;
+		}
+		$content = strip_tags( get_the_content() );
+		$time    = 0;
+		if ( ! empty( $content ) ) {
+			$words_per_minute = max( 1, absint( apply_filters( 'iworks/og/twitter/time_to_read/words-per-minute', 190 ) ) );
+			$words            = preg_match_all( '/\p{L}+/u', $content );
+			$time             = floor( $words / $words_per_minute );
+		}
+		$data = __( 'Less than a minute', 'og' );
+		if ( 0 < $time ) {
+			$data = sprintf(
+				_n( '%d minute', '%d minutes', $time, 'og' ),
+				$time
+			);
+		}
+		$twitter['labels'][] = array(
+			'label' => __( 'Reading time', 'og' ),
+			'data'  => $data,
+		);
+		return $twitter;
+	}
+
 }

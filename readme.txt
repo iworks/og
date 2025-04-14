@@ -152,6 +152,9 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.3.5 (2025-04-14) =
+* Add Twitter "Reading Time". [#19](https://github.com/iworks/og/issues/19)
+
 = 3.3.4 (2025-03-07) =
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.2.3.
 * The build process has been improved.
