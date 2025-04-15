@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.3.4\n"
+"Project-Id-Version: 3.3.5\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 19:44:27+00:00\n"
+"POT-Creation-Date: 2025-04-15 15:51:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,20 +24,38 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/iworks/class-iworks-opengraph.php:222
+#: includes/iworks/class-iworks-opengraph.php:223
 msgid ""
 "If you like <strong>OG</strong> please leave us a "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in "
 "advance!"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:350
+#: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1729
+#: includes/iworks/class-iworks-opengraph.php:1730
 msgid "OG"
 msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1743
+#: includes/iworks/class-iworks-opengraph.php:1769
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
+msgid "Reading time"
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1761
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
+msgid "Less than a minute"
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1764
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
@@ -52,16 +70,6 @@ msgstr ""
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:45
 msgid "OG Value"
 msgstr ""
-
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
-msgid "Reading time"
-msgstr ""
-
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:42
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
 
 #: includes/iworks/rate/rate.php:133
 msgid "Settings"

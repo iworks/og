@@ -1,4 +1,4 @@
-# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Dutch
+# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Romanian
 # This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
 msgid ""
 msgstr ""
@@ -6,12 +6,13 @@ msgstr ""
 "Development (trunk)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
 "POT-Creation-Date: 2025-04-15 15:51:44+00:00\n"
-"PO-Revision-Date: 2024-07-21 09:12:46+0000\n"
-"Language: nl\n"
+"PO-Revision-Date: 2022-01-22 17:06:05+0000\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && "
+"n % 100 <= 19) ? 1 : 2);\n"
 "X-Generator: GlotPress/4.0.1\n"
 
 #: includes/iworks/class-iworks-opengraph.php:223
@@ -19,8 +20,6 @@ msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
 msgstr ""
-"Als je <strong> OG </strong> waardeert, geef ons dan een %1$s&#9733;&#9733;"
-"&#9733;&#9733;&#9733;%2$s waardering. Bij voorbaat hartelijk dank!"
 
 #: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
@@ -34,7 +33,7 @@ msgstr "OG"
 #: includes/iworks/class-iworks-opengraph.php:1769
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
 msgid "Reading time"
-msgstr "Leestijd"
+msgstr ""
 
 #: includes/iworks/class-iworks-opengraph.php:1761
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
@@ -45,14 +44,15 @@ msgstr ""
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minuut"
-msgstr[1] "%d minuten"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
 #: includes/iworks/rate/rate.php:563
 msgid "OpenGraph"
-msgstr "OpenGraph"
+msgstr ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:44
 msgid "OG Tag"
@@ -64,12 +64,12 @@ msgstr ""
 
 #: includes/iworks/rate/rate.php:133
 msgid "Settings"
-msgstr "instellingen"
+msgstr "Setări"
 
 #: includes/iworks/rate/rate.php:147
 #: includes/iworks/rate/templates/thanks.php:39
 msgid "Provide us a coffee"
-msgstr "Voorzie mij van een kop koffie"
+msgstr ""
 
 #. translators: %s: plugin id
 #: includes/iworks/rate/rate.php:446
@@ -78,30 +78,30 @@ msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "OG — Better Share on Social Media"
-msgstr "OG — Better Share on Social Media"
+msgstr ""
 
 #: includes/iworks/rate/rate.php:580
 msgid "https://wordpress.org/plugins/og/"
-msgstr "https://wordpress.org/plugins/og/"
+msgstr ""
 
 #: includes/iworks/rate/templates/plugins/og.php:4
 msgid "Would you like to boost your website sharing abilities?"
-msgstr "Wil je je mogelijkheden voor het delen van je website vergroten?"
+msgstr ""
 
 #. translators: %s is a plugin name with url
 #: includes/iworks/rate/templates/plugins/og.php:9
 msgid "Don't wait, install plugin %s!"
-msgstr "Wacht niet, installeer plugin %s!"
+msgstr ""
 
 #. translators: %s is a plugin wp home name, %s plugin name
 #: includes/iworks/rate/templates/plugins/og.php:20
 msgid "Install"
-msgstr "Installeren"
+msgstr ""
 
 #. translators: %s is a plugin name wrapped by strong html tag
 #: includes/iworks/rate/templates/thanks.php:23
 msgid "Thank you for using our plugin %s!"
-msgstr "Dank je voor het gebruik van onze plugin %s!"
+msgstr "Îți mulțumim că folosești modulul %s!"
 
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag
 #: includes/iworks/rate/templates/thanks.php:31
@@ -112,45 +112,36 @@ msgid ""
 "our FAQ%2$s or contact us if you did not find help there. We will try to "
 "help you!"
 msgstr ""
-"Laat ons weten wat je van onze plugin vindt. Het is belangrijk dat we deze "
-"tool kunnen ontwikkelen. Bedankt voor alle beoordelingen, recensies en "
-"donaties. Als je een technisch probleem hebt, controleer dan %1$s voordat je "
-"een recensie toevoegt, onze FAQ%2$s of neem contact met ons op als je daar "
-"geen hulp kunt vinden. We zullen proberen je te helpen!"
 
 #: includes/iworks/rate/templates/thanks.php:35
 #: includes/iworks/rate/templates/widgets/support.php:21
 msgid "Get help"
-msgstr "Vraag hulp"
+msgstr ""
 
 #: includes/iworks/rate/templates/thanks.php:37
 #: includes/iworks/rate/templates/widgets/support.php:31
 msgid "Add review"
-msgstr "Beoordeling toevoegen"
+msgstr ""
 
 #: includes/iworks/rate/templates/thanks.php:41
 msgid "I added review, do not show again"
-msgstr "Ik heb al een beoordeling achtergelaten, niet nog een keer tonen"
+msgstr ""
 
 #: includes/iworks/rate/templates/widgets/donate.php:2
 msgid ""
 "However, working on plugins and technical support requires many hours of "
 "work. If you want to appreciate it, you can provide me a coffee."
 msgstr ""
-"Het werken aan plugins en technische ondersteuning vereist echter vele uren "
-"werk. Als je het wilt waarderen, kun je me een kopje koffie geven."
 
 #: includes/iworks/rate/templates/widgets/donate.php:3
 msgid ""
 "If every plugin user did it, I could devote myself fully to working on this "
 "plugin. Thanks everyone!"
 msgstr ""
-"Als elke plugin gebruiker het deed, kon ik me volledig wijden aan het werken "
-"aan deze plugin. Bedankt iedereen!"
 
 #: includes/iworks/rate/templates/widgets/donate.php:4
 msgid "Provide me a coffee"
-msgstr "Voorzie mij van een kop koffie"
+msgstr ""
 
 #: includes/iworks/rate/templates/widgets/support.php:4
 msgid ""
@@ -158,10 +149,6 @@ msgid ""
 "you. Or maybe you have an idea for a new feature? Please let us know about "
 "it by filling the support form. We will try to add it!"
 msgstr ""
-"Heb je een technisch probleem? Neem dan contact met ons op. Wij helpen je "
-"graag verder. Of misschien heb je een idee voor een nieuwe functie? Laat het "
-"ons weten door het ondersteuningsformulier in te vullen. We zullen proberen "
-"het toe te voegen!"
 
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag, %3$s: open
 #. anchor tag, %4$s: close anchor tag
@@ -171,9 +158,6 @@ msgid ""
 "If you do not find help there, %3$scheck support forum%4$s for similar "
 "problems."
 msgstr ""
-"Controleer %1$sonze FAQ%2$s voordat je een thread met een technisch probleem "
-"toevoegt. Als je daar geen hulp vindt, %3$scheck het ondersteuningsforum%4$s "
-"voor soortgelijke problemen."
 
 #: includes/iworks/rate/templates/widgets/support.php:26
 msgid ""
@@ -181,9 +165,6 @@ msgid ""
 "think about our plugin. It is important that we can develop this tool. Thank "
 "you for all the ratings, reviews and donates."
 msgstr ""
-"Vind je onze plugin leuk? Kun je hem beoordelen? Laat ons weten wat je van "
-"onze plugin vindt. Het is belangrijk dat we deze tool kunnen ontwikkelen. "
-"Bedankt voor alle beoordelingen, beoordelingen en donaties."
 
 #. Plugin URI of the plugin/theme
 msgid "PLUGIN_URI"
@@ -213,20 +194,8 @@ msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr "https://wordpress.org/support/plugin/%s"
 
-#~ msgid "https://github.com/iworks/og/"
-#~ msgstr "https://github.com/iworks/og/"
-
 #~ msgid "Marcin Pietrzak"
 #~ msgstr "Marcin Pietrzak"
-
-#~ msgid ""
-#~ "Very tiny Open Graph plugin - add featured image as facebook image. This "
-#~ "plugin do not have any configuration - you can check how it works looking "
-#~ "into page source."
-#~ msgstr ""
-#~ "Zeer kleine Open Graph plugin - voeg aanbevolen afbeelding toe als "
-#~ "Facebook afbeelding. Deze plugin heeft geen configuratie - je kan "
-#~ "controleren hoe het werkt door in de paginabron te kijken."
 
 #~ msgid "http://iworks.pl/"
 #~ msgstr "http://iworks.pl/"

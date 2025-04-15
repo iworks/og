@@ -1,12 +1,12 @@
-# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Chinese (Taiwan)
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
+# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
-"(latest release)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
+"Development (trunk)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 19:44:13+00:00\n"
-"PO-Revision-Date: 2024-12-05 17:27:55+0000\n"
+"POT-Creation-Date: 2025-04-15 15:51:44+00:00\n"
+"PO-Revision-Date: 2025-03-09 01:10:12+0000\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: GlotPress/4.0.1\n"
 
-#: includes/iworks/class-iworks-opengraph.php:222
+#: includes/iworks/class-iworks-opengraph.php:223
 msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
@@ -22,13 +22,30 @@ msgstr ""
 "如果 <strong>OG</strong> 為這個網站帶來助益，請給我們 %1$s5 星%2$s評價，開發"
 "團隊在此先行致謝。"
 
-#: includes/iworks/class-iworks-opengraph.php:350
+#: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
 msgstr "<!-- OG: %s -->"
 
-#: includes/iworks/class-iworks-opengraph.php:1729
+#: includes/iworks/class-iworks-opengraph.php:1730
 msgid "OG"
 msgstr "OG"
+
+#: includes/iworks/class-iworks-opengraph.php:1743
+#: includes/iworks/class-iworks-opengraph.php:1769
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
+msgid "Reading time"
+msgstr "閱讀時間"
+
+#: includes/iworks/class-iworks-opengraph.php:1761
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
+msgid "Less than a minute"
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1764
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d 分鐘"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
@@ -38,20 +55,11 @@ msgstr "開放社交關係圖"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:44
 msgid "OG Tag"
-msgstr ""
+msgstr "OG 標籤"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:45
 msgid "OG Value"
-msgstr ""
-
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
-msgid "Reading time"
-msgstr "閱讀時間"
-
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:42
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d 分鐘"
+msgstr "OG 標籤值"
 
 #: includes/iworks/rate/rate.php:133
 msgid "Settings"

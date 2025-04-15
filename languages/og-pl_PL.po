@@ -1,23 +1,21 @@
-# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Polish
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
+# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Polish
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
-"(latest release)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
+"Development (trunk)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-03-07 19:44:13+00:00\n"
-"PO-Revision-Date: 2025-03-07 20:29+0100\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2025-04-15 15:51:44+00:00\n"
+"PO-Revision-Date: 2025-03-08 05:30:04+0000\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 "
 "&& (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: GlotPress/4.0.1\n"
 
-#: includes/iworks/class-iworks-opengraph.php:222
+#: includes/iworks/class-iworks-opengraph.php:223
 msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
@@ -25,13 +23,32 @@ msgstr ""
 "Jeżeli lubisz wtyczkę <strong>OG</strong>, proszę daj jej ocenę %1$s&#9733;"
 "&#9733;&#9733;&#9733;&#9733;%2$s. Z góry bardzo dziękuję!"
 
-#: includes/iworks/class-iworks-opengraph.php:350
+#: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
 msgstr "<!-- OG: %s -->"
 
-#: includes/iworks/class-iworks-opengraph.php:1729
+#: includes/iworks/class-iworks-opengraph.php:1730
 msgid "OG"
 msgstr "OG"
+
+#: includes/iworks/class-iworks-opengraph.php:1743
+#: includes/iworks/class-iworks-opengraph.php:1769
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
+msgid "Reading time"
+msgstr "Czas czytania"
+
+#: includes/iworks/class-iworks-opengraph.php:1761
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
+msgid "Less than a minute"
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1764
+#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuta"
+msgstr[1] "%d minuty"
+msgstr[2] "%d minut"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
@@ -45,18 +62,7 @@ msgstr "Tag OG"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:45
 msgid "OG Value"
-msgstr "Wartość tagu"
-
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:40
-msgid "Reading time"
-msgstr "Czas czytania"
-
-#: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:42
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d minuta"
-msgstr[1] "%d minuty"
-msgstr[2] "%d minut"
+msgstr "Wartość OG"
 
 #: includes/iworks/rate/rate.php:133
 msgid "Settings"
@@ -183,19 +189,19 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "PLUGIN_URI"
-msgstr "PLUGIN_URI"
+msgstr ""
 
 #. Description of the plugin/theme
 msgid "PLUGIN_DESCRIPTION"
-msgstr "PLUGIN_DESCRIPTION"
+msgstr ""
 
 #. Author of the plugin/theme
 msgid "AUTHOR_NAME"
-msgstr "AUTHOR_NAME"
+msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "AUTHOR_URI"
-msgstr "AUTHOR_URI"
+msgstr ""
 
 #. translators: %s: plugin slug
 #: includes/iworks/rate/rate.php:469
