@@ -1738,6 +1738,9 @@ class iWorks_OpenGraph {
 	 * @since 3.3.5
 	 */
 	public function add_reading_time( $twitter ) {
+		if ( ! is_singular() ) {
+			return $twitter;
+		}
 		if ( isset( $twitter['labels'] ) ) {
 			foreach ( $twitter['labels'] as $one ) {
 				if ( __( 'Reading time', 'og' ) === $one['label'] ) {
@@ -1747,9 +1750,6 @@ class iWorks_OpenGraph {
 		}
 		if ( ! isset( $twitter['labels'] ) ) {
 			$twitter['labels'] = array();
-		}
-		if ( ! is_singular() ) {
-			return $twitter;
 		}
 		$content = strip_tags( get_the_content() );
 		$time    = 0;
