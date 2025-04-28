@@ -331,11 +331,11 @@ module.exports = function(grunt) {
 					potFilename: conf.translation.textdomain + '.pot',
 					potHeaders: {
 						poedit: true, // Includes common Poedit headers.
-						'project-id-version': '<%= pkg.version %>',
+						'project-id-version:': '<%= pkg.title %> - <%= pkg.version %>',
 						'language-team': 'iWorks <support@iworks.pl>',
 						'last-translator': '<%= pkg.translator.name %> <<%= pkg.translator.email %>>',
 						'report-msgid-bugs-to': 'http://iworks.pl',
-						'x-poedit-keywordslist': true // Include a list of all possible gettext functions.
+						'x-poedit-keywordslist': true, // Include a list of all possible gettext functions.
 					},
 					exclude: ['node_modules', '.git', '.sass-cache', 'release'],
 					type: 'wp-plugin',

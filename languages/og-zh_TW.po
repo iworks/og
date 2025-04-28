@@ -1,12 +1,12 @@
-# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Chinese (Taiwan)
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
+# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
-"Development (trunk)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
+"(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-04-15 15:51:44+00:00\n"
-"PO-Revision-Date: 2025-03-09 01:10:12+0000\n"
+"POT-Creation-Date: 2025-04-28 17:39:43+00:00\n"
+"PO-Revision-Date: 2025-04-17 08:22:05+0000\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,8 +19,8 @@ msgid ""
 "If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
 "&#9733;&#9733;%2$s rating. A huge thanks in advance!"
 msgstr ""
-"如果 <strong>OG</strong> 為這個網站帶來助益，請給我們 %1$s5 星%2$s評價，開發"
-"團隊在此先行致謝。"
+"如果 <strong>OG</strong> 對網站有所幫助，請給我們 %1$s5 星%2$s評價，開發團隊"
+"在此先行致謝。"
 
 #: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
@@ -30,7 +30,7 @@ msgstr "<!-- OG: %s -->"
 msgid "OG"
 msgstr "OG"
 
-#: includes/iworks/class-iworks-opengraph.php:1743
+#: includes/iworks/class-iworks-opengraph.php:1746
 #: includes/iworks/class-iworks-opengraph.php:1769
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
 msgid "Reading time"
@@ -39,7 +39,7 @@ msgstr "閱讀時間"
 #: includes/iworks/class-iworks-opengraph.php:1761
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
 msgid "Less than a minute"
-msgstr ""
+msgstr "少於 1 分鐘"
 
 #: includes/iworks/class-iworks-opengraph.php:1764
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
@@ -175,8 +175,8 @@ msgid ""
 "think about our plugin. It is important that we can develop this tool. Thank "
 "you for all the ratings, reviews and donates."
 msgstr ""
-"如果這個外掛對網站有幫助，請為外掛進行評分，讓我們知道使用者對外掛的意見，這"
-"對開發工作而言非常重要。感謝全部使用者的評分、評論及贊助。"
+"如果這個外掛對網站有所幫助，請為外掛進行評分，讓我們知道使用者對外掛的意見，"
+"這對開發工作而言非常重要。感謝全部使用者的評分、評論及贊助。"
 
 #. Plugin URI of the plugin/theme
 msgid "PLUGIN_URI"

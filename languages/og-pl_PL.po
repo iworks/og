@@ -1,12 +1,12 @@
-# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Polish
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
+# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Polish
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
-"Development (trunk)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
+"(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-04-15 15:51:44+00:00\n"
-"PO-Revision-Date: 2025-03-08 05:30:04+0000\n"
+"POT-Creation-Date: 2025-04-28 17:39:43+00:00\n"
+"PO-Revision-Date: 2025-04-25 08:33:10+0000\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "<!-- OG: %s -->"
 msgid "OG"
 msgstr "OG"
 
-#: includes/iworks/class-iworks-opengraph.php:1743
+#: includes/iworks/class-iworks-opengraph.php:1746
 #: includes/iworks/class-iworks-opengraph.php:1769
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
 msgid "Reading time"
@@ -40,7 +40,7 @@ msgstr "Czas czytania"
 #: includes/iworks/class-iworks-opengraph.php:1761
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
 msgid "Less than a minute"
-msgstr ""
+msgstr "Mniej niż minuta"
 
 #: includes/iworks/class-iworks-opengraph.php:1764
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
