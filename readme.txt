@@ -152,6 +152,9 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.3.6 (2025-04-28) =
+* Missing parameter "twitter" in call to rt_get_time() function has been fixed. Props for [benact](https://github.com/benact). #22](https://github.com/iworks/og/issues/22).
+
 = 3.3.5 (2025-04-14) =
 * Add Twitter "Reading Time". [#19](https://github.com/iworks/og/issues/19)
 

@@ -24,7 +24,7 @@ class iWorks_OpenGraph_Integrations_Reading_Time_WP extends iWorks_OpenGraph_Int
 		if ( ! class_exists( 'Reading_Time_WP' ) ) {
 			return $twitter;
 		}
-		$time = $this->rt_get_time();
+		$time = $this->rt_get_time( $twitter );
 		if ( ! isset( $twitter['labels'] ) ) {
 			$twitter['labels'] = array();
 		}
