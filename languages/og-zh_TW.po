@@ -1,11 +1,11 @@
-# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Chinese (Taiwan)
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
+# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
-"(latest release)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
+"Development (trunk)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-05-27 05:16:32+00:00\n"
+"POT-Creation-Date: 2025-05-27 07:15:08+00:00\n"
 "PO-Revision-Date: 2025-04-17 08:22:05+0000\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
