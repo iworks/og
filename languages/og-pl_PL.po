@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
 "(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-04-28 17:39:43+00:00\n"
+"POT-Creation-Date: 2025-05-27 05:16:32+00:00\n"
 "PO-Revision-Date: 2025-04-25 08:33:10+0000\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 
 #: includes/iworks/class-iworks-opengraph.php:223
 msgid ""
-"If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
-"&#9733;&#9733;%2$s rating. A huge thanks in advance!"
+"If you like <strong>OG</strong> please leave us a "
+"%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in advance!"
 msgstr ""
-"Jeżeli lubisz wtyczkę <strong>OG</strong>, proszę daj jej ocenę %1$s&#9733;"
-"&#9733;&#9733;&#9733;&#9733;%2$s. Z góry bardzo dziękuję!"
+"Jeżeli lubisz wtyczkę <strong>OG</strong>, proszę daj jej ocenę "
+"%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s. Z góry bardzo dziękuję!"
 
 #: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
@@ -52,7 +52,7 @@ msgstr[2] "%d minut"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
-#: includes/iworks/rate/rate.php:563
+#: includes/iworks/rate/rate.php:764
 msgid "OpenGraph"
 msgstr "OpenGraph"
 
@@ -74,7 +74,7 @@ msgid "Provide us a coffee"
 msgstr "Postaw nam kawę"
 
 #. translators: %s: plugin id
-#: includes/iworks/rate/rate.php:446
+#: includes/iworks/rate/rate.php:590
 msgid "There is no plugin with id: %s."
 msgstr "Nie istnieje wtyczka o identyfikatorze: %s."
 
@@ -82,9 +82,57 @@ msgstr "Nie istnieje wtyczka o identyfikatorze: %s."
 msgid "OG — Better Share on Social Media"
 msgstr "OG — Lepsze udostępnianie w mediach społecznościowych"
 
-#: includes/iworks/rate/rate.php:580
+#: includes/iworks/rate/rate.php:781
 msgid "https://wordpress.org/plugins/og/"
 msgstr "https://pl.wordpress.org/plugins/og/"
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:21
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:21
+msgid "🎉 Happy Anniversary! 🎉"
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:23
+msgid ""
+"Wow, it’s already been a whole year since you’ve been using our plugin—thank "
+"you so much for being part of our journey! We truly appreciate your support "
+"and hope the plugin has made your work easier and more enjoyable."
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:24
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:24
+msgid ""
+"If you’ve found our plugin helpful and would like to support its continued "
+"development, we’d be incredibly grateful if you’d consider buying us a "
+"coffee. Every little bit helps us keep improving and adding new features for "
+"awesome users like you!"
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:26
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:26
+msgid "Thank you for your support and for making this community amazing!"
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:30
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:30
+msgid "With gratitude"
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:34
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:34
+msgid "Marcin Pietrzak"
+msgstr "Marcin Pietrzak"
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:36
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:36
+msgid "Plugin Author"
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:23
+msgid ""
+"Wow, it’s already been a whole year since you started using our plugin—thank "
+"you so much for being part of our journey! We hope it’s made your work "
+"easier and more enjoyable."
+msgstr ""
 
 #: includes/iworks/rate/templates/plugins/og.php:4
 msgid "Would you like to boost your website sharing abilities?"
@@ -204,22 +252,19 @@ msgid "AUTHOR_URI"
 msgstr ""
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:469
+#: includes/iworks/rate/rate.php:613
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr "https://pl.wordpress.org/plugins/%s"
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:476
+#: includes/iworks/rate/rate.php:620
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr "https://wordpress.org/support/plugin/%s"
 
 #~ msgid "https://github.com/iworks/og/"
 #~ msgstr "https://github.com/iworks/og/"
-
-#~ msgid "Marcin Pietrzak"
-#~ msgstr "Marcin Pietrzak"
 
 #~ msgid ""
 #~ "Very tiny Open Graph plugin - add featured image as facebook image. This "
