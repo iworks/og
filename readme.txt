@@ -152,6 +152,9 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.3.7 (2025-05-27) =
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.3.0.
+
 = 3.3.6 (2025-04-28) =
 * Missing parameter "twitter" in call to rt_get_time() function has been fixed. Props for [benact](https://github.com/benact). #22](https://github.com/iworks/og/issues/22).
 
