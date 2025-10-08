@@ -1,12 +1,12 @@
-# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Chinese (Taiwan)
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
+# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
-"Development (trunk)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
+"(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-05-27 07:15:08+00:00\n"
-"PO-Revision-Date: 2025-04-17 08:22:05+0000\n"
+"POT-Creation-Date: 2025-10-08 09:22:11+00:00\n"
+"PO-Revision-Date: 2025-05-27 16:59:07+0000\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +49,7 @@ msgstr[0] "%d 分鐘"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
-#: includes/iworks/rate/rate.php:764
+#: includes/iworks/rate/rate.php:790
 msgid "OpenGraph"
 msgstr "開放社交關係圖"
 
@@ -61,17 +61,17 @@ msgstr "OG 標籤"
 msgid "OG Value"
 msgstr "OG 標籤值"
 
-#: includes/iworks/rate/rate.php:133
+#: includes/iworks/rate/rate.php:159
 msgid "Settings"
 msgstr "設定"
 
-#: includes/iworks/rate/rate.php:147
+#: includes/iworks/rate/rate.php:173
 #: includes/iworks/rate/templates/thanks.php:39
 msgid "Provide us a coffee"
 msgstr "贊助外掛開發"
 
 #. translators: %s: plugin id
-#: includes/iworks/rate/rate.php:590
+#: includes/iworks/rate/rate.php:616
 msgid "There is no plugin with id: %s."
 msgstr "找不到 ID 為 %s 的外掛。"
 
@@ -79,14 +79,14 @@ msgstr "找不到 ID 為 %s 的外掛。"
 msgid "OG — Better Share on Social Media"
 msgstr "OG — 讓內容在社交網路服務媒體上有更好的分享體驗"
 
-#: includes/iworks/rate/rate.php:781
+#: includes/iworks/rate/rate.php:807
 msgid "https://wordpress.org/plugins/og/"
 msgstr "https://tw.wordpress.org/plugins/og/"
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:21
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:21
 msgid "🎉 Happy Anniversary! 🎉"
-msgstr ""
+msgstr "🎉 使用週年紀念！ 🎉"
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:23
 msgid ""
@@ -94,6 +94,8 @@ msgid ""
 "you so much for being part of our journey! We truly appreciate your support "
 "and hope the plugin has made your work easier and more enjoyable."
 msgstr ""
+"這個網站採用這個外掛已超過一年，感謝你讓我們成為這個網站的一部分，並衷心感謝"
+"你的支持。，同時希望這個外掛讓你的工作更加輕鬆愉快。"
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:24
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:24
@@ -103,16 +105,24 @@ msgid ""
 "coffee. Every little bit helps us keep improving and adding new features for "
 "awesome users like you!"
 msgstr ""
+"如果這個外掛對網站有所幫助並想支持外掛的持續開發，我們非常樂見大家贊助外掛開"
+"發工作。點點滴滴的贊助都能幫助我們持續改善，並為像你這樣優秀的使用者增加新功"
+"能。"
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:25
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:25
+msgid "☕ Buy Me a Coffee"
+msgstr ""
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:26
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:26
 msgid "Thank you for your support and for making this community amazing!"
-msgstr ""
+msgstr "感謝你的支持，你的支持讓社群更加茁壯！"
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:30
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:30
 msgid "With gratitude"
-msgstr ""
+msgstr "誠心致謝"
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:34
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:34
@@ -122,7 +132,7 @@ msgstr "Marcin Pietrzak"
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:36
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:36
 msgid "Plugin Author"
-msgstr ""
+msgstr "外掛開發者"
 
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:23
 msgid ""
@@ -130,6 +140,8 @@ msgid ""
 "you so much for being part of our journey! We hope it’s made your work "
 "easier and more enjoyable."
 msgstr ""
+"這個網站採用這個外掛已超過一年，感謝你讓我們成為這個網站的一部分，並希望這個"
+"外掛讓你的工作更加輕鬆愉快。"
 
 #: includes/iworks/rate/templates/plugins/og.php:4
 msgid "Would you like to boost your website sharing abilities?"
@@ -243,13 +255,13 @@ msgid "AUTHOR_URI"
 msgstr ""
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:613
+#: includes/iworks/rate/rate.php:639
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr "https://tw.wordpress.org/plugins/%s"
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:620
+#: includes/iworks/rate/rate.php:646
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr "https://wordpress.org/support/plugin/%s"

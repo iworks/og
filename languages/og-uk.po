@@ -1,11 +1,11 @@
-# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Ukrainian
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
+# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Ukrainian
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
-"Development (trunk)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
+"(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-05-27 07:15:08+00:00\n"
+"POT-Creation-Date: 2025-10-08 09:22:11+00:00\n"
 "PO-Revision-Date: 2022-09-10 09:40:49+0000\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr[2] "%d хвилин"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
-#: includes/iworks/rate/rate.php:764
+#: includes/iworks/rate/rate.php:790
 msgid "OpenGraph"
 msgstr "OpenGraph"
 
@@ -64,17 +64,17 @@ msgstr ""
 msgid "OG Value"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:133
+#: includes/iworks/rate/rate.php:159
 msgid "Settings"
 msgstr "Налаштування"
 
-#: includes/iworks/rate/rate.php:147
+#: includes/iworks/rate/rate.php:173
 #: includes/iworks/rate/templates/thanks.php:39
 msgid "Provide us a coffee"
 msgstr "Пригостіть нас кавою."
 
 #. translators: %s: plugin id
-#: includes/iworks/rate/rate.php:590
+#: includes/iworks/rate/rate.php:616
 msgid "There is no plugin with id: %s."
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr ""
 msgid "OG — Better Share on Social Media"
 msgstr "OG — Better Share on Social Media"
 
-#: includes/iworks/rate/rate.php:781
+#: includes/iworks/rate/rate.php:807
 msgid "https://wordpress.org/plugins/og/"
 msgstr "https://wordpress.org/plugins/og/"
 
@@ -105,6 +105,11 @@ msgid ""
 "development, we’d be incredibly grateful if you’d consider buying us a "
 "coffee. Every little bit helps us keep improving and adding new features for "
 "awesome users like you!"
+msgstr ""
+
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:25
+#: includes/iworks/rate/templates/happy-anniversary/first-year.php:25
+msgid "☕ Buy Me a Coffee"
 msgstr ""
 
 #: includes/iworks/rate/templates/happy-anniversary/anniversary.php:26
@@ -245,13 +250,13 @@ msgid "AUTHOR_URI"
 msgstr ""
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:613
+#: includes/iworks/rate/rate.php:639
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr "https://wordpress.org/plugins/%s"
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:620
+#: includes/iworks/rate/rate.php:646
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr "https://wordpress.org/support/plugin/%s"
