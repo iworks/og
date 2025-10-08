@@ -224,6 +224,9 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.3.8 (2025-10-08) =
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.3.1.
+
 = 3.3.7 (2025-05-27) =
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.3.0.
 
