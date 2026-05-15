@@ -1,14 +1,14 @@
-# Copyright (C) 2025 AUTHOR_NAME
+# Copyright (C) 2026 AUTHOR_NAME
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: OG — Better Share on Social Media PLUGIN_VERSION\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-10-08 09:22:28+00:00\n"
+"POT-Creation-Date: 2026-05-15 08:48:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Marcin Pietrzak <marcin@iworks.pl>\n"
 "Language-Team: iWorks <support@iworks.pl>\n"
 "Language: en\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
-"Project-Id-Version:: OG — Better Share on Social Media - 3.3.8\n"
+"Project-Id-Version:: OG — Better Share on Social Media - 3.3.9\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: includes/iworks/class-iworks-opengraph.php:223
@@ -60,7 +60,7 @@ msgstr[1] ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
-#: includes/iworks/rate/rate.php:790
+#: includes/iworks/rate/rate.php:800
 msgid "OpenGraph"
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Provide us a coffee"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:616
+#: includes/iworks/rate/rate.php:626
 #. translators: %s: plugin id
 msgid "There is no plugin with id: %s."
 msgstr ""
@@ -90,16 +90,16 @@ msgstr ""
 msgid "OG — Better Share on Social Media"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:807
+#: includes/iworks/rate/rate.php:817
 msgid "https://wordpress.org/plugins/og/"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:21
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:19
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:21
 msgid "🎉 Happy Anniversary! 🎉"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:23
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:21
 msgid ""
 "Wow, it’s already been a whole year since you’ve been using our "
 "plugin—thank you so much for being part of our journey! We truly appreciate "
@@ -107,7 +107,7 @@ msgid ""
 "enjoyable."
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:24
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:22
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:24
 msgid ""
 "If you’ve found our plugin helpful and would like to support its continued "
@@ -116,27 +116,27 @@ msgid ""
 "for awesome users like you!"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:25
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:23
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:25
 msgid "☕ Buy Me a Coffee"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:26
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:24
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:26
 msgid "Thank you for your support and for making this community amazing!"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:30
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:28
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:30
 msgid "With gratitude"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:34
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:32
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:34
 msgid "Marcin Pietrzak"
 msgstr ""
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:36
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:34
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:36
 msgid "Plugin Author"
 msgstr ""
@@ -246,13 +246,13 @@ msgstr ""
 msgid "AUTHOR_URI"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:639
+#: includes/iworks/rate/rate.php:649
 #. translators: %s: plugin slug
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr ""
 
-#: includes/iworks/rate/rate.php:646
+#: includes/iworks/rate/rate.php:656
 #. translators: %s: plugin slug
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"

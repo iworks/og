@@ -1,11 +1,11 @@
-# Translation of Plugins - OG — Better Share on Social Media - Development (trunk) in Polish
-# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Development (trunk) package.
+# Translation of Plugins - OG — Better Share on Social Media - Stable (latest release) in Polish
+# This file is distributed under the same license as the Plugins - OG — Better Share on Social Media - Stable (latest release) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugins - OG — Better Share on Social Media - "
-"Development (trunk)\n"
+"Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
+"(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2025-10-08 09:22:11+00:00\n"
+"POT-Creation-Date: 2026-05-15 08:45:31+00:00\n"
 "PO-Revision-Date: 2025-10-08 09:18:07+0000\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -13,15 +13,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 "
 "&& (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: GlotPress/4.0.3\n"
 
 #: includes/iworks/class-iworks-opengraph.php:223
 msgid ""
-"If you like <strong>OG</strong> please leave us a "
-"%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in advance!"
+"If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
+"&#9733;&#9733;%2$s rating. A huge thanks in advance!"
 msgstr ""
-"Jeżeli lubisz wtyczkę <strong>OG</strong>, proszę daj jej ocenę "
-"%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s. Z góry bardzo dziękuję!"
+"Jeżeli lubisz wtyczkę <strong>OG</strong>, proszę daj jej ocenę %1$s&#9733;"
+"&#9733;&#9733;&#9733;&#9733;%2$s. Z góry bardzo dziękuję!"
 
 #: includes/iworks/class-iworks-opengraph.php:351
 msgid "<!-- OG: %s -->"
@@ -52,7 +52,7 @@ msgstr[2] "%d minut"
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
-#: includes/iworks/rate/rate.php:790
+#: includes/iworks/rate/rate.php:800
 msgid "OpenGraph"
 msgstr "OpenGraph"
 
@@ -74,7 +74,7 @@ msgid "Provide us a coffee"
 msgstr "Postaw nam kawę"
 
 #. translators: %s: plugin id
-#: includes/iworks/rate/rate.php:616
+#: includes/iworks/rate/rate.php:626
 msgid "There is no plugin with id: %s."
 msgstr "Nie istnieje wtyczka o identyfikatorze: %s."
 
@@ -82,16 +82,16 @@ msgstr "Nie istnieje wtyczka o identyfikatorze: %s."
 msgid "OG — Better Share on Social Media"
 msgstr "OG — Lepsze udostępnianie w mediach społecznościowych"
 
-#: includes/iworks/rate/rate.php:807
+#: includes/iworks/rate/rate.php:817
 msgid "https://wordpress.org/plugins/og/"
 msgstr "https://pl.wordpress.org/plugins/og/"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:21
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:19
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:21
 msgid "🎉 Happy Anniversary! 🎉"
 msgstr "🎉 Wszystkiego najlepszego z okazji rocznicy! 🎉"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:23
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:21
 msgid ""
 "Wow, it’s already been a whole year since you’ve been using our plugin—thank "
 "you so much for being part of our journey! We truly appreciate your support "
@@ -101,7 +101,7 @@ msgstr ""
 "bycie częścią naszej wspólnej przygody! Naprawdę doceniam Twoje wsparcie i "
 "mam nadzieję, że wtyczka ułatwiła Ci pracę i uczyniła ją przyjemniejszą."
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:24
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:22
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:24
 msgid ""
 "If you’ve found our plugin helpful and would like to support its continued "
@@ -114,28 +114,28 @@ msgstr ""
 "kawy. Każda odrobina pomaga nam w ciągłym doskonaleniu i dodawaniu nowych "
 "funkcji dla wspaniałych użytkowników, takich jak Ty!"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:25
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:23
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:25
 msgid "☕ Buy Me a Coffee"
 msgstr "☕ Kup mi kawę"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:26
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:24
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:26
 msgid "Thank you for your support and for making this community amazing!"
 msgstr ""
 "Dziękuję za Twoje wsparcie i za to, że tworzysz niesamowitą społeczność!"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:30
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:28
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:30
 msgid "With gratitude"
 msgstr "Z wdzięcznością"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:34
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:32
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:34
 msgid "Marcin Pietrzak"
 msgstr "Marcin Pietrzak"
 
-#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:36
+#: includes/iworks/rate/templates/happy-anniversary/anniversary.php:34
 #: includes/iworks/rate/templates/happy-anniversary/first-year.php:36
 msgid "Plugin Author"
 msgstr "Autor wtyczki"
@@ -268,13 +268,13 @@ msgid "AUTHOR_URI"
 msgstr ""
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:639
+#: includes/iworks/rate/rate.php:649
 msgctxt "plugins home"
 msgid "https://wordpress.org/plugins/%s"
 msgstr "https://pl.wordpress.org/plugins/%s"
 
 #. translators: %s: plugin slug
-#: includes/iworks/rate/rate.php:646
+#: includes/iworks/rate/rate.php:656
 msgctxt "plugins support home"
 msgid "https://wordpress.org/support/plugin/%s"
 msgstr "https://wordpress.org/support/plugin/%s"

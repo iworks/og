@@ -4,3 +4,4 @@
 /release
 /node_modules
 /package-lock.json
+/languages/*.mo
