@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OG — Better Share on Social Media PLUGIN_VERSION\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2026-05-15 08:48:18+00:00\n"
+"POT-Creation-Date: 2026-10-30 08:15:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,41 +22,56 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
-"Project-Id-Version:: OG — Better Share on Social Media - 3.3.9\n"
+"Project-Id-Version:: OG — Better Share on Social Media - 3.4.0\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/iworks/class-iworks-opengraph.php:223
+#: includes/iworks/class-iworks-opengraph.php:238
 msgid ""
 "If you like <strong>OG</strong> please leave us a "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in "
 "advance!"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:351
+#: includes/iworks/class-iworks-opengraph.php:368
 msgid "<!-- OG: %s -->"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1730
+#: includes/iworks/class-iworks-opengraph.php:1774
 msgid "OG"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1746
-#: includes/iworks/class-iworks-opengraph.php:1769
+#: includes/iworks/class-iworks-opengraph.php:1790
+#: includes/iworks/class-iworks-opengraph.php:1813
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
 msgid "Reading time"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1761
+#: includes/iworks/class-iworks-opengraph.php:1805
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
 msgid "Less than a minute"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1764
+#: includes/iworks/class-iworks-opengraph.php:1808
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
+
+#: includes/iworks/class-iworks-opengraph.php:1845
+#: includes/iworks/class-iworks-opengraph.php:1907
+msgid "Dismiss warning"
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1920
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1955
+msgid ""
+"The featured image is only %1$s × %2$s px, which is below the recommended "
+"%3$s px width for social sharing."
+msgstr ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37

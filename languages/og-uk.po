@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Plugins - OG — Better Share on Social Media - Stable "
 "(latest release)\n"
 "Report-Msgid-Bugs-To: http://iworks.pl\n"
-"POT-Creation-Date: 2026-05-15 08:45:31+00:00\n"
+"POT-Creation-Date: 2026-10-30 08:15:31+00:00\n"
 "PO-Revision-Date: 2022-09-10 09:40:49+0000\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
@@ -15,40 +15,55 @@ msgstr ""
 "10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
 "X-Generator: GlotPress/4.0.3\n"
 
-#: includes/iworks/class-iworks-opengraph.php:223
+#: includes/iworks/class-iworks-opengraph.php:238
 msgid ""
-"If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;"
-"&#9733;&#9733;%2$s rating. A huge thanks in advance!"
+"If you like <strong>OG</strong> please leave us a "
+"%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in advance!"
 msgstr ""
 "Якщо вам подобається плагін <strong>OpenGraph</strong> — залиште відгук "
 "%1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s та рейтинг. Дякуємо!"
 
-#: includes/iworks/class-iworks-opengraph.php:351
+#: includes/iworks/class-iworks-opengraph.php:368
 msgid "<!-- OG: %s -->"
 msgstr "<!-- OG: %s -->"
 
-#: includes/iworks/class-iworks-opengraph.php:1730
+#: includes/iworks/class-iworks-opengraph.php:1774
 msgid "OG"
 msgstr "OpenGraph"
 
-#: includes/iworks/class-iworks-opengraph.php:1746
-#: includes/iworks/class-iworks-opengraph.php:1769
+#: includes/iworks/class-iworks-opengraph.php:1790
+#: includes/iworks/class-iworks-opengraph.php:1813
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:39
 msgid "Reading time"
 msgstr "Час читання"
 
-#: includes/iworks/class-iworks-opengraph.php:1761
+#: includes/iworks/class-iworks-opengraph.php:1805
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:31
 msgid "Less than a minute"
 msgstr ""
 
-#: includes/iworks/class-iworks-opengraph.php:1764
+#: includes/iworks/class-iworks-opengraph.php:1808
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integrations-reading-time-wp.php:34
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d хвилина"
 msgstr[1] "%d хвилини"
 msgstr[2] "%d хвилин"
+
+#: includes/iworks/class-iworks-opengraph.php:1845
+#: includes/iworks/class-iworks-opengraph.php:1907
+msgid "Dismiss warning"
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1920
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/iworks/class-iworks-opengraph.php:1955
+msgid ""
+"The featured image is only %1$s × %2$s px, which is below the recommended "
+"%3$s px width for social sharing."
+msgstr ""
 
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:26
 #: includes/iworks/opengraph/integrations/class-iworks-opengraph-integration-debug-bar-panel.php:37
