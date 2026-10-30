@@ -31,6 +31,8 @@ module.exports = function(grunt) {
 		'!.editorconfig',
 		'!.git*',
 		'!.git/**',
+		'!.opencode/**',
+		'!AGENTS.md',
 		'!**/Gruntfile.js',
 		'!**/img/src/**',
 		'!**/js/src/**',
