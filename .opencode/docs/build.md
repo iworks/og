@@ -8,17 +8,17 @@
 - Node + npm + Grunt 1.x (`Gruntfile.js`, tasks loaded with `load-grunt-tasks`).
   `package-lock.json` is gitignored; `node_modules/` is gitignored.
 - PHP ≥ 8.0 for the plugin itself. No bun, no wp-scripts, no Composer.
-- This plugin ships **no JS and no SCSS** — `assets/` contains only
-  `images/logo.png`. The concat/uglify/sass/cssmin tasks are configured but
-  their file maps (`conf.js_files_concat`, `conf.css_files_compile`) are empty,
-  so the asset pipeline is effectively a no-op.
+- **JS**: `assets/scripts/src/admin/*.js` (ES5, jshint-clean) → concat →
+  `assets/scripts/og-admin.js` (classic) and `og-admin-gutenberg.js` (block editor)
+  → uglified to `.min.js` (`conf.js_files_concat`). No SCSS — `assets/` also holds
+  `images/logo.png`; the sass/cssmin tasks remain no-ops.
 
 ## Tasks (`grunt …`)
 
 | Command | Description |
 | --- | --- |
-| `grunt` (default) | `clean:temp` + concat + uglify + sass + cssmin — no-ops here, but harmless |
-| `grunt js` / `grunt css` | Asset halves only (no-ops) |
+| `grunt` (default) | `clean:temp` + concat + uglify + sass + cssmin — builds the two admin JS bundles (`.js` + `.min.js`); css tasks are no-ops |
+| `grunt js` / `grunt css` | Asset halves (js = the bundles; css = no-op) |
 | `grunt i18n` | `checktextdomain` (validates gettext usage in `og.php` + `includes/**/*.php` against domains `og`, `IWORKS_RATE_TEXTDOMAIN`, `IWORKS_OPTIONS_TEXTDOMAIN`) + `makepot` (grunt-wp-i18n) |
 | `grunt build` | wp.org release: default → i18n → clean:wporg → copy:wporg → replace → compress:wporg |
 | `grunt build:github` | GitHub release: default → i18n → `potomo` (.po → .mo) → clean:github → copy:github → replace → compress:github |
@@ -94,5 +94,10 @@ the intended way to invalidate stale cached output.
   running a full build and inspecting the staged tree.
 - `makepot` rewrites `languages/og.pot` and every `.po` with a new timestamp —
   expect a diff after every build; review that only timestamps changed.
+- `grunt jshint` fails on **pre-existing** Gruntfile.js issues (duplicate
+  `exclude` key in the makepot options, trailing comma in
+  `grunt.registerTask('build', …)`) — the source files under
+  `assets/scripts/src/` must stay clean; do not "fix" the Gruntfile without
+  approval.
 - The `notes` task is a manual checklist printer (forum, translations, archive
   check, wp.org + GitHub release, git tag), not automation.

@@ -231,6 +231,8 @@ Project maintained on github at [iworks/og](https://github.com/iworks/og).
 * The Vimeo API response is now unserialized with allowed classes disabled. Better security against object injection.
 * Double escaping of `article:tag` values has been removed.
 * The `get_attachment_id()` function now returns an integer.
+* New: a warning is shown above the featured image in the editor (both classic and block editor) when the image is smaller than the recommended 1200 px width for social sharing. The threshold is filterable (`og/admin/featured_image/min_width`) and the whole notice too (`og/admin/featured_image/warning_html`).
+* The warning can be closed with an accessible × button (proper labels and ARIA attributes for screen readers) and, once dismissed, stays hidden for that user.
 
 = 3.3.9 (2026-05-15) =
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.3.2.

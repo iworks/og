@@ -65,6 +65,10 @@ Methods worth knowing when editing:
 | `add_reading_time()` | Twitter label, WPM via `iworks/og/twitter/time_to_read/words-per-minute` (190) |
 | `filter_og_get_og_array()` | Public read access to the built array |
 | `action_init_register_iworks_rate()` | Registers the plugin with the vendored rate module |
+| `filter_admin_post_thumbnail_html()` | Classic editor: warning above the featured image when narrower than the minimum |
+| `action_admin_enqueue_scripts()` | Enqueues `og-admin` / `og-admin-gutenberg` on post edit screens (skipped when the user opted out) |
+| `ajax_dismiss_featured_image_warning()` | AJAX: per-user global opt-out (user meta `_og_featured_image_warning_dismissed`) |
+| `get_featured_image_min_width()` / `get_featured_image_warning_message()` / `is_featured_image_warning_dismissed()` | Private helpers for the warning |
 | `plugin_row_meta()`, `iworks_rate_css()`, `filter_plugin_logo()` | Rating-notice plumbing |
 
 ## GitHub self-updater (class-iworks-opengraph-github.php)

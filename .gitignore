@@ -6,3 +6,4 @@
 /package-lock.json
 /languages/*.mo
 .opencode/tmp/
+assets/scripts/og*.js

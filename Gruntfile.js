@@ -73,7 +73,10 @@ module.exports = function(grunt) {
 
 	var conf = {
 		// Concatenate those JS files into a single file (target: [source, source, ...]).
-		js_files_concat: {},
+		js_files_concat: {
+			'assets/scripts/og-admin.js': [ 'assets/scripts/src/admin/featured-image-warning-classic.js' ],
+			'assets/scripts/og-admin-gutenberg.js': [ 'assets/scripts/src/admin/featured-image-warning-gutenberg.js' ]
+		},
 
 		css_files_compile: {},
 

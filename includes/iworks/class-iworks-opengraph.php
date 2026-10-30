@@ -85,6 +85,13 @@ class iWorks_OpenGraph {
 	 */
 	private $plugin_file;
 
+	/**
+	 * Featured image width warning: user meta name (per-user global opt-out).
+	 *
+	 * @since 3.4.0
+	 */
+	private $featured_image_warning_meta_name = '_og_featured_image_warning_dismissed';
+
 	public function __construct() {
 		/**
 		 * debug settings
@@ -122,6 +129,14 @@ class iWorks_OpenGraph {
 		add_action( 'wp_head', array( $this, 'wp_head' ), apply_filters( 'og_wp_head_priority', 9 ) );
 		add_filter( 'language_attributes', array( $this, 'filter_add_html_itemscope_itemtype' ), 10, 2 );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
+		/**
+		 * Admin: featured image width warning.
+		 *
+		 * @since 3.4.0
+		 */
+		add_filter( 'admin_post_thumbnail_html', array( $this, 'filter_admin_post_thumbnail_html' ), 10, 3 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) );
+		add_action( 'wp_ajax_og_dismiss_featured_image_warning', array( $this, 'ajax_dismiss_featured_image_warning' ) );
 		/**
 		 * iWorks Rate Class
 		 *
@@ -1799,6 +1814,156 @@ class iWorks_OpenGraph {
 			'data'  => $data,
 		);
 		return $twitter;
+	}
+
+	/**
+	 * Featured image: warning when the image is smaller than recommended.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $content      Admin post thumbnail HTML markup.
+	 * @param int    $post_id      Post ID.
+	 * @param int    $thumbnail_id Thumbnail attachment ID.
+	 * @return string
+	 */
+	public function filter_admin_post_thumbnail_html( $content, $post_id, $thumbnail_id ) {
+		if ( empty( $thumbnail_id ) || $this->is_featured_image_warning_dismissed() ) {
+			return $content;
+		}
+		$image = wp_get_attachment_image_src( $thumbnail_id, 'full' );
+		if ( ! is_array( $image ) || empty( $image[1] ) ) {
+			return $content;
+		}
+		$width     = intval( $image[1] );
+		$height    = intval( $image[2] );
+		$min_width = $this->get_featured_image_min_width();
+		if ( $width >= $min_width ) {
+			return $content;
+		}
+		$warning = sprintf(
+			'<div class="notice notice-warning inline og-featured-image-warning"><button type="button" class="notice-dismiss"><span class="screen-reader-text">%s</span></button><p>%s</p></div>',
+			esc_html__( 'Dismiss warning', 'og' ),
+			esc_html( sprintf( $this->get_featured_image_warning_message(), $width, $height, $min_width ) )
+		);
+		/**
+		 * Filter the whole featured image warning HTML.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param string  $warning      Warning HTML markup.
+		 * @param integer $width        Image width in pixels.
+		 * @param integer $height       Image height in pixels.
+		 * @param integer $min_width    Recommended minimum width in pixels.
+		 * @param integer $thumbnail_id Thumbnail attachment ID.
+		 */
+		$warning = apply_filters( 'og/admin/featured_image/warning_html', $warning, $width, $height, $min_width, $thumbnail_id );
+		return $warning . $content;
+	}
+
+	/**
+	 * Enqueue the admin script for the featured image width warning.
+	 *
+	 * @since 3.4.0
+	 */
+	public function action_admin_enqueue_scripts() {
+		$screen = get_current_screen();
+		if ( ! $screen || 'post' !== $screen->base ) {
+			return;
+		}
+		if ( ! post_type_supports( $screen->post_type, 'thumbnail' ) ) {
+			return;
+		}
+		if ( $this->is_featured_image_warning_dismissed() ) {
+			return;
+		}
+		if ( $screen->is_block_editor() ) {
+			$filename = 'og-admin-gutenberg' . ( $this->debug ? '' : '.min' ) . '.js';
+			$deps     = array( 'wp-element', 'wp-data', 'wp-hooks', 'wp-compose' );
+		} else {
+			$filename = 'og-admin' . ( $this->debug ? '' : '.min' ) . '.js';
+			$deps     = array();
+		}
+		$file = $this->root . '/assets/scripts/' . $filename;
+		if ( ! file_exists( $file ) ) {
+			return;
+		}
+		$handle = 'og-admin';
+		wp_enqueue_script(
+			$handle,
+			plugin_dir_url( $this->root . '/og.php' ) . 'assets/scripts/' . $filename,
+			$deps,
+			$this->debug ? (string) filemtime( $file ) : $this->version,
+			true
+		);
+		wp_localize_script(
+			$handle,
+			'ogFeaturedImageWarning',
+			array(
+				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'og_featured_image_warning' ),
+				'action'   => 'og_dismiss_featured_image_warning',
+				'minWidth' => $this->get_featured_image_min_width(),
+				'message'  => $this->get_featured_image_warning_message(),
+				'dismiss'  => __( 'Dismiss warning', 'og' ),
+			)
+		);
+	}
+
+	/**
+	 * AJAX: dismiss the featured image width warning for the current user.
+	 *
+	 * @since 3.4.0
+	 */
+	public function ajax_dismiss_featured_image_warning() {
+		check_ajax_referer( 'og_featured_image_warning', 'nonce' );
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'og' ) ), 403 );
+		}
+		update_user_meta( get_current_user_id(), $this->featured_image_warning_meta_name, true );
+		wp_send_json_success();
+	}
+
+	/**
+	 * Get the minimum recommended featured image width.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return integer
+	 */
+	private function get_featured_image_min_width() {
+		/**
+		 * Filter the minimum recommended featured image width in pixels.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param integer $min_width Default 1200.
+		 */
+		return intval( apply_filters( 'og/admin/featured_image/min_width', 1200 ) );
+	}
+
+	/**
+	 * Get the featured image warning message template.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return string
+	 */
+	private function get_featured_image_warning_message() {
+		/**
+		 * translators: %1$s: image width, %2$s: image height, %3$s: recommended minimum width.
+		 */
+		return __( 'The featured image is only %1$s × %2$s px, which is below the recommended %3$s px width for social sharing.', 'og' );
+	}
+
+	/**
+	 * Is the featured image width warning dismissed by the current user?
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return boolean
+	 */
+	private function is_featured_image_warning_dismissed() {
+		return (bool) get_user_meta( get_current_user_id(), $this->featured_image_warning_meta_name, true );
 	}
 
 }

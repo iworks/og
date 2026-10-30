@@ -46,7 +46,7 @@ in sources. The version lives only in `package.json`.
 
 ## Commands
 
-`grunt` (default: asset tasks — currently a no-op, this plugin ships no JS/SCSS) ·
+`grunt` (default: builds the admin JS bundles — see `build.md`) ·
 `grunt js` / `grunt css` · `grunt i18n` (checktextdomain + makepot) ·
 `grunt build` (wp.org ZIP) · `grunt build:github` (GitHub ZIP) ·
 `grunt release` (both ZIPs + release notes) · `grunt watch`

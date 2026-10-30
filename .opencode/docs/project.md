@@ -26,7 +26,11 @@ property `$version` both use the `'PLUGIN_VERSION'` placeholder.
 │       ├── class-iworks-opengraph-github.php       # GitHub self-updater (standalone)
 │       ├── class-iworks-opengraph-integrations.php # Abstract base for integrations
 │       └── integrations/           # One class per supported external plugin (10 files)
-├── assets/images/logo.png          # Logo for the rate admin notice (no JS/SCSS in this plugin)
+├── assets/
+│   ├── images/logo.png             # Logo for the rate admin notice
+│   └── scripts/
+│       ├── src/admin/              # Admin JS sources (featured-image warning, ES5)
+│       └── og-admin*.js            # Built bundles (+ .min.js) — see build.md
 ├── languages/                      # og.pot + .po/.mo (de_DE, es_ES, nl_NL, pl_PL, ro_RO, uk, zh_TW)
 ├── release/                        # Built ZIPs (gitignored artifacts)
 └── readme.txt                      # WordPress.org readme (CRLF; real changelog entries)
@@ -154,6 +158,21 @@ only in debug mode.
 instantiated. They hook into the section filters (`og_array`, `og_og_array`,
 `og_twitter_array`, `og_article_array`) — details in `classes.md`.
 
+## Admin: featured image width warning
+
+`@since 3.4.0` — on post edit screens (classic + block editor, thumbnail-supporting
+post types) a dismissible warning appears above the featured image when its full
+size is narrower than the recommended 1200 px (`og:image` best practice):
+
+- classic editor: `admin_post_thumbnail_html` filter prepends a
+  `.notice.notice-warning.inline` block (server-side, exact width from
+  `wp_get_attachment_image_src( $id, 'full' )`);
+- block editor: `og-admin-gutenberg.js` wraps the featured image component via the
+  `editor.PostFeaturedImage` JS filter, width from `core.getMedia().media_details`;
+- × triggers `admin-ajax.php` action `og_dismiss_featured_image_warning`
+  (nonce + `edit_posts` cap) → per-user global opt-out in user meta
+  `_og_featured_image_warning_dismissed` → script no longer enqueued, notice not rendered.
+
 ## Translations (i18n)
 
 - Textdomain `og`; `load_plugin_textdomain()` runs in the main class **and** in
@@ -186,6 +205,8 @@ instantiated. They hook into the section filters (`og_array`, `og_og_array`,
 | `og_head_link_rel_image_src_enabled`, `og_head_meta_title_image_enabled` | Extra `<head>` lines |
 | `og_get_locale`, `og_twitter_site`, `og_twitter_creator` | Locale / twitter metadata |
 | `og/term/meta/thumbnail_id_name`, `og/term/meta/thumbnail_url` | Term image meta keys |
+| `og/admin/featured_image/min_width` | Featured image warning threshold (default 1200 px) |
+| `og/admin/featured_image/warning_html` | Whole featured-image warning HTML override |
 | `og/is_active` | Always true — marker for other plugins |
 | `og_get_image_dimensions`, `og_image_init`, `og_video_init` | Image/video entry points |
 | `iworks_og_before` / `iworks_og_after` | Actions around the printed block |
