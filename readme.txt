@@ -224,6 +224,14 @@ Rich filter implementation allows you to change almost every output of this plug
 
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
+= 3.4.0 (2026-10-30) =
+* Output hardening: only scalar values are printed as meta tag values. Arrays and objects (e.g. injected by filters or produced by integrations) are skipped, preventing PHP 8 fatal errors.
+* Tag names in the debug HTML comment are now escaped.
+* The [Debug Bar] panel has been fixed: correct escaping of tag names and values, a guard against malformed data, and the "OG Value" table header rendering.
+* The Vimeo API response is now unserialized with allowed classes disabled. Better security against object injection.
+* Double escaping of `article:tag` values has been removed.
+* The `get_attachment_id()` function now returns an integer.
+
 = 3.3.9 (2026-05-15) =
 * The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to version 2.3.2.
 

@@ -42,7 +42,7 @@ class iWorks_OpenGraph_Integration_Debug_Bar_Panel extends Debug_Bar_Panel {
 		printf(
 			'<tr><th style="width:10em;text-align:right">%s</th><th style="width:1em;text-align:center">⇒</th><th>%s</th></tr>',
 			esc_html__( 'OG Tag', 'og' ),
-			esc_html_e( 'OG Value', 'og' )
+			esc_html__( 'OG Value', 'og' )
 		);
 		echo '</thead>';
 		echo '<tbody>';
@@ -61,6 +61,9 @@ class iWorks_OpenGraph_Integration_Debug_Bar_Panel extends Debug_Bar_Panel {
 			if ( is_array( $data ) ) {
 				$this->echo_array( $data, $tags );
 			} else {
+				if ( empty( $tags ) ) {
+					continue;
+				}
 				if ( 'schema' === $tags[0] ) {
 					if ( apply_filters( 'og_is_schema_org_enabled', true ) ) {
 						$this->echo_one( $tags[1], $data, 'itemprop' );
@@ -80,6 +83,9 @@ class iWorks_OpenGraph_Integration_Debug_Bar_Panel extends Debug_Bar_Panel {
 	 * @since 2.4.2
 	 */
 	private function echo_one( $property, $value, $name = 'property' ) {
+		if ( ! is_scalar( $value ) ) {
+			return;
+		}
 		$meta_property = $property;
 		if ( is_array( $property ) ) {
 			$meta_property = implode( ':', $property );
@@ -87,8 +93,8 @@ class iWorks_OpenGraph_Integration_Debug_Bar_Panel extends Debug_Bar_Panel {
 		$meta_property = preg_replace( '/^og:(image|video):url$/', 'og:$1', $meta_property );
 		printf(
 			'<tr><th style="width:10em;text-align:right">%s</th><td style="width:1em;text-align:center">⇒</td><td>%s</td></tr>',
-			esc_attr( $meta_property ),
-			esc_attr( wp_strip_all_tags( $value ) )
+			esc_html( $meta_property ),
+			esc_html( wp_strip_all_tags( (string) $value ) )
 		);
 	}
 }

@@ -317,7 +317,9 @@ class iWorks_OpenGraph {
 			$url      = sprintf( 'https://vimeo.com/api/v2/video/%s.php', $vimeo_id );
 			$response = wp_remote_get( $url );
 			if ( is_array( $response ) && ! is_wp_error( $response ) ) {
-				$data = maybe_unserialize( $response['body'] );
+				$data = is_serialized( $response['body'] )
+					? unserialize( $response['body'], array( 'allowed_classes' => false ) )
+					: maybe_unserialize( $response['body'] );
 				if ( is_array( $data ) ) {
 					$thumbnails[ $vimeo_id ] = $data[0];
 				}
@@ -658,7 +660,7 @@ class iWorks_OpenGraph {
 					$tags = get_the_tags();
 					if ( is_array( $tags ) && count( $tags ) > 0 ) {
 						foreach ( $tags as $tag ) {
-							$og['article']['tag'][] = esc_attr( $tag->name );
+							$og['article']['tag'][] = $tag->name;
 						}
 					}
 					$og['article']['published_time'] = gmdate( 'c', strtotime( $post->post_date_gmt ) );
@@ -1031,6 +1033,25 @@ class iWorks_OpenGraph {
 	}
 
 	/**
+	 * Prepare value for output.
+	 *
+	 * Only scalar values are allowed to be printed. Arrays and objects
+	 * (e.g. injected by third-party filters) are dropped to avoid PHP 8
+	 * TypeError in string functions.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param mixed $value Value to prepare.
+	 * @return string
+	 */
+	private function prepare_value_for_output( $value ) {
+		if ( ! is_scalar( $value ) ) {
+			return '';
+		}
+		return wp_strip_all_tags( (string) $value );
+	}
+
+	/**
 	 * Recursively produce OG tags
 	 *
 	 * @since 2.4.2
@@ -1043,7 +1064,7 @@ class iWorks_OpenGraph {
 			if ( empty( $parent ) ) {
 				echo PHP_EOL;
 				if ( $this->debug ) {
-					printf( '<!-- %s -->%s', $tag, PHP_EOL );
+					printf( '<!-- %s -->%s', esc_html( $tag ), PHP_EOL );
 				}
 			}
 			$tags = $parent;
@@ -1071,6 +1092,9 @@ class iWorks_OpenGraph {
 					$this->echo_array( $data, $tags );
 				}
 			} else {
+				if ( empty( $tags ) ) {
+					continue;
+				}
 				if ( 'schema' === $tags[0] ) {
 					if ( apply_filters( 'og_is_schema_org_enabled', $this->is_schema_org_enabled ) ) {
 						$this->echo_one( $tags[1], $data, 'itemprop' );
@@ -1102,6 +1126,10 @@ class iWorks_OpenGraph {
 		}
 		$attrs = array();
 		foreach ( $params as $key => $value ) {
+			$value = $this->prepare_value_for_output( $value );
+			if ( '' === $value ) {
+				continue;
+			}
 			$attrs[] = sprintf(
 				'%s="%s"',
 				esc_attr( $key ),
@@ -1162,6 +1190,7 @@ class iWorks_OpenGraph {
 		 * @since 2.4.7
 		 */
 		$value = apply_filters( $filter_name, $value );
+		$value = $this->prepare_value_for_output( $value );
 		if ( empty( $value ) ) {
 			return;
 		}
@@ -1175,7 +1204,7 @@ class iWorks_OpenGraph {
 				'<meta %s="%s" content="%s">%s',
 				esc_attr( $name ),
 				esc_attr( $meta_property ),
-				esc_attr( wp_strip_all_tags( $value ) ),
+				esc_attr( $value ),
 				$this->debug ? PHP_EOL : ''
 			)
 		);
@@ -1294,7 +1323,7 @@ class iWorks_OpenGraph {
 			}
 		}
 		if ( is_array( $attachment ) && ! empty( $attachment ) ) {
-			return $attachment[0];
+			return (int) $attachment[0];
 		}
 		return 0;
 	}
@@ -1466,10 +1495,10 @@ class iWorks_OpenGraph {
 	public function echo_twiter_labels( $data ) {
 		$counter = 1;
 		foreach ( $data as $one ) {
-			if ( ! isset( $one['label'] ) ) {
+			if ( ! isset( $one['label'] ) || ! is_scalar( $one['label'] ) ) {
 				continue;
 			}
-			if ( ! isset( $one['data'] ) ) {
+			if ( ! isset( $one['data'] ) || ! is_scalar( $one['data'] ) ) {
 				continue;
 			}
 			$this->echo_one( 'twitter:label' . $counter, $one['label'] );
