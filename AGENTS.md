@@ -7,9 +7,11 @@
 A zero-configuration WordPress plugin that injects Open Graph, Twitter Card and
 Schema.org metadata into `<head>` (`og.php` → `includes/iworks/class-iworks-opengraph.php`),
 with a GitHub self-updater and per-plugin integrations under `includes/iworks/opengraph/`.
-This checkout is the **development branch**: sources contain build-time placeholders
-(`PLUGIN_VERSION`, `AUTHOR_NAME`, …) replaced by the Grunt build — never replace them
-in sources. The version lives only in `package.json`.
+Built with a bun bundler (`bundler/` → `release/` ZIPs, wporg + github flavors;
+see `.opencode/docs/build.md`). This checkout is the **development branch**:
+sources contain build-time placeholders (`PLUGIN_VERSION`, `AUTHOR_NAME`, …)
+replaced by the bundler — never replace them in sources. The version lives only
+in `package.json`.
 
 ## Docs map — read only what the task needs
 
@@ -17,7 +19,7 @@ in sources. The version lives only in `package.json`.
 | --- | --- |
 | OG array lifecycle, image chain, caching, output tags, filter catalog | `.opencode/docs/project.md` |
 | Main class internals, GitHub updater, integrations, new integration | `.opencode/docs/classes.md` |
-| Grunt build, release ZIPs, placeholders, translations (.pot/.po/.mo) | `.opencode/docs/build.md` |
+- Bun bundler, build, dev watcher, ZIPs, placeholders, translations (.pot/.po), Plugin Check | `.opencode/docs/build.md` |
 | After any task that changed code | skill `verify` (`.opencode/skills/verify/SKILL.md`) |
 
 - Read ONLY the docs relevant to the current task — do not load everything upfront.
@@ -46,7 +48,7 @@ in sources. The version lives only in `package.json`.
 
 ## Commands
 
-`grunt` (default: builds the admin JS bundles — see `build.md`) ·
-`grunt js` / `grunt css` · `grunt i18n` (checktextdomain + makepot) ·
-`grunt build` (wp.org ZIP) · `grunt build:github` (GitHub ZIP) ·
-`grunt release` (both ZIPs + release notes) · `grunt watch`
+`bun run dev` (watcher) · `bun run compile` (one-shot JS bundles) ·
+`bun run build` (both ZIPs) · `bun run build:wporg` (wp.org ZIP + Plugin
+Check) · `bun run build:github` (GitHub ZIP) · `bun run make-pot`
+(translations) · `bun run update-libs` (submodule pull)
