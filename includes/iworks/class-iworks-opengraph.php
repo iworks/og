@@ -120,7 +120,6 @@ class iWorks_OpenGraph {
 		 * WordPress Hooks
 		 */
 		add_action( 'edit_attachment', array( $this, 'delete_transient_cache' ) );
-		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'init', array( $this, 'action_init_register_iworks_rate' ), PHP_INT_MAX );
 		add_action( 'iworks_rate_css', array( $this, 'iworks_rate_css' ) );
 		add_action( 'save_post', array( $this, 'add_vimeo_thumbnails' ), 10, 2 );
@@ -1184,7 +1183,7 @@ class iWorks_OpenGraph {
 	 * replace the whole line, so it is passed through kses with an explicit
 	 * allow-list.
 	 *
-	 * @since 3.4.0
+	 * @since 3.4.1
 	 *
 	 * @return array
 	 */
@@ -1266,19 +1265,6 @@ class iWorks_OpenGraph {
 		}
 		$this->locale = preg_replace( '/-/', '_', get_bloginfo( 'language' ) );
 		return apply_filters( 'og_get_locale', $this->locale );
-	}
-
-	/**
-	 * Load plugin text domain.
-	 *
-	 * @since 2.4.0
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain(
-			'og',
-			false,
-			plugin_basename( $this->root ) . '/languages'
-		);
 	}
 
 	/**

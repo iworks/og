@@ -176,8 +176,9 @@ size is narrower than the recommended 1200 px (`og:image` best practice):
 
 ## Translations (i18n)
 
-- Textdomain `og`; `load_plugin_textdomain()` runs in the main class **and** in
-  the GitHub updater (duplicated, harmless).
+- Textdomain `og`; `load_plugin_textdomain()` runs **only** in the GitHub
+  updater (`class-iworks-opengraph-github.php`) — wp.org auto-loads
+  translations for the wporg flavor.
 - `languages/og.pot` + `.po` per locale; `.mo` gitignored, compiled during
   `grunt build:github` (see `build.md`).
 
