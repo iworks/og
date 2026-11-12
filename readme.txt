@@ -225,6 +225,7 @@ Rich filter implementation allows you to change almost every output of this plug
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
 = 3.4.1 (2026-11-12) =
+* Attachment ID lookups by URL now use the object cache, avoiding repeated direct database queries.
 * Removed redundant `load_plugin_textdomain()` call from the main class; the call is only kept in the self-updater class, which is not present in the wp.org build (WordPress.org auto-loads translations for the wp.org flavor).
 * All WordPress.org Plugin Check (PCP) errors fixed: translators comments added, filtered meta output escaped via kses allow-list, deprecated `term_description()` parameter removed, `wp_strip_all_tags()` used instead of `strip_tags()`, `ABSPATH` guard added to the plugin bootstrap, license header aligned to GPLv3, and "Tested up to" updated to 7.1.
 

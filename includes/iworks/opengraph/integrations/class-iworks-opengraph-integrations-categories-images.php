@@ -55,12 +55,17 @@ class iWorks_OpenGraph_Integrations_Categories_Images extends iWorks_OpenGraph_I
 	 */
 	function get_attachment_id_by_url( $image_src ) {
 		global $wpdb;
-		$id = $wpdb->get_var(
-			$wpdb->prepare(
-				"select id from $wpdb->posts where guid = %s",
-				$image_src
-			)
-		);
+		$cache_key = 'og_attachment_id_' . md5( $image_src );
+		$id        = wp_cache_get( $cache_key );
+		if ( false === $id ) {
+			$id = $wpdb->get_var(
+				$wpdb->prepare(
+					"select id from $wpdb->posts where guid = %s",
+					$image_src
+				)
+			);
+			wp_cache_set( $cache_key, $id );
+		}
 		return ( ! empty( $id ) ) ? $id : null;
 	}
 }

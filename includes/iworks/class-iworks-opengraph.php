@@ -1343,12 +1343,17 @@ class iWorks_OpenGraph {
 			return 0;
 		}
 		global $wpdb;
-		$attachment = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT ID FROM $wpdb->posts WHERE guid=%s",
-				$url
-			)
-		);
+		$cache_key  = 'og_attachment_id_' . md5( $url );
+		$attachment = wp_cache_get( $cache_key );
+		if ( false === $attachment ) {
+			$attachment = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT ID FROM $wpdb->posts WHERE guid=%s",
+					$url
+				)
+			);
+			wp_cache_set( $cache_key, $attachment );
+		}
 		if ( empty( $attachment ) ) {
 			$url2 = preg_replace( '/\-\d+x\d+(.[egjnp]+)$/', '$1', $url );
 			if ( $url != $url2 ) {
