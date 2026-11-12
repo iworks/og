@@ -4,7 +4,7 @@
 Copyright 2014-PLUGIN_TILL_YEAR Marcin Pietrzak (marcin@iworks.pl)
 
 this program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
+it under the terms of the GNU General Public License, version 3, as
 published by the Free Software Foundation.
 
 This program is distributed in the hope that it will be useful,
@@ -235,6 +235,7 @@ class iWorks_OpenGraph {
 	 */
 	public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
 		if ( isset( $plugin_data['slug'] ) && 'og' == $plugin_data['slug'] ) {
+			/* translators: %1$s: opening link tag, %2$s: closing link tag. */
 			$plugin_meta['rating'] = sprintf( __( 'If you like <strong>OG</strong> please leave us a %1$s&#9733;&#9733;&#9733;&#9733;&#9733;%2$s rating. A huge thanks in advance!', 'og' ), '<a href="https://wordpress.org/support/plugin/og/reviews/?rate=5#new-post" target="_blank">', '</a>' );
 		}
 		return $plugin_meta;
@@ -365,7 +366,10 @@ class iWorks_OpenGraph {
 		 * Print version
 		 */
 		echo PHP_EOL;
-		printf( __( '<!-- OG: %s -->', 'og' ), $this->version );
+		/* translators: %s: plugin version. */
+		$version = $this->version;
+		/* translators: %s: plugin version. */
+		printf( esc_html( sprintf( __( '<!-- OG: %s -->', 'og' ), $version ) ) );
 		if ( $this->debug ) {
 			echo PHP_EOL;
 		}
@@ -824,7 +828,7 @@ class iWorks_OpenGraph {
 			$obj = get_queried_object();
 			if ( is_a( $obj, 'WP_Term' ) ) {
 				$og['og']['url']         = get_term_link( $obj->term_id );
-				$og['og']['description'] = $this->strip_white_chars( term_description( $obj->term_id, $obj->taxonomy ) );
+				$og['og']['description'] = $this->strip_white_chars( term_description( $obj->term_id ) );
 				/**
 				 * allow to change term meta name for term thumbnail_id
 				 *
@@ -1163,14 +1167,43 @@ class iWorks_OpenGraph {
 		 * Filter to change whole meta
 		 */
 		$filter_name = sprintf( 'og_%s_meta', $property_filter_string );
-		echo apply_filters(
-			$filter_name,
-			sprintf(
-				'<meta property="%s" %s>%s',
-				esc_attr( $meta_property ),
-				implode( ' ', $attrs ),
-				$this->debug ? PHP_EOL : ''
-			)
+		$meta        = sprintf(
+			'<meta property="%s" %s>%s',
+			esc_attr( $meta_property ),
+			implode( ' ', $attrs ),
+			$this->debug ? PHP_EOL : ''
+		);
+		$meta = apply_filters( $filter_name, $meta );
+		echo wp_kses( $meta, $this->get_allowed_meta_html() );
+	}
+
+	/**
+	 * Allowed HTML for meta lines (filtered output).
+	 *
+	 * Meta and link tags are the only ones this plugin prints; a filter may
+	 * replace the whole line, so it is passed through kses with an explicit
+	 * allow-list.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return array
+	 */
+	private function get_allowed_meta_html() {
+		return array(
+			'meta'    => array(
+				'property'    => true,
+				'content'     => true,
+				'name'        => true,
+				'itemprop'    => true,
+				'charset'     => true,
+				'http-equiv'  => true,
+			),
+			'link'    => array(
+				'rel'   => true,
+				'href'  => true,
+				'type'  => true,
+				'sizes' => true,
+			),
 		);
 	}
 
@@ -1213,16 +1246,15 @@ class iWorks_OpenGraph {
 		 * Filter to change whole meta
 		 */
 		$filter_name = sprintf( 'og_%s_meta', $property_filter_string );
-		echo apply_filters(
-			$filter_name,
-			sprintf(
-				'<meta %s="%s" content="%s">%s',
-				esc_attr( $name ),
-				esc_attr( $meta_property ),
-				esc_attr( $value ),
-				$this->debug ? PHP_EOL : ''
-			)
+		$meta        = sprintf(
+			'<meta %s="%s" content="%s">%s',
+			esc_attr( $name ),
+			esc_attr( $meta_property ),
+			esc_attr( $value ),
+			$this->debug ? PHP_EOL : ''
 		);
+		$meta = apply_filters( $filter_name, $meta );
+		echo wp_kses( $meta, $this->get_allowed_meta_html() );
 	}
 
 	/**
@@ -1795,7 +1827,7 @@ class iWorks_OpenGraph {
 		if ( ! isset( $twitter['labels'] ) ) {
 			$twitter['labels'] = array();
 		}
-		$content = strip_tags( get_the_content() );
+		$content = wp_strip_all_tags( get_the_content() );
 		$time    = 0;
 		if ( ! empty( $content ) ) {
 			$words_per_minute = max( 1, absint( apply_filters( 'iworks/og/twitter/time_to_read/words-per-minute', 190 ) ) );
@@ -1805,6 +1837,7 @@ class iWorks_OpenGraph {
 		$data = __( 'Less than a minute', 'og' );
 		if ( 0 < $time ) {
 			$data = sprintf(
+				/* translators: %d: number of minutes. */
 				_n( '%d minute', '%d minutes', $time, 'og' ),
 				$time
 			);
@@ -1949,9 +1982,7 @@ class iWorks_OpenGraph {
 	 * @return string
 	 */
 	private function get_featured_image_warning_message() {
-		/**
-		 * translators: %1$s: image width, %2$s: image height, %3$s: recommended minimum width.
-		 */
+		/* translators: %1$s: image width, %2$s: image height, %3$s: recommended minimum width. */
 		return __( 'The featured image is only %1$s × %2$s px, which is below the recommended %3$s px width for social sharing.', 'og' );
 	}
 

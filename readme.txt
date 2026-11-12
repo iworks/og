@@ -225,6 +225,7 @@ Rich filter implementation allows you to change almost every output of this plug
 Project maintained on github at [iworks/og](https://github.com/iworks/og).
 
 = 3.4.0 (2026-10-30) =
+* All WordPress.org Plugin Check (PCP) errors fixed: translators comments added, filtered meta output escaped via kses allow-list, deprecated `term_description()` parameter removed, `wp_strip_all_tags()` used instead of `strip_tags()`, `ABSPATH` guard added to the plugin bootstrap, license header aligned to GPLv3, and "Tested up to" updated to 7.1.
 * Output hardening: only scalar values are printed as meta tag values. Arrays and objects (e.g. injected by filters or produced by integrations) are skipped, preventing PHP 8 fatal errors.
 * Tag names in the debug HTML comment are now escaped.
 * The [Debug Bar] panel has been fixed: correct escaping of tag names and values, a guard against malformed data, and the "OG Value" table header rendering.

@@ -31,6 +31,7 @@ class iWorks_OpenGraph_Integrations_Reading_Time_WP extends iWorks_OpenGraph_Int
 		$data = __( 'Less than a minute', 'og' );
 		if ( 0 < $time ) {
 			$data = sprintf(
+				/* translators: %d: number of minutes. */
 				_n( '%d minute', '%d minutes', $time, 'og' ),
 				$time
 			);

@@ -5,7 +5,7 @@
  * @package           PLUGIN_NAME
  * @author            AUTHOR_NAME
  * @copyright         2014-PLUGIN_TILL_YEAR Marcin Pietrzak
- * @license           GPL-2.0-or-later
+ * @license           GPL-3.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name:       OG — Better Share on Social Media
@@ -17,9 +17,11 @@
  * Author:            AUTHOR_NAME
  * Author URI:        AUTHOR_URI
  * Text Domain:       og
- * License:           GPL v2 or later
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           GPLv3 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  */
+
+defined( 'ABSPATH' ) || exit;
 
 require_once dirname( __FILE__ ) . '/includes/iworks/class-iworks-opengraph.php';
 new iWorks_OpenGraph();
