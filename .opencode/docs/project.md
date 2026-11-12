@@ -29,8 +29,9 @@ property `$version` both use the `'PLUGIN_VERSION'` placeholder.
 ├── assets/
 │   ├── images/logo.png             # Logo for the rate admin notice
 │   └── scripts/
-│       ├── src/admin/              # Admin JS sources (featured-image warning, ES5)
-│       └── og-admin*.js            # Built bundles (+ .min.js) — see build.md
+│       ├── src/admin/              # Admin JS sources (featured-image warning, ES5, prettier-formatted)
+│       └── og-admin*.js            # Built bundles (+ .min.js) — gitignored build artifacts, see build.md
+├── bundler/                        # Bun build system — see build.md
 ├── languages/                      # og.pot + .po/.mo (de_DE, es_ES, nl_NL, pl_PL, ro_RO, uk, zh_TW)
 ├── release/                        # Built ZIPs (gitignored artifacts)
 └── readme.txt                      # WordPress.org readme (CRLF; real changelog entries)

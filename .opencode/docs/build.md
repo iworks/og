@@ -1,103 +1,152 @@
-# Build — Grunt
+# Build — Bun bundler
 
-> Toolchain, tasks, pipeline, placeholders, release ZIPs, translations, tests.
+> Toolchain, modes, pipeline, placeholders, release ZIPs, translations.
 > Read only when working on the build.
 
 ## Toolchain
 
-- Node + npm + Grunt 1.x (`Gruntfile.js`, tasks loaded with `load-grunt-tasks`).
-  `package-lock.json` is gitignored; `node_modules/` is gitignored.
-- PHP ≥ 8.0 for the plugin itself. No bun, no wp-scripts, no Composer.
-- **JS**: `assets/scripts/src/admin/*.js` (ES5, jshint-clean) → concat →
-  `assets/scripts/og-admin.js` (classic) and `og-admin-gutenberg.js` (block editor)
-  → uglified to `.min.js` (`conf.js_files_concat`). No SCSS — `assets/` also holds
-  `images/logo.png`; the sass/cssmin tasks remain no-ops.
+- Bun (>= 1.3) — package manager, script runner and the bundler runtime
+  (`bundler/index.js` modes). `bun.lock` is committed; `package-lock.json` is
+  gitignored. Node is not required (no wp-scripts — this plugin has no blocks).
+- PHP ≥ 8.0; `wp-cli.phar` (downloaded by the `postinstall` script, gitignored)
+  for translations; PHPUnit for tests (not set up in this repo).
+- Prettier and terser run **in-process** (`bundler/tools.mjs`,
+  `bundler/pipelines.mjs`) — no CLI spawns per file. Only wp-cli and PHPUnit
+  are child processes.
+- All dist writes are atomic (temp + rename); tool failures print as friendly
+  one-liners (`tool — file` + message, no stack trace) and fail the build.
+- Migrated from Grunt (grunt parity kept: placeholders, copy rules, banners,
+  ZIP flavors); the old `Gruntfile.js` was removed — git history has it.
 
-## Tasks (`grunt …`)
+## Files (`bundler/`)
 
-| Command | Description |
+| File                | Role                                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| `index.js`          | Modes: `dev` (default) / `compile` / `build` / `build:wporg` / `build:github` / `make-pot` / `test` / `update-libs` |
+| `config.mjs`        | Paths, names, JS bundles, banner, placeholder patterns, copy rules per flavor (from `package.json`) |
+| `pipelines.mjs`     | JS pipeline (concat → banner → terser → `.min.js`), prettier pass, clean                      |
+| `tools.mjs`         | In-process APIs (prettier, atomic writes, glob helpers)                                        |
+| `makeZip.mjs`       | Staging copy → placeholder replacement → ZIP (archiver, level 9)                               |
+| `makePot.mjs`       | wp-cli i18n: `make-pot` → `update-po` (→ `make-mo` for github)                                 |
+| `pluginCheck.mjs`   | wp.org Plugin Check (PCP) on the staged wporg release (build:wporg)                            |
+| `spawnAsync.mjs`    | `child_process.spawn` wrapper with captured output                                             |
+| `consoleHelpers.mjs`, `progressBar.mjs` | Logging, timing, build progress bar                                        |
+
+Bundle names and copy rules derive from `package.json` `name` at runtime.
+
+## JS bundles (`config.mjs` → `jsBundles`)
+
+| Bundle target | Sources |
 | --- | --- |
-| `grunt` (default) | `clean:temp` + concat + uglify + sass + cssmin — builds the two admin JS bundles (`.js` + `.min.js`); css tasks are no-ops |
-| `grunt js` / `grunt css` | Asset halves (js = the bundles; css = no-op) |
-| `grunt i18n` | `checktextdomain` (validates gettext usage in `og.php` + `includes/**/*.php` against domains `og`, `IWORKS_RATE_TEXTDOMAIN`, `IWORKS_OPTIONS_TEXTDOMAIN`) + `makepot` (grunt-wp-i18n) |
-| `grunt build` | wp.org release: default → i18n → clean:wporg → copy:wporg → replace → compress:wporg |
-| `grunt build:github` | GitHub release: default → i18n → `potomo` (.po → .mo) → clean:github → copy:github → replace → compress:github |
-| `grunt release` | `build:wporg` (see pitfalls) + `build:github` + `notes` (manual release checklist printer) |
-| `grunt test` | phpunit + jshint + notes — phpunit has **no test env in this repo** (`tests/php/` does not exist), so the task fails at phpunit by design |
-| `grunt watch` | sass/js watchers — nothing to watch (no sources) |
+| `assets/scripts/og-admin.js` | `assets/scripts/src/admin/featured-image-warning-classic.js` |
+| `assets/scripts/og-admin-gutenberg.js` | `assets/scripts/src/admin/featured-image-warning-gutenberg.js` |
 
-## Build pipeline (`grunt build`, wp.org)
+Each is concat + banner → uglified to `.min.js` (terser, mangle with `jQuery`
+reserved). Built bundles are **gitignored** — they are build artifacts (unlike
+the old grunt era where they were committed; the enqueue falls back gracefully,
+and `bun run build` / `bun run compile` produces them in ~1s).
 
-1. **default** — asset tasks, no-ops (see above);
-2. **i18n** — `checktextdomain`, then `makepot`: scans PHP (excluding
-   `node_modules`, `.git`, `.sass-cache`, `release`, non-PHP files) →
-   `languages/og.pot` and **updates existing `.po` files** (`updatePoFiles: true`);
-3. **clean** — removes `release/wporg/{version}/` and `release/wporg/og.zip`;
-4. **copy** — stages the plugin into `release/wporg/{version}/og/` per
-   `excludeCopyFilesWPorg` (see Release ZIPs);
-5. **replace** — placeholder substitution in every staged text file
-   (binary types and `.mo` skipped);
-6. **compress** — zips to `release/wporg/og.zip`.
+## Modes (`bun run …`)
+
+| Command                | Description                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| `bun run dev`          | Watcher: prettier on `assets/scripts/src/**` JS change (200 ms debounce); no ZIP, no i18n, no auto browser reload |
+| `bun run compile`      | One-shot prettier + JS bundles (old grunt `default`/`js` parity)                              |
+| `bun run build`        | Both flavors back-to-back: github + wporg (+ Plugin Check)                                    |
+| `bun run build:wporg`  | Production + Plugin Check → `release/wporg/{name}.zip`                                        |
+| `bun run build:github` | Production + `.mo` → `release/github/{name}.zip`                                              |
+| `bun run make-pot`     | Translations only (`.pot` + `.po` update)                                                     |
+| `bun run test`         | PHPUnit (`tests/php/phpunit.xml`) — no test env exists in this repo, fails by design           |
+| `bun run update-libs`  | `git pull` inside the `includes/iworks/rate` submodule                                        |
+| (env) `DEV_EXIT_AFTER_MS` | Dev mode exits itself after N ms — headless testing                                        |
+
+## Build pipeline (`bun run build:github`, 6 steps)
+
+1. **clean** — remove built JS bundles (`assets/scripts/og-admin*.js`) and
+   `languages/*.mo`;
+2. **prettier** — format sources in place (`assets/scripts/src/**/*.js`,
+   `bundler/**/*.{js,mjs}`, root `*.js`) — the build rewrites sources by design;
+3. **js** — concat + banner → `og-admin{,-gutenberg}.js`, terser → `.min.js`
+   (missing sources → warning + skip);
+4. **i18n** — wp-cli `i18n make-pot` → `languages/og.pot`, then `update-po` per
+   existing `.po`; `make-mo` only in `build:github`; timestamp-only `.pot`
+   changes are detected and reverted (no diff churn);
+5. **zip** — staging copy → placeholder replacement → `release/{flavor}/{version}/{name}/`
+   → `release/{flavor}/{name}.zip`;
+6. done — progress bar + total time; any failure prints `BUILD FAILED` and exits 1.
+
+`build:wporg` adds a 7th step: **plugin-check** (see below).
 
 ## Placeholders (release copies only)
 
-Replaced in staged files, sourced from `package.json` + build time
-(`conf.replace_patterns`): `AUTHOR_NAME`, `AUTHOR_URI`, `BUILDTIME`,
-`IWORKS_RATE_TEXTDOMAIN`, `IWORKS_OPTIONS_TEXTDOMAIN`, `PLUGIN_DESCRIPTION`,
-`PLUGIN_GITHUB_WEBSITE`, `PLUGIN_NAME`, `PLUGIN_REQUIRES_PHP`,
-`PLUGIN_REQUIRES_WORDPRESS`, `PLUGIN_TESTED_WORDPRESS`, `PLUGIN_TAGLINE`,
-`PLUGIN_TAGS`, `PLUGIN_TILL_YEAR`, `PLUGIN_TITLE`, `PLUGIN_URI`,
-`PLUGIN_VERSION`, plus the `^Version: .*$` header line.
+Applied to every staged text file (binary extensions and `.mo` skipped):
+`AUTHOR_NAME/URI`, `BUILDTIME`, `IWORKS_RATE_TEXTDOMAIN`,
+`IWORKS_OPTIONS_TEXTDOMAIN`, `PLUGIN_DESCRIPTION`, `PLUGIN_GITHUB_WEBSITE`,
+`PLUGIN_NAME`, `PLUGIN_REQUIRES_PHP`, `PLUGIN_REQUIRES_WORDPRESS`,
+`PLUGIN_TESTED_WORDPRESS`, `PLUGIN_TAGLINE`, `PLUGIN_TAGS`, `PLUGIN_TILL_YEAR`,
+`PLUGIN_TITLE`, `PLUGIN_URI`, `PLUGIN_VERSION`, and the `^Version: .*$` header
+line — all sourced from `package.json` + build time (`bundler/config.mjs`).
 
-The version lives **only** in `package.json` (`"version"`) — bumping it also
-changes the runtime OG transient key (`og_{id}_{version}_{locale}`), which is
-the intended way to invalidate stale cached output.
+The version lives **only** in `package.json` (also drives the runtime OG
+transient key `og_{id}_{version}_{locale}`).
 
 ## Release ZIPs
 
-- **WordPress.org** (`grunt build`) → `release/wporg/{version}/og/` → `og.zip`.
-  Base excludes (`excludeCopyFiles`): VCS/dev files (`.git*`, `.editorconfig`,
-  `Gruntfile.js`, `package.json`, `package-lock.json`, `node_modules/**`,
-  `README.md`, `contributing.md`, `LICENSE`, `release/**`, `.sass-cache/**`,
-  `tests/**`, source maps), plus WPorg-specific: asset sources, `languages/*.po|*.mo`,
-  the **GitHub self-updater class** (`class-iworks-opengraph-github.php`),
-  `includes/pro/**`, and `AGENTS.md` / `.opencode/**` (agent files).
+- **WordPress.org** (`bun run build:wporg`) → `release/wporg/{version}/{name}/`.
+  Excludes: repo meta (`.git*`, `.editorconfig`, `.opencode/**`, `AGENTS.md`,
+  `bundler/`, lock files, `wp-cli.phar`, `package.json`,
+  `README.md`, `LICENSE`, `contributing.md`, tests, `release/`,
+  `.sass-cache`, `**/*.map`, scratch files), asset sources
+  (`assets/scripts/src`), the GitHub self-updater class
+  (`class-iworks-opengraph-github.php`), `languages/*.po|*.mo`.
   `readme.txt` **is** included (required by wp.org).
-- **GitHub** (`grunt build:github`) → `release/github/{version}/og/` → `og.zip`.
-  Base excludes plus `readme.txt` and `includes/pro/**`; asset sources and
-  `.po` **are** included, `.mo` compiled by `potomo`. Pairs with the GitHub
+- **GitHub** (`bun run build:github`) → `release/github/{version}/{name}/`.
+  Base excludes plus `readme.txt`; asset sources and `.po` **are** included,
+  `.mo` compiled by `make-mo` when `.po` files exist. Pairs with the GitHub
   self-updater class.
-- The three pattern lists derive from one base array
-  (`excludeCopyFiles.slice(0).concat(...)`) — edits to the base list apply to
-  **both** flavors. Any new top-level dev file (agent configs, scratch scripts)
-  must be excluded there or it ships inside the ZIPs.
+- Copy rules are ordered and evaluated **first match wins** (grunt semantics) —
+  the catch-all `**/*` include must stay last (`bundler/config.mjs`).
+- A missing main plugin file logs a warning; staging proceeds.
+
+## Plugin Check (wporg only)
+
+`bun run build:wporg` ends with WordPress.org Plugin Check (PCP): the staged
+release is copied to the local WordPress plugins dir under the real slug,
+`wp plugin check <slug>` runs, ERROR results fail the build, full output goes
+to `plugin-check.log` (gitignored). Skips gracefully when `wp-cli.phar` or the
+Plugin Check plugin is missing, or with `PLUGIN_CHECK_SKIP=1`.
+
+As of 3.4.0 the check reports 14 pre-existing errors (translators comments,
+escaping-in-filter false positives, deprecated `term_description()` param,
+`strip_tags()`, outdated Tested-up-to header, license mismatch, direct file
+access in `languages/index.php`-style guards) — these must be fixed in code
+before a wp.org release; they are not build problems.
 
 ## Tests
 
-- `grunt test` references `tests/php/phpunit.xml` + `bootstrap.php`, which do
-  **not exist** in this repo — there is no working PHPUnit suite. Verification
-  is `php -l` per file plus the `verify` skill; jshint covers `Gruntfile.js`
-  and `assets/scripts/src/**` (empty).
+- `bun run test` → `phpunit --configuration tests/php/phpunit.xml`. No test
+  environment exists in this repo — the mode fails by design.
+- jshint was dropped with Grunt; JS sources are prettier-formatted instead.
 
 ## Runtime quirks / pitfalls (do not fix without approval)
 
-- `grunt build:wporg` is **not registered**; Grunt falls back to the registered
-  `build` task for unknown `task:arg` names. `grunt release` relies on this
-  fallback — renaming `build` breaks it silently.
-- `.gitignore`'s first line is broken (the `sass-cache` entry was swallowed by
-  the preceding comment). `/release`, `/node_modules`, `/languages/*.mo` are
-  properly ignored; artifacts on disk are untracked leftovers.
-- `package-lock.json` is listed in `.gitignore` and untracked — npm's lockfile
-  is intentionally not shared here.
-- The exclusion lists put the `**` catch-all first and negations after it —
-  this is the established, working grunt scheme; do not reorder without
-  running a full build and inspecting the staged tree.
-- `makepot` rewrites `languages/og.pot` and every `.po` with a new timestamp —
-  expect a diff after every build; review that only timestamps changed.
-- `grunt jshint` fails on **pre-existing** Gruntfile.js issues (duplicate
-  `exclude` key in the makepot options, trailing comma in
-  `grunt.registerTask('build', …)`) — the source files under
-  `assets/scripts/src/` must stay clean; do not "fix" the Gruntfile without
-  approval.
-- The `notes` task is a manual checklist printer (forum, translations, archive
-  check, wp.org + GitHub release, git tag), not automation.
+- The build's prettier step **rewrites source files** — that is intended.
+  A diff after `bun run build` containing only JS reformatting is expected
+  (first run after the grunt→bun migration reformatted the two admin sources).
+- The `.pot` timestamp-only change is auto-reverted by the bundler, but `.po`
+  files still get line-reference updates on code moves — review those diffs.
+- **Submodule strings are NOT in the `.pot`**: grunt-wp-i18n scanned
+  `includes/iworks/rate/` and included its strings (textdomain replaced to
+  `og` at build); wp-cli `i18n make-pot` skips git submodule directories, so
+  the bun-era `og.pot` covers only the plugin's own strings. Existing `.po`
+  translations for rate strings survive until the next `update-po` cycle
+  obsoletes them. Fix upstream (vendored) or accept untranslated rate
+  notices; do not hand-merge vendor strings into the `.pot`.
+- Copy rules: the catch-all `**/*` include must stay last — reordering
+  silently leaks sources into the ZIPs.
+- The wporg build fails while Plugin Check reports errors (see above); use
+  `PLUGIN_CHECK_SKIP=1` locally when only packaging is needed.
+- Terser mangles variable names differently than grunt-uglify — minified
+  bundles are not byte-identical to old artifacts, only equivalent.
+- `bun run make-pot` needs network on the first run (wp-cli.phar download) —
+  `postinstall` retries it on every `bun install`.

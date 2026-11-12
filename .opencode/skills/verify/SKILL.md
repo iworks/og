@@ -18,7 +18,7 @@ When a task that changed code (PHP, build config, readme, languages) is finished
 ## 2. Verification by changed area
 
 - **PHP (`og.php`, `includes/**`)**: `php -l` on every changed or new file.
-  There is no phpcs and no working PHPUnit suite in this repo (`grunt test`
+  There is no phpcs and no working PHPUnit suite in this repo (`bun run test`
   fails at phpunit by design) — do not claim WPCS compliance; match the
   surrounding style (tabs, aligned arrays, `@since X.Y.Z` docblocks,
   `defined( 'ABSPATH' ) || exit;` + `class_exists` guards).
@@ -28,13 +28,12 @@ When a task that changed code (PHP, build config, readme, languages) is finished
   `og_{tag}_value` / `og_{tag}_meta` filters.
 - **`readme.txt` edits**: `file readme.txt` must still report
   "CRLF line terminators" after editing.
-- **Build/i18n changes (`Gruntfile.js`, `package.json`, `languages/`)**:
-  `node --check Gruntfile.js`, then run the relevant pipeline end-to-end —
-  `grunt i18n` minimum, `grunt build:github` when copy rules or placeholders
-  changed. Inspect the staged tree `release/github/{version}/og/`: placeholders
-  replaced, and `AGENTS.md`, `.opencode/`, `node_modules/`, `Gruntfile.js`
-  absent. A `.pot`/`.po` timestamp diff after `makepot` is expected — check
-  nothing else moved.
+- **Build/i18n changes (`bundler/**`, `package.json`, `languages/`)**:
+  run the relevant pipeline end-to-end — `bun run make-pot` minimum,
+  `bun run build:github` when copy rules or placeholders changed. Inspect the
+  staged tree `release/github/{version}/og/`: placeholders replaced, and
+  `AGENTS.md`, `.opencode/`, `node_modules/`, `bundler/` absent. A `.pot`
+  timestamp diff after `make-pot` is expected — check nothing else moved.
 - **Version bumps**: bump only `package.json`; confirm sources still carry
   `PLUGIN_VERSION` placeholders (never real values).
 
